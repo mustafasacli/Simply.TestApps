@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleInfra.SqlGui", "Data.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KisayolYoneticisi", "Data.Samples\KisayolYoneticisi\KisayolYoneticisi.csproj", "{170A295E-E2A3-4FEE-8234-779A40925B7E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimplyTestConsoleApp", "Data.Samples\SimplyTestConsoleApp\SimplyTestConsoleApp.csproj", "{9A8DA63E-267C-4790-BDCD-5D2237523B79}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimplyTest_Any_ConsoleApp", "Data.Samples\SimplyTestConsoleApp\SimplyTest_Any_ConsoleApp.csproj", "{9A8DA63E-267C-4790-BDCD-5D2237523B79}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
