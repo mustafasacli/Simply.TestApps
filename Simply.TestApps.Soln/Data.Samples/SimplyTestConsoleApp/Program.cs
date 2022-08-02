@@ -73,7 +73,7 @@ namespace SimplyTestConsoleApp
                 Console.WriteLine($"There no record for greater or equal than {id}.");
             }
             Console.WriteLine("-----------------------------------------");
-            DbCommandDefinition commandDefinition = new DbCommandDefinition();
+            SimpleDbCommand commandDefinition = new SimpleDbCommand();
             commandDefinition.CommandType = CommandType.Text;
             commandDefinition.CommandText = "select * from customers where customerNumber < @id";
             commandDefinition.AddParameter(new DbCommandParameter { ParameterName = "id", Value = id });

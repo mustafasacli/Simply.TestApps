@@ -118,7 +118,7 @@ namespace KisayolYoneticisi.Source.OpManager
             using (SQLiteConnection conn = new SQLiteConnection(AppVariables.ConnectionString))
             {
                 DataSet set =
-                    conn.GetResultSetQuery(commandDefinition: new DbCommandDefinition
+                    conn.GetResultSetQuery(commandDefinition: new SimpleDbCommand
                     {
                         CommandText = Crud.GetTable()
                     }).Result;
@@ -153,7 +153,7 @@ namespace KisayolYoneticisi.Source.OpManager
             //using (SQLiteConnection conn = new SQLiteConnection(AppVariables.ConnectionString))
             //{
             //    DataSet set =
-            //        conn.GetResultSetQuery(commandDefinition: new DbCommandDefinition { CommandText = Crud.GetIdentity() }).Result;
+            //        conn.GetResultSetQuery(commandDefinition: new SimpleDbCommand { CommandText = Crud.GetIdentity() }).Result;
             //    table = set.Tables[0];
             //}
 
