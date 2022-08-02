@@ -21,8 +21,15 @@ namespace SimplyTestConsoleApp
             int id = 100;
             using (IDbConnection connection = GetDbConnection())
             {
-                connection.OpenIfNot();
-                exist = connection.Any("select * from customers where customerNumber < @id", new { id });
+                try
+                {
+                    connection.OpenIfNot();
+                    exist = connection.Any("select * from customers where customerNumber < @id", new { id });
+                }
+                finally
+                {
+                    connection.CloseIfNot();
+                }
             }
             if (!exist)
             {
@@ -34,8 +41,16 @@ namespace SimplyTestConsoleApp
             }
             using (IDbConnection connection = GetDbConnection())
             {
-                connection.OpenIfNot();
-                exist = connection.Any("select * from customers where customerNumber >= @id", new { id });
+
+                try
+                {
+                    connection.OpenIfNot();
+                    exist = connection.Any("select * from customers where customerNumber >= @id", new { id });
+                }
+                finally
+                {
+                    connection.CloseIfNot();
+                }
             }
             if (exist)
             {
@@ -48,8 +63,16 @@ namespace SimplyTestConsoleApp
             Console.WriteLine("-----------------------------------------");
             using (IDbConnection connection = GetDbConnection())
             {
-                connection.OpenIfNot();
-                exist = connection.Any("select * from customers where customerNumber < ?", new object[] { id });
+
+                try
+                {
+                    connection.OpenIfNot();
+                    exist = connection.Any("select * from customers where customerNumber < ?", new object[] { id });
+                }
+                finally
+                {
+                    connection.CloseIfNot();
+                }
             }
             if (!exist)
             {
@@ -61,8 +84,16 @@ namespace SimplyTestConsoleApp
             }
             using (IDbConnection connection = GetDbConnection())
             {
-                connection.OpenIfNot();
-                exist = connection.Any("select * from customers where customerNumber >= ?", new object[] { id });
+
+                try
+                {
+                    connection.OpenIfNot();
+                    exist = connection.Any("select * from customers where customerNumber >= ?", new object[] { id });
+                }
+                finally
+                {
+                    connection.CloseIfNot();
+                }
             }
             if (exist)
             {
@@ -73,14 +104,24 @@ namespace SimplyTestConsoleApp
                 Console.WriteLine($"There no record for greater or equal than {id}.");
             }
             Console.WriteLine("-----------------------------------------");
-            SimpleDbCommand commandDefinition = new SimpleDbCommand();
-            commandDefinition.CommandType = CommandType.Text;
-            commandDefinition.CommandText = "select * from customers where customerNumber < @id";
+            SimpleDbCommand commandDefinition = new SimpleDbCommand()
+            {
+                CommandType = CommandType.Text,
+                CommandText = "select * from customers where customerNumber < @id"
+            };
             commandDefinition.AddParameter(new DbCommandParameter { ParameterName = "id", Value = id });
             using (IDbConnection connection = GetDbConnection())
             {
-                connection.OpenIfNot();
-                exist = connection.Any(commandDefinition);
+
+                try
+                {
+                    connection.OpenIfNot();
+                    exist = connection.Any(commandDefinition);
+                }
+                finally
+                {
+                    connection.CloseIfNot();
+                }
             }
             if (!exist)
             {
@@ -94,8 +135,16 @@ namespace SimplyTestConsoleApp
             commandDefinition.CommandText = "select * from customers where customerNumber >= @id";
             using (IDbConnection connection = GetDbConnection())
             {
-                connection.OpenIfNot();
-                exist = connection.Any(commandDefinition);
+
+                try
+                {
+                    connection.OpenIfNot();
+                    exist = connection.Any(commandDefinition);
+                }
+                finally
+                {
+                    connection.CloseIfNot();
+                }
             }
             if (exist)
             {
