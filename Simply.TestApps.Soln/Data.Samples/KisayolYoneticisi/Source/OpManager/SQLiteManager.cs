@@ -143,19 +143,24 @@ namespace KisayolYoneticisi.Source.OpManager
         {
             int retInt = -1;
 
-            DataTable table = null;
+            //DataTable table = null;
 
             using (SQLiteConnection conn = new SQLiteConnection(AppVariables.ConnectionString))
             {
-                DataSet set =
-                    conn.GetResultSetQuery(commandDefinition: new DbCommandDefinition { CommandText = Crud.GetIdentity() }).Result;
-                table = set.Tables[0];
+                retInt = conn.ExecuteScalar(Crud.GetIdentity(), null).ToInt();
             }
 
-            foreach (DataRow row in table.Rows)
-            {
-                retInt = row[0].ToInt();
-            }
+            //using (SQLiteConnection conn = new SQLiteConnection(AppVariables.ConnectionString))
+            //{
+            //    DataSet set =
+            //        conn.GetResultSetQuery(commandDefinition: new DbCommandDefinition { CommandText = Crud.GetIdentity() }).Result;
+            //    table = set.Tables[0];
+            //}
+
+            //foreach (DataRow row in table.Rows)
+            //{
+            //    retInt = row[0].ToInt();
+            //}
 
             return retInt;
         }
