@@ -119,7 +119,7 @@ namespace SimpleInfra.SqlGui
             using (IDbConnection connection = DxConnectionFactory.Instance.GetConnection(ConnType))
             {
                 connection.ConnectionString = connectionString;
-                dataTable = connection.GetResultSetQuery(new DbCommandDefinition { CommandText = query, CommandType = CommandType.Text }).Result.Tables[0];
+                dataTable = connection.GetResultSetQuery(new SimpleDbCommand { CommandText = query, CommandType = CommandType.Text }).Result.Tables[0];
             }
 
             return dataTable;
@@ -132,7 +132,7 @@ namespace SimpleInfra.SqlGui
             using (IDbConnection connection = DxConnectionFactory.Instance.GetConnection(ConnType))
             {
                 connection.ConnectionString = connectionString;
-                dataTable = connection.GetResultSetQuery(new DbCommandDefinition { CommandText = query, CommandType = CommandType.Text }).Result.Tables[0];
+                dataTable = connection.GetResultSetQuery(new SimpleDbCommand { CommandText = query, CommandType = CommandType.Text }).Result.Tables[0];
             }
 
             return dataTable;

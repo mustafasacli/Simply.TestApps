@@ -48,9 +48,7 @@ namespace SimplyTestConsoleApp
                     exist = connection.Any("select * from customers where customerNumber >= @id", new { id });
                 }
                 finally
-                {
-                    connection.CloseIfNot();
-                }
+                { connection.CloseIfNot(); }
             }
             if (exist)
             {
