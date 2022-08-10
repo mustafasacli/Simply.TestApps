@@ -96,6 +96,7 @@ namespace SimplyTest_DbRowList_ConsoleApp
                     {
                         Console.WriteLine($"Name: {cell.CellName}, Type: {cell.CellType.Name}, Value:{cell.Value?.ToString() ?? "'NULL'"}");
                     }
+                    Console.WriteLine("************************************");
                 }
             }
         }
