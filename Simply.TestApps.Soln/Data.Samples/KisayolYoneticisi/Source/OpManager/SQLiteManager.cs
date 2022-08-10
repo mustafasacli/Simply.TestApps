@@ -118,7 +118,7 @@ namespace KisayolYoneticisi.Source.OpManager
             using (SQLiteConnection conn = new SQLiteConnection(AppVariables.ConnectionString))
             {
                 DataSet set =
-                    conn.GetResultSetQuery(commandDefinition: new SimpleDbCommand
+                    conn.GetResultSetQuery(new SimpleDbCommand
                     {
                         CommandText = Crud.GetTable()
                     }).Result;

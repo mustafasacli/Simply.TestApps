@@ -74,7 +74,7 @@ namespace SimplyTest_DbRowList_ConsoleApp
                 {
                     connection.OpenIfNot();
                     var rowList = connection.QueryDbRowList("select * from `classicmodels`.`orderdetails` WHERE `productCode` = @productCode",
-                        new { productCode }, pageInfo: PageInfo.GetPageWithPageNumber(2, 10));
+                        new { productCode }, pageInfo: PageInfo.GetPageWithPageNumber(3, 10));
                     Console.WriteLine($"{rowList.Count} rows returned.");
                     writeDbRows(rowList);
                 }
