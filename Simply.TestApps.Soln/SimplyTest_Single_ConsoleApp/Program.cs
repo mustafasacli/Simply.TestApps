@@ -23,8 +23,9 @@ namespace SimplyTest_Single_ConsoleApp
             {
                 try
                 {
-                    connection.OpenIfNot();
-                    var orderDetail = connection.QuerySingle<Customers>("SELECT * FROM `classicmodels`.`customers` WHERE `customerNumber` = ?customerNumber?",
+
+                    var orderDetail = connection.OpenAnd().
+                        QuerySingle<Customers>("SELECT * FROM `classicmodels`.`customers` WHERE `customerNumber` = ?customerNumber?",
                         new { customerNumber }, parameterNamePrefix: '?');
                     writeEntity(orderDetail);
                 }
@@ -37,7 +38,7 @@ namespace SimplyTest_Single_ConsoleApp
                 try
                 {
                     connection.OpenIfNot();
-                    var customer = connection.GetSingle<Customers>(
+                    var customer = connection.OpenAnd().GetSingle<Customers>(
                         "SELECT * FROM `classicmodels`.`customers` WHERE `customerNumber` = ?",
                         new object[] { customerNumber });
                     writeEntity(customer);
