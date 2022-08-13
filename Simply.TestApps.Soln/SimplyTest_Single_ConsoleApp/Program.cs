@@ -23,9 +23,8 @@ namespace SimplyTest_Single_ConsoleApp
             {
                 try
                 {
-
-                    var orderDetail = connection.OpenAnd().
-                        QuerySingle<Customers>("SELECT * FROM `classicmodels`.`customers` WHERE `customerNumber` = ?customerNumber?",
+                    var orderDetail = connection.OpenAnd()
+                        .QuerySingle<Customers>("SELECT * FROM `classicmodels`.`customers` WHERE `customerNumber` = ?customerNumber?",
                         new { customerNumber }, parameterNamePrefix: '?');
                     writeEntity(orderDetail);
                 }
@@ -38,7 +37,8 @@ namespace SimplyTest_Single_ConsoleApp
                 try
                 {
                     connection.OpenIfNot();
-                    var customer = connection.OpenAnd().GetSingle<Customers>(
+                    var customer = connection.OpenAnd()
+                        .GetSingle<Customers>(
                         "SELECT * FROM `classicmodels`.`customers` WHERE `customerNumber` = ?",
                         new object[] { customerNumber });
                     writeEntity(customer);
@@ -56,8 +56,8 @@ namespace SimplyTest_Single_ConsoleApp
                     command.CommandText =
                         "SELECT * FROM `classicmodels`.`customers` WHERE `customerNumber` = @customerNumber";
                     command.AddParameter(new DbCommandParameter { Direction = ParameterDirection.Input, ParameterName = "customerNumber", Value = customerNumber });
-                    connection.OpenIfNot();
-                    var customer = connection.QuerySingle<Customers>(command);
+                    var customer = connection.OpenAnd()
+                        .QuerySingle<Customers>(command);
                     writeEntity(customer.Result);
                 }
                 finally
@@ -69,8 +69,8 @@ namespace SimplyTest_Single_ConsoleApp
             {
                 try
                 {
-                    connection.OpenIfNot();
-                    var customerRow = connection.QuerySingleAsDbRow(
+                    var customerRow = connection.OpenAnd()
+                        .QuerySingleAsDbRow(
                         "SELECT * FROM `classicmodels`.`customers` WHERE `customerNumber` = @customerNumber",
                         new { customerNumber });
                     writeDbRow(customerRow);
@@ -83,8 +83,8 @@ namespace SimplyTest_Single_ConsoleApp
             {
                 try
                 {
-                    connection.OpenIfNot();
-                    var customerRow = connection.QuerySingleAsDbRow(
+                    var customerRow = connection.OpenAnd()
+                        .QuerySingleAsDbRow(
                         "SELECT * FROM `classicmodels`.`customers` WHERE `customerNumber` = #customerNumber#",
                         new { customerNumber }, parameterNamePrefix: '#');
                     writeDbRow(customerRow);
@@ -100,8 +100,8 @@ namespace SimplyTest_Single_ConsoleApp
                 {
                     try
                     {
-                        connection.OpenIfNot();
-                        var orderDetail = connection.QuerySingle<Orderdetails>("select * from `classicmodels`.`orderdetails` WHERE `productCode` = ?productCode?",
+                        var orderDetail = connection.OpenAnd()
+                            .QuerySingle<Orderdetails>("select * from `classicmodels`.`orderdetails` WHERE `productCode` = ?productCode?",
                             new { productCode }, parameterNamePrefix: '?');
                         writeEntity(orderDetail);
                     }
