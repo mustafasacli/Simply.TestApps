@@ -46,7 +46,7 @@ namespace SimplyTest_Execute_ConsoleApp
                             .Execute(
                             "UPDATE `classicmodels`.`customers` SET country = @newCountry, creditLimit = @newCreditLimit WHERE `customerNumber` = @customerNumber",
                             new { newCountry, newCreditLimit, customerNumber });
-                        writeEntity(customer);
+                        WriteEntity(customer);
                     }
                     finally
                     { connection.CloseIfNot(); }
@@ -66,7 +66,7 @@ namespace SimplyTest_Execute_ConsoleApp
                             .Execute(
                             "UPDATE `classicmodels`.`customers` SET country = @oldCountry, creditLimit = @oldCreditLimit WHERE `customerNumber` = @customerNumber",
                             new { oldCountry, oldCreditLimit, customerNumber });
-                        writeEntity(customer);
+                        WriteEntity(customer);
                     }
                     finally
                     { connection.CloseIfNot(); }
@@ -94,7 +94,7 @@ namespace SimplyTest_Execute_ConsoleApp
                         .QuerySingle<Customers>(
                         "SELECT * FROM `classicmodels`.`customers` WHERE `customerNumber` = @customerNumber",
                         new { customerNumber });
-                    writeEntity(customer);
+                    WriteEntity(customer);
                 }
                 finally
                 { connection.CloseIfNot(); }
@@ -103,7 +103,7 @@ namespace SimplyTest_Execute_ConsoleApp
             return customer;
         }
 
-        private static void writeEntity<TEntity>(TEntity entity) where TEntity : class
+        private static void WriteEntity<TEntity>(TEntity entity) where TEntity : class
         {
             if (entity == null) return;
 
