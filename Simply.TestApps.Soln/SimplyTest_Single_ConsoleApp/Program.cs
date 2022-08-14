@@ -36,7 +36,6 @@ namespace SimplyTest_Single_ConsoleApp
             {
                 try
                 {
-                    connection.OpenIfNot();
                     var customer = connection.OpenAnd()
                         .GetSingle<Customers>(
                         "SELECT * FROM `classicmodels`.`customers` WHERE `customerNumber` = ?",
