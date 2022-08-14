@@ -25,15 +25,12 @@ namespace SimplyTest_Execute_ConsoleApp
             if (customer != null)
             {
                 Console.WriteLine("entity is not null.");
-                decimal? oldCreditLimit;
-                decimal? newCreditLimit;
-                string oldCountry;
-                string newCountry;
-                oldCountry = customer.Country;
-                newCountry = "Turkey";
 
-                oldCreditLimit = customer.creditLimit;
-                newCreditLimit = 120000;
+                decimal? newCreditLimit = 120000;
+                string newCountry = "Turkey";
+
+                string oldCountry = customer.Country;
+                decimal? oldCreditLimit = customer.creditLimit;
 
                 int executionResult;
 
@@ -41,12 +38,11 @@ namespace SimplyTest_Execute_ConsoleApp
                 {
                     try
                     {
-                        connection.OpenIfNot();
                         executionResult = connection.OpenAnd()
                             .Execute(
                             "UPDATE `classicmodels`.`customers` SET country = @newCountry, creditLimit = @newCreditLimit WHERE `customerNumber` = @customerNumber",
                             new { newCountry, newCreditLimit, customerNumber });
-                        WriteEntity(customer);
+                        writeEntity(customer);
                     }
                     finally
                     { connection.CloseIfNot(); }
@@ -66,7 +62,7 @@ namespace SimplyTest_Execute_ConsoleApp
                             .Execute(
                             "UPDATE `classicmodels`.`customers` SET country = @oldCountry, creditLimit = @oldCreditLimit WHERE `customerNumber` = @customerNumber",
                             new { oldCountry, oldCreditLimit, customerNumber });
-                        WriteEntity(customer);
+                        writeEntity(customer);
                     }
                     finally
                     { connection.CloseIfNot(); }
@@ -94,7 +90,7 @@ namespace SimplyTest_Execute_ConsoleApp
                         .QuerySingle<Customers>(
                         "SELECT * FROM `classicmodels`.`customers` WHERE `customerNumber` = @customerNumber",
                         new { customerNumber });
-                    WriteEntity(customer);
+                    writeEntity(customer);
                 }
                 finally
                 { connection.CloseIfNot(); }
@@ -103,7 +99,7 @@ namespace SimplyTest_Execute_ConsoleApp
             return customer;
         }
 
-        private static void WriteEntity<TEntity>(TEntity entity) where TEntity : class
+        private static void writeEntity<TEntity>(TEntity entity) where TEntity : class
         {
             if (entity == null) return;
 
