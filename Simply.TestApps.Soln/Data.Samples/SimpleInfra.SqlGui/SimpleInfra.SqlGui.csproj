@@ -36,12 +36,6 @@
     <Reference Include="Mst.Dexter, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f9aae15b29e538d7, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Mst.Dexter.dll.1.2.0\lib\net45\Mst.Dexter.dll</HintPath>
     </Reference>
-    <Reference Include="Simply.Common, Version=1.1.0.0, Culture=neutral, PublicKeyToken=c03dc30a9850669f, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Simply.Common.1.2.0\lib\net451\Simply.Common.dll</HintPath>
-    </Reference>
-    <Reference Include="Simply.Data, Version=2.5.0.0, Culture=neutral, PublicKeyToken=0d4e0a4d073b85f2, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Simply.Data.2.6.0\lib\net451\Simply.Data.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -91,6 +85,16 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\Simply\Simply.Soln\Simply\Simply.Common\Simply.Common.csproj">
+      <Project>{a81ff695-21ac-48c0-aa35-ba906168b95d}</Project>
+      <Name>Simply.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\Simply\Simply.Soln\Simply\Simply.Data\Simply.Data.csproj">
+      <Project>{f374850b-07d2-4e3c-a3ec-bff273dee3c7}</Project>
+      <Name>Simply.Data</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
