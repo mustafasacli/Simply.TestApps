@@ -29,6 +29,19 @@ namespace SimplyTest_Count_ConsoleApp
                 { connection.CloseIfNot(); }
             }
             Console.WriteLine("--------------------------------------------------------");
+            using (IDbConnection connection = GetDbConnection())
+            {
+                try
+                {
+                    connection.OpenIfNot();
+                    long result = connection.CountLong("select * from `classicmodels`.`orderdetails` where `orderNumber` = ?orderNumber?", new { orderNumber }, 
+                        commandSetting: SimpleCommandSetting.Create(parameterNamePrefix: '?'));
+                    Console.WriteLine(result == 4 ? "4 kayıt bulundu." : $"Hatalı sonuç. {result} kayıt bulundu. ");
+                }
+                finally
+                { connection.CloseIfNot(); }
+            }
+            Console.WriteLine("--------------------------------------------------------");
 
             using (IDbConnection connection = GetDbConnection())
             {
