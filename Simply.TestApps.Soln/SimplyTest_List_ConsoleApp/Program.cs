@@ -24,7 +24,7 @@ namespace SimplyTest_List_ConsoleApp
                 {
                     connection.OpenIfNot();
                     var rowList = connection.QueryList<Orderdetails>("select * from `classicmodels`.`orderdetails` WHERE `productCode` = ?productCode?",
-                        new { productCode }, parameterNamePrefix: '?', pageInfo: null);
+                        new { productCode }, commandSetting: SimpleCommandSetting.Create().SetParameterNamePrefix('?'), pageInfo: null);
                     Console.WriteLine($"{rowList.Count} rows returned.");
                     //writeDbRows(rowList);
                 }
@@ -53,7 +53,7 @@ namespace SimplyTest_List_ConsoleApp
                 {
                     connection.OpenIfNot();
                     var rowList = connection.QueryList<Orderdetails>("select * from `classicmodels`.`orderdetails` WHERE `productCode` = ?productCode?",
-                        new { productCode }, parameterNamePrefix: '?', pageInfo: PageInfo.GetPageWithPageNumber(2, 10));
+                        new { productCode }, commandSetting: SimpleCommandSetting.Create().SetParameterNamePrefix('?'), pageInfo: PageInfo.GetPageWithPageNumber(2, 10));
                     Console.WriteLine($"{rowList.Count} rows returned.");
                     //writeDbRows(rowList);
                 }

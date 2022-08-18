@@ -25,7 +25,7 @@ namespace SimplyTest_Last_ConsoleApp
                 {
                     connection.OpenIfNot();
                     var orderDetail = connection.QueryLast<Orderdetails>("select * from `classicmodels`.`orderdetails` WHERE `productCode` = ?productCode?",
-                        new { productCode }, parameterNamePrefix: '?');
+                        new { productCode }, commandSetting: SimpleCommandSetting.Create().SetParameterNamePrefix('?'));
                     writeEntity(orderDetail);
                 }
                 finally
@@ -116,7 +116,7 @@ namespace SimplyTest_Last_ConsoleApp
                     connection.OpenIfNot();
                     var orderDetailRow = connection.QueryLastDbRow(
                         "select * from `classicmodels`.`orderdetails` WHERE `productCode` = #productCode#",
-                        new { productCode }, parameterNamePrefix: '#');
+                        new { productCode }, commandSetting: SimpleCommandSetting.Create().SetParameterNamePrefix('#'));
                     writeDbRow(orderDetailRow);
                 }
                 finally

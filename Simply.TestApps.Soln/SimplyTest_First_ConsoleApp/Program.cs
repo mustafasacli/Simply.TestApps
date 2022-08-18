@@ -24,8 +24,9 @@ namespace SimplyTest_First_ConsoleApp
                 try
                 {
                     connection.OpenIfNot();
-                    var orderDetail = connection.QueryFirst<Orderdetails>("select * from `classicmodels`.`orderdetails` WHERE `productCode` = ?productCode?",
-                        new { productCode }, parameterNamePrefix: '?');
+                    var orderDetail = connection.QueryFirst<Orderdetails>(
+                        "select * from `classicmodels`.`orderdetails` WHERE `productCode` = ?productCode?",
+                        new { productCode }, commandSetting: SimpleCommandSetting.Create().SetParameterNamePrefix('?'));
                     writeEntity(orderDetail);
                 }
                 finally
