@@ -2,9 +2,8 @@
 
 namespace KisayolYoneticisi.Source.Util
 {
-    class MessageUtil
+    internal class MessageUtil
     {
-
         public static void Info(string infoText)
         {
             MessageBox.Show(infoText, "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -13,7 +12,7 @@ namespace KisayolYoneticisi.Source.Util
 
         public static void Error(string errText)
         {
-            MessageBox.Show(errText, "Error!..", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            MessageBox.Show(errText, "Errors", MessageBoxButtons.OK, MessageBoxIcon.Error);
             return;
         }
 
@@ -22,6 +21,5 @@ namespace KisayolYoneticisi.Source.Util
             MessageBox.Show(warningText, "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             return;
         }
-
     }
 }
