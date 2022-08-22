@@ -69,7 +69,8 @@ namespace KisayolYoneticisi.Source.OpManager
 
             using (SQLiteConnection conn = new SQLiteConnection(AppVariables.ConnectionString))
             {
-                retInt = conn.Execute(Crud.InsertQuery(), new { kisayol.KisayolAdi, kisayol.Yol, kisayol.Tarih });
+                retInt = conn.OpenAnd()
+                    .Execute(Crud.InsertQuery(), new { kisayol.KisayolAdi, kisayol.Yol, kisayol.Tarih });
             }
 
             return retInt;
@@ -85,7 +86,7 @@ namespace KisayolYoneticisi.Source.OpManager
 
             using (SQLiteConnection conn = new SQLiteConnection(AppVariables.ConnectionString))
             {
-                retInt = conn.Execute(Crud.DeleteQuery(), new { kisayol.Id });
+                retInt = conn.OpenAnd().Execute(Crud.DeleteQuery(), new { kisayol.Id });
             }
 
             return retInt;
@@ -101,7 +102,7 @@ namespace KisayolYoneticisi.Source.OpManager
 
             using (SQLiteConnection conn = new SQLiteConnection(AppVariables.ConnectionString))
             {
-                retInt = conn.Execute(Crud.UpdateQuery(), new { kisayol.KisayolAdi, kisayol.Yol, kisayol.Tarih, kisayol.Id });
+                retInt = conn.OpenAnd().Execute(Crud.UpdateQuery(), new { kisayol.KisayolAdi, kisayol.Yol, kisayol.Tarih, kisayol.Id });
             }
 
             return retInt;
@@ -118,7 +119,7 @@ namespace KisayolYoneticisi.Source.OpManager
             using (SQLiteConnection conn = new SQLiteConnection(AppVariables.ConnectionString))
             {
                 DataSet set =
-                    conn.GetResultSetQuery(new SimpleDbCommand
+                    conn.OpenAnd().GetResultSetQuery(new SimpleDbCommand
                     {
                         CommandText = Crud.GetTable()
                     }).Result;
@@ -147,7 +148,7 @@ namespace KisayolYoneticisi.Source.OpManager
 
             using (SQLiteConnection conn = new SQLiteConnection(AppVariables.ConnectionString))
             {
-                retInt = conn.ExecuteScalar(Crud.GetIdentity(), null).ToInt();
+                retInt = conn.OpenAnd().ExecuteScalar(Crud.GetIdentity(), null).ToInt();
             }
 
             //using (SQLiteConnection conn = new SQLiteConnection(AppVariables.ConnectionString))
