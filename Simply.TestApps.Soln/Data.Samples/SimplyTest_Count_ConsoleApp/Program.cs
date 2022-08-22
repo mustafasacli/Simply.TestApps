@@ -21,8 +21,9 @@ namespace SimplyTest_Count_ConsoleApp
             {
                 try
                 {
-                    connection.OpenIfNot();
-                    long result = connection.CountLong("select * from `classicmodels`.`orderdetails` where `orderNumber` = @orderNumber", new { orderNumber });
+                    //connection.OpenIfNot();
+                    long result = connection.OpenAnd()
+                        .CountLong("select * from `classicmodels`.`orderdetails` where `orderNumber` = @orderNumber", new { orderNumber });
                     Console.WriteLine(result == 4 ? "4 kayıt bulundu." : $"Hatalı sonuç. {result} kayıt bulundu. ");
                 }
                 finally
@@ -33,9 +34,9 @@ namespace SimplyTest_Count_ConsoleApp
             {
                 try
                 {
-                    connection.OpenIfNot();
-                    long result = connection.CountLong("select * from `classicmodels`.`orderdetails` where `orderNumber` = ?orderNumber?", new { orderNumber }, 
-                        commandSetting: SimpleCommandSetting.Create(parameterNamePrefix: '?'));
+                    //connection.OpenIfNot();
+                    long result = connection.OpenAnd().CountLong("select * from `classicmodels`.`orderdetails` where `orderNumber` = ?orderNumber?", new { orderNumber },
+                        commandSetting: SimpleCommandSetting.New().SetParameterNamePrefix(parameterNamePrefix: '?'));
                     Console.WriteLine(result == 4 ? "4 kayıt bulundu." : $"Hatalı sonuç. {result} kayıt bulundu. ");
                 }
                 finally
@@ -47,8 +48,8 @@ namespace SimplyTest_Count_ConsoleApp
             {
                 try
                 {
-                    connection.OpenIfNot();
-                    long result = connection.CountLong("select * from `classicmodels`.`orderdetails` where `orderNumber` = ?", new object[] { orderNumber });
+                    //connection.OpenIfNot();
+                    long result = connection.OpenAnd().CountLong("select * from `classicmodels`.`orderdetails` where `orderNumber` = ?", new object[] { orderNumber });
                     Console.WriteLine(result == 4 ? "4 kayıt bulundu." : $"Hatalı sonuç. {result} kayıt bulundu. ");
                 }
                 finally
@@ -67,8 +68,8 @@ namespace SimplyTest_Count_ConsoleApp
             {
                 try
                 {
-                    connection.OpenIfNot();
-                    long result = connection.CountLong(command);
+                    //connection.OpenIfNot();
+                    long result = connection.OpenAnd().CountLong(command);
                     Console.WriteLine(result == 4 ? "4 kayıt bulundu." : $"Hatalı sonuç. {result} kayıt bulundu. ");
                 }
                 finally
