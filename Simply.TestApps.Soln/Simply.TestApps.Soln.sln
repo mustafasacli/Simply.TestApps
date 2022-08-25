@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.32802.440
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32819.101
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data.Samples", "Data.Samples", "{FDAE69B1-C29F-424E-A723-851C39EF6111}"
 EndProject
@@ -38,7 +38,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimplyTest_Execute_ConsoleA
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimplyTest_ExecuteAsOdbc_ConsoleApp", "Data.Samples\SimplyTest_ExecuteAsOdbc_ConsoleApp\SimplyTest_ExecuteAsOdbc_ConsoleApp.csproj", "{16CB2F55-6452-4202-BC6D-3D62C0591776}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simply.Data.Core.WebApi", "Data.Samples\Simply.Data.Core.WebApi\Simply.Data.Core.WebApi.csproj", "{79ED98A6-03B7-4BA4-9790-DB8FB361767E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Simply.Data.Core.WebApi", "Data.Samples\Simply.Data.Core.WebApi\Simply.Data.Core.WebApi.csproj", "{79ED98A6-03B7-4BA4-9790-DB8FB361767E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MstProject.ViewModels", "Data.Samples\MstProject.ViewModels\MstProject.ViewModels.csproj", "{0C62C92E-9A89-48B6-BC28-75127F5F0E1B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MstProject.Dtos", "Data.Samples\MstProject.Dtos\MstProject.Dtos.csproj", "{B1EC1D54-1B56-494D-A038-F6A537BF194E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -168,6 +172,22 @@ Global
 		{79ED98A6-03B7-4BA4-9790-DB8FB361767E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{79ED98A6-03B7-4BA4-9790-DB8FB361767E}.Release|x86.ActiveCfg = Release|Any CPU
 		{79ED98A6-03B7-4BA4-9790-DB8FB361767E}.Release|x86.Build.0 = Release|Any CPU
+		{0C62C92E-9A89-48B6-BC28-75127F5F0E1B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0C62C92E-9A89-48B6-BC28-75127F5F0E1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0C62C92E-9A89-48B6-BC28-75127F5F0E1B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{0C62C92E-9A89-48B6-BC28-75127F5F0E1B}.Debug|x86.Build.0 = Debug|Any CPU
+		{0C62C92E-9A89-48B6-BC28-75127F5F0E1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0C62C92E-9A89-48B6-BC28-75127F5F0E1B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0C62C92E-9A89-48B6-BC28-75127F5F0E1B}.Release|x86.ActiveCfg = Release|Any CPU
+		{0C62C92E-9A89-48B6-BC28-75127F5F0E1B}.Release|x86.Build.0 = Release|Any CPU
+		{B1EC1D54-1B56-494D-A038-F6A537BF194E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B1EC1D54-1B56-494D-A038-F6A537BF194E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B1EC1D54-1B56-494D-A038-F6A537BF194E}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B1EC1D54-1B56-494D-A038-F6A537BF194E}.Debug|x86.Build.0 = Debug|Any CPU
+		{B1EC1D54-1B56-494D-A038-F6A537BF194E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B1EC1D54-1B56-494D-A038-F6A537BF194E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B1EC1D54-1B56-494D-A038-F6A537BF194E}.Release|x86.ActiveCfg = Release|Any CPU
+		{B1EC1D54-1B56-494D-A038-F6A537BF194E}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -186,6 +206,8 @@ Global
 		{98A86B66-710B-475D-81EA-99BFEC8CB211} = {FDAE69B1-C29F-424E-A723-851C39EF6111}
 		{16CB2F55-6452-4202-BC6D-3D62C0591776} = {FDAE69B1-C29F-424E-A723-851C39EF6111}
 		{79ED98A6-03B7-4BA4-9790-DB8FB361767E} = {FDAE69B1-C29F-424E-A723-851C39EF6111}
+		{0C62C92E-9A89-48B6-BC28-75127F5F0E1B} = {FDAE69B1-C29F-424E-A723-851C39EF6111}
+		{B1EC1D54-1B56-494D-A038-F6A537BF194E} = {FDAE69B1-C29F-424E-A723-851C39EF6111}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A1EB7A9C-6D63-45A5-A1B9-38C64C6CC2F3}
