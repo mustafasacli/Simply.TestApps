@@ -6,11 +6,13 @@
 
   <ItemGroup>
     <PackageReference Include="MySql.Data" Version="8.0.30" />
+    <PackageReference Include="SimpleInfra.Mapping" Version="2.5.0" />
     <PackageReference Include="Simply.Data" Version="3.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\SimplyTest_Entities\SimplyTest_Entities.csproj" />
+    <ProjectReference Include="..\MstProject.Dtos\MstProject.Dtos.csproj" />
   </ItemGroup>
 
 
