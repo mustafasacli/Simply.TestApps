@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using MySql.Data.MySqlClient;
 using Simply.Data.Objects;
 using SimplyTest_Entities;
+using System.Collections.Generic;
 using System.Data;
 
 namespace Simply.Data.Core.WebApi.Controllers
@@ -15,27 +16,27 @@ namespace Simply.Data.Core.WebApi.Controllers
         {
             return new MySqlConnection { ConnectionString = "data source=127.0.0.1;initial catalog=classicmodels;user id=root;" };
         }
-        private readonly ILogger<WeatherForecastController> _logger;
+        private readonly ILogger<DataController> _logger;
 
-        public DataController(ILogger<WeatherForecastController> logger)
+        public DataController(ILogger<DataController> logger)
         {
             _logger = logger;
         }
 
         [HttpGet]
-        public Customers Get(int? customerNumber)
+        public IEnumerable<Customers> Get(int? customerNumber)
         {
             _logger.LogInformation("customerNumber:#{0}#", customerNumber);
 
-            Customers customers;
+            IEnumerable<Customers> customers;
 
             using (IDbConnection connection = GetDbConnection())
             {
                 try
                 {
                     customers = connection.OpenAnd()
-                        .QuerySingle<Customers>("SELECT * FROM `classicmodels`.`customers` WHERE `customerNumber` = ?customerNumber?",
-                        new { customerNumber }, commandSetting: SimpleCommandSetting.Create().SetParameterNamePrefix('?'));
+                        .QueryList<Customers>("SELECT * FROM `classicmodels`.`customers` WHERE `customerNumber` = ?customerNumber? or ?customerNumber? is null",
+                        new { customerNumber }, commandSetting: SimpleCommandSetting.Create(parameterNamePrefix: '?'));
                 }
                 finally
                 { connection.CloseIfNot(); }
