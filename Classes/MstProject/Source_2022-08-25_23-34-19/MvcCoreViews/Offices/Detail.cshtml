@@ -1,0 +1,73 @@
+@model Mst.Project.ViewModel.OfficesViewModel
+
+@{
+}
+
+<h2>Kayýt Detay</h2>
+
+<div>
+    <h4>Kayýt detaylarý</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.City)
+        </dt>
+        <dd>
+            @(Model.City)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Phone)
+        </dt>
+        <dd>
+            @(Model.Phone)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AddressLine1)
+        </dt>
+        <dd>
+            @(Model.AddressLine1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AddressLine2)
+        </dt>
+        <dd>
+            @(Model.AddressLine2)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.State)
+        </dt>
+        <dd>
+            @(Model.State)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Country)
+        </dt>
+        <dd>
+            @(Model.Country)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PostalCode)
+        </dt>
+        <dd>
+            @(Model.PostalCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Territory)
+        </dt>
+        <dd>
+            @(Model.Territory)
+        </dd>
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Düzenle", "Edit", new { officeCode = Model.OfficeCode }) |
+    @Html.ActionLink("Sil", "Delete", new { officeCode = Model.OfficeCode }) |
+    @Html.ActionLink("Listeye Dön", "Index")
+</p>

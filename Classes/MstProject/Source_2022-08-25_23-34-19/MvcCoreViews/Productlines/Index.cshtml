@@ -1,0 +1,50 @@
+@model System.Collections.Generic.IEnumerable<Mst.Project.ViewModel.ProductlinesViewModel>
+
+@{
+}
+
+<h2>Liste</h2>
+
+<p>
+    @Html.ActionLink("Ekle", "Create")
+</p>
+<table class="table">
+   <tr>
+       <th>
+           @Html.DisplayNameFor(model => model.TextDescription)
+       </th>
+       <th>
+           @Html.DisplayNameFor(model => model.HtmlDescription)
+       </th>
+       <th>
+           @Html.DisplayNameFor(model => model.Image)
+       </th>
+       <th>
+           @Html.Label("", "Ýþlemler")
+       </th>
+   </tr>
+   @foreach (var item in Model)
+   {
+       <tr>
+           <td>
+               @(item.TextDescription)
+           </td>
+           <td>
+               @(item.HtmlDescription)
+           </td>
+           <td>
+               @(item.Image)
+           </td>
+           <td>
+               @Html.ActionLink("Detay", "Detail", new { productLine = item.ProductLine }) |
+               @Html.ActionLink("Düzenle", "Edit", new { productLine = item.ProductLine }) |
+               @Html.ActionLink("Sil", "Delete", new { productLine = item.ProductLine })
+           </td>
+       </tr>
+   }
+</table>
+<div>
+       <ul>
+           <li>@Html.ActionLink("Anasayfaya dön", "Index", "Home")</li>
+       </ul>
+</div>

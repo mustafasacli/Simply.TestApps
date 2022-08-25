@@ -1,0 +1,38 @@
+@model Mst.Project.ViewModel.OrderdetailsViewModel
+
+@{
+}
+
+<h2>Kayýt Detay</h2>
+
+<div>
+    <h4>Kayýt detaylarý</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.QuantityOrdered)
+        </dt>
+        <dd>
+            @(Model.QuantityOrdered)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PriceEach)
+        </dt>
+        <dd>
+            @(Model.PriceEach)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.OrderLineNumber)
+        </dt>
+        <dd>
+            @(Model.OrderLineNumber)
+        </dd>
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Düzenle", "Edit", new { orderNumber = Model.OrderNumber, productCode = Model.ProductCode }) |
+    @Html.ActionLink("Sil", "Delete", new { orderNumber = Model.OrderNumber, productCode = Model.ProductCode }) |
+    @Html.ActionLink("Listeye Dön", "Index")
+</p>

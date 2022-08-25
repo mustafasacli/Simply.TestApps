@@ -1,0 +1,80 @@
+@model System.Collections.Generic.IEnumerable<Mst.Project.ViewModel.OfficesViewModel>
+
+@{
+}
+
+<h2>Liste</h2>
+
+<p>
+    @Html.ActionLink("Ekle", "Create")
+</p>
+<table class="table">
+   <tr>
+       <th>
+           @Html.DisplayNameFor(model => model.City)
+       </th>
+       <th>
+           @Html.DisplayNameFor(model => model.Phone)
+       </th>
+       <th>
+           @Html.DisplayNameFor(model => model.AddressLine1)
+       </th>
+       <th>
+           @Html.DisplayNameFor(model => model.AddressLine2)
+       </th>
+       <th>
+           @Html.DisplayNameFor(model => model.State)
+       </th>
+       <th>
+           @Html.DisplayNameFor(model => model.Country)
+       </th>
+       <th>
+           @Html.DisplayNameFor(model => model.PostalCode)
+       </th>
+       <th>
+           @Html.DisplayNameFor(model => model.Territory)
+       </th>
+       <th>
+           @Html.Label("", "Ýþlemler")
+       </th>
+   </tr>
+   @foreach (var item in Model)
+   {
+       <tr>
+           <td>
+               @(item.City)
+           </td>
+           <td>
+               @(item.Phone)
+           </td>
+           <td>
+               @(item.AddressLine1)
+           </td>
+           <td>
+               @(item.AddressLine2)
+           </td>
+           <td>
+               @(item.State)
+           </td>
+           <td>
+               @(item.Country)
+           </td>
+           <td>
+               @(item.PostalCode)
+           </td>
+           <td>
+               @(item.Territory)
+           </td>
+           <td>
+               @Html.ActionLink("Detay", "Detail", new { officeCode = item.OfficeCode }) |
+               @Html.ActionLink("Düzenle", "Edit", new { officeCode = item.OfficeCode }) |
+               @Html.ActionLink("Sil", "Delete", new { officeCode = item.OfficeCode })
+           </td>
+       </tr>
+   }
+</table>
+<div>
+       <ul>
+           <li>@Html.ActionLink("Anasayfaya dön", "Index", "Home")</li>
+       </ul>
+</div>

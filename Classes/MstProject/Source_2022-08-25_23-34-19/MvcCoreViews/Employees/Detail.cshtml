@@ -1,0 +1,66 @@
+@model Mst.Project.ViewModel.EmployeesViewModel
+
+@{
+}
+
+<h2>Kayýt Detay</h2>
+
+<div>
+    <h4>Kayýt detaylarý</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.LastName)
+        </dt>
+        <dd>
+            @(Model.LastName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FirstName)
+        </dt>
+        <dd>
+            @(Model.FirstName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Extension)
+        </dt>
+        <dd>
+            @(Model.Extension)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+        <dd>
+            @(Model.Email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.OfficeCode)
+        </dt>
+        <dd>
+            @(Model.OfficeCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ReportsTo)
+        </dt>
+        <dd>
+            @(Model.ReportsTo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.JobTitle)
+        </dt>
+        <dd>
+            @(Model.JobTitle)
+        </dd>
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Düzenle", "Edit", new { employeeNumber = Model.EmployeeNumber }) |
+    @Html.ActionLink("Sil", "Delete", new { employeeNumber = Model.EmployeeNumber }) |
+    @Html.ActionLink("Listeye Dön", "Index")
+</p>

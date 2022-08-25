@@ -1,0 +1,44 @@
+@model System.Collections.Generic.IEnumerable<Mst.Project.ViewModel.PaymentsViewModel>
+
+@{
+}
+
+<h2>Liste</h2>
+
+<p>
+    @Html.ActionLink("Ekle", "Create")
+</p>
+<table class="table">
+   <tr>
+       <th>
+           @Html.DisplayNameFor(model => model.PaymentDate)
+       </th>
+       <th>
+           @Html.DisplayNameFor(model => model.Amount)
+       </th>
+       <th>
+           @Html.Label("", "Ýþlemler")
+       </th>
+   </tr>
+   @foreach (var item in Model)
+   {
+       <tr>
+           <td>
+               @(item.PaymentDate)
+           </td>
+           <td>
+               @(item.Amount)
+           </td>
+           <td>
+               @Html.ActionLink("Detay", "Detail", new { customerNumber = item.CustomerNumber, checkNumber = item.CheckNumber }) |
+               @Html.ActionLink("Düzenle", "Edit", new { customerNumber = item.CustomerNumber, checkNumber = item.CheckNumber }) |
+               @Html.ActionLink("Sil", "Delete", new { customerNumber = item.CustomerNumber, checkNumber = item.CheckNumber })
+           </td>
+       </tr>
+   }
+</table>
+<div>
+       <ul>
+           <li>@Html.ActionLink("Anasayfaya dön", "Index", "Home")</li>
+       </ul>
+</div>

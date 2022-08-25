@@ -1,0 +1,80 @@
+@model System.Collections.Generic.IEnumerable<Mst.Project.ViewModel.ProductsViewModel>
+
+@{
+}
+
+<h2>Liste</h2>
+
+<p>
+    @Html.ActionLink("Ekle", "Create")
+</p>
+<table class="table">
+   <tr>
+       <th>
+           @Html.DisplayNameFor(model => model.ProductName)
+       </th>
+       <th>
+           @Html.DisplayNameFor(model => model.ProductLine)
+       </th>
+       <th>
+           @Html.DisplayNameFor(model => model.ProductScale)
+       </th>
+       <th>
+           @Html.DisplayNameFor(model => model.ProductVendor)
+       </th>
+       <th>
+           @Html.DisplayNameFor(model => model.ProductDescription)
+       </th>
+       <th>
+           @Html.DisplayNameFor(model => model.QuantityInStock)
+       </th>
+       <th>
+           @Html.DisplayNameFor(model => model.BuyPrice)
+       </th>
+       <th>
+           @Html.DisplayNameFor(model => model.Msrp)
+       </th>
+       <th>
+           @Html.Label("", "Ýþlemler")
+       </th>
+   </tr>
+   @foreach (var item in Model)
+   {
+       <tr>
+           <td>
+               @(item.ProductName)
+           </td>
+           <td>
+               @(item.ProductLine)
+           </td>
+           <td>
+               @(item.ProductScale)
+           </td>
+           <td>
+               @(item.ProductVendor)
+           </td>
+           <td>
+               @(item.ProductDescription)
+           </td>
+           <td>
+               @(item.QuantityInStock)
+           </td>
+           <td>
+               @(item.BuyPrice)
+           </td>
+           <td>
+               @(item.Msrp)
+           </td>
+           <td>
+               @Html.ActionLink("Detay", "Detail", new { productCode = item.ProductCode }) |
+               @Html.ActionLink("Düzenle", "Edit", new { productCode = item.ProductCode }) |
+               @Html.ActionLink("Sil", "Delete", new { productCode = item.ProductCode })
+           </td>
+       </tr>
+   }
+</table>
+<div>
+       <ul>
+           <li>@Html.ActionLink("Anasayfaya dön", "Index", "Home")</li>
+       </ul>
+</div>

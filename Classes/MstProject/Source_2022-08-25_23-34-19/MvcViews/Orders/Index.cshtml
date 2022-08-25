@@ -1,0 +1,68 @@
+@model System.Collections.Generic.IEnumerable<Mst.Project.ViewModel.OrdersViewModel>
+
+@{
+}
+
+<h2>Liste</h2>
+
+<p>
+    @Html.ActionLink("Ekle", "Create")
+</p>
+<table class="table">
+   <tr>
+       <th>
+           @Html.DisplayNameFor(model => model.OrderDate)
+       </th>
+       <th>
+           @Html.DisplayNameFor(model => model.RequiredDate)
+       </th>
+       <th>
+           @Html.DisplayNameFor(model => model.ShippedDate)
+       </th>
+       <th>
+           @Html.DisplayNameFor(model => model.Status)
+       </th>
+       <th>
+           @Html.DisplayNameFor(model => model.Comments)
+       </th>
+       <th>
+           @Html.DisplayNameFor(model => model.CustomerNumber)
+       </th>
+       <th>
+           @Html.Label("", "Ýþlemler")
+       </th>
+   </tr>
+   @foreach (var item in Model)
+   {
+       <tr>
+           <td>
+               @(item.OrderDate)
+           </td>
+           <td>
+               @(item.RequiredDate)
+           </td>
+           <td>
+               @(item.ShippedDate)
+           </td>
+           <td>
+               @(item.Status)
+           </td>
+           <td>
+               @(item.Comments)
+           </td>
+           <td>
+               @(item.CustomerNumber)
+           </td>
+           <td>
+               @Html.ActionLink("Detay", "Detail", new { orderNumber = item.OrderNumber }) |
+               @Html.ActionLink("Düzenle", "Edit", new { orderNumber = item.OrderNumber }) |
+               @Html.ActionLink("Sil", "Delete", new { orderNumber = item.OrderNumber })
+           </td>
+       </tr>
+   }
+</table>
+<div>
+       <ul>
+           <li>@Html.ActionLink("Anasayfaya dön", "Index", "Home")</li>
+       </ul>
+</div>

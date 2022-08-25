@@ -1,0 +1,59 @@
+@model Mst.Project.ViewModel.OrdersViewModel
+
+@{
+}
+
+<h2>Kayýt Detay</h2>
+
+<div>
+    <h4>Kayýt detaylarý</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.OrderDate)
+        </dt>
+        <dd>
+            @(Model.OrderDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RequiredDate)
+        </dt>
+        <dd>
+            @(Model.RequiredDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ShippedDate)
+        </dt>
+        <dd>
+            @(Model.ShippedDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+        <dd>
+            @(Model.Status)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Comments)
+        </dt>
+        <dd>
+            @(Model.Comments)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CustomerNumber)
+        </dt>
+        <dd>
+            @(Model.CustomerNumber)
+        </dd>
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Düzenle", "Edit", new { orderNumber = Model.OrderNumber }) |
+    @Html.ActionLink("Sil", "Delete", new { orderNumber = Model.OrderNumber }) |
+    @Html.ActionLink("Listeye Dön", "Index")
+</p>

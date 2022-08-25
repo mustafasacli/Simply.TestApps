@@ -1,0 +1,50 @@
+@model System.Collections.Generic.IEnumerable<Mst.Project.ViewModel.OrderdetailsViewModel>
+
+@{
+}
+
+<h2>Liste</h2>
+
+<p>
+    @Html.ActionLink("Ekle", "Create")
+</p>
+<table class="table">
+   <tr>
+       <th>
+           @Html.DisplayNameFor(model => model.QuantityOrdered)
+       </th>
+       <th>
+           @Html.DisplayNameFor(model => model.PriceEach)
+       </th>
+       <th>
+           @Html.DisplayNameFor(model => model.OrderLineNumber)
+       </th>
+       <th>
+           @Html.Label("", "Ýþlemler")
+       </th>
+   </tr>
+   @foreach (var item in Model)
+   {
+       <tr>
+           <td>
+               @(item.QuantityOrdered)
+           </td>
+           <td>
+               @(item.PriceEach)
+           </td>
+           <td>
+               @(item.OrderLineNumber)
+           </td>
+           <td>
+               @Html.ActionLink("Detay", "Detail", new { orderNumber = item.OrderNumber, productCode = item.ProductCode }) |
+               @Html.ActionLink("Düzenle", "Edit", new { orderNumber = item.OrderNumber, productCode = item.ProductCode }) |
+               @Html.ActionLink("Sil", "Delete", new { orderNumber = item.OrderNumber, productCode = item.ProductCode })
+           </td>
+       </tr>
+   }
+</table>
+<div>
+       <ul>
+           <li>@Html.ActionLink("Anasayfaya dön", "Index", "Home")</li>
+       </ul>
+</div>

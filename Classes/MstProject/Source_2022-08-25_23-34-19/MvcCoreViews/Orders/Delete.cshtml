@@ -1,0 +1,65 @@
+@model Mst.Project.ViewModel.OrdersViewModel
+
+@{
+}
+
+<h2>Kayýt Silme</h2>
+<h3>Kaydý silmek istiyor musunuz?</h3>
+<div>
+    <h4>Kayýt detaylarý</h4>
+    @Html.HiddenFor(model => model.OrderNumber)
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.OrderDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.OrderDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RequiredDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.RequiredDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ShippedDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ShippedDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Comments)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Comments)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CustomerNumber)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CustomerNumber)
+        </dd>
+    </dl>
+
+    @using (Html.BeginForm("DeletePost", "Orders", new { orderNumber = Model.OrderNumber }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Sil" class="btn btn-default" /> |
+            @Html.ActionLink("Listeye Dön", "Index")
+        </div>
+    }
+</div>

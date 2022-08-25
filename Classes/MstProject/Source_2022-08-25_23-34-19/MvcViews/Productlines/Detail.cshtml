@@ -1,0 +1,38 @@
+@model Mst.Project.ViewModel.ProductlinesViewModel
+
+@{
+}
+
+<h2>Kayýt Detay</h2>
+
+<div>
+    <h4>Kayýt detaylarý</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.TextDescription)
+        </dt>
+        <dd>
+            @(Model.TextDescription)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HtmlDescription)
+        </dt>
+        <dd>
+            @(Model.HtmlDescription)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Image)
+        </dt>
+        <dd>
+            @(Model.Image)
+        </dd>
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Düzenle", "Edit", new { productLine = Model.ProductLine }) |
+    @Html.ActionLink("Sil", "Delete", new { productLine = Model.ProductLine }) |
+    @Html.ActionLink("Listeye Dön", "Index")
+</p>
