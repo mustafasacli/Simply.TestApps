@@ -1,10 +1,9 @@
-using SimpleInfra.Dto.Core;
 using System.Runtime.Serialization;
 
 namespace Mst.Project.Dtos
 {
     [DataContract]
-    public class ProductsDto : SimpleBaseDto
+    public class ProductsDto
     {
         [DataMember]
         public string ProductCode

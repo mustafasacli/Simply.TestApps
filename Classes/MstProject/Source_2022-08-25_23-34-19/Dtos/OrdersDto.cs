@@ -1,11 +1,10 @@
-using SimpleInfra.Dto.Core;
 using System;
 using System.Runtime.Serialization;
 
 namespace Mst.Project.Dtos
 {
     [DataContract]
-    public class OrdersDto : SimpleBaseDto
+    public class OrdersDto
     {
         [DataMember]
         public int OrderNumber
