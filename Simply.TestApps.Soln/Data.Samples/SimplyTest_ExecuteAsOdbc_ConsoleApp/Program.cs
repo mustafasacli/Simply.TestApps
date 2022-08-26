@@ -30,7 +30,7 @@ namespace SimplyTest_ExecuteAsOdbc_ConsoleApp
                 string newCountry = "Turkey";
 
                 string oldCountry = customer.Country;
-                decimal? oldCreditLimit = customer.creditLimit;
+                decimal? oldCreditLimit = customer.CreditLimit;
 
                 int executionResult;
 
@@ -51,7 +51,7 @@ namespace SimplyTest_ExecuteAsOdbc_ConsoleApp
                 Console.WriteLine(Format("{0} rows affected.", executionResult));
 
                 Customers customers2 = GetCustomerById(customerNumber);
-                Console.WriteLine(customers2.Country == newCountry && customers2.creditLimit == newCreditLimit ? "First update operation affected." : "First update operation not affected.");
+                Console.WriteLine(customers2.Country == newCountry && customers2.CreditLimit == newCreditLimit ? "First update operation affected." : "First update operation not affected.");
 
                 using (IDbConnection connection = GetDbConnection())
                 {
@@ -68,7 +68,7 @@ namespace SimplyTest_ExecuteAsOdbc_ConsoleApp
                 }
 
                 Customers customers3 = GetCustomerById(customerNumber);
-                Console.WriteLine(customers3.Country == customer.Country && customers3.creditLimit == customer.creditLimit ? "Second update operation affected." : "Second update operation not affected.");
+                Console.WriteLine(customers3.Country == customer.Country && customers3.CreditLimit == customer.CreditLimit ? "Second update operation affected." : "Second update operation not affected.");
 
                 Console.WriteLine(Format("{0} rows affected.", executionResult));
             }

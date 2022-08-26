@@ -13,7 +13,7 @@ namespace SimplyTest_Entities
         [Key]
         [Required(AllowEmptyStrings = false, ErrorMessage = "customerNumber alanýna veri girilmelidir.")]
         [Column("customerNumber", Order = 1, TypeName = "int")]
-        public int customerNumber
+        public int CustomerNumber
         { get; set; }
 
         /// <summary>
@@ -22,7 +22,7 @@ namespace SimplyTest_Entities
         [Required(AllowEmptyStrings = false, ErrorMessage = "customerName alanýna veri girilmelidir.")]
         [StringLength(50, ErrorMessage = "customerName alaný 50 karakterden uzun olamaz.")]
         [Column("customerName", Order = 2, TypeName = "varchar")]
-        public string customerName
+        public string CustomerName
         { get; set; }
 
         /// <summary>
@@ -31,7 +31,7 @@ namespace SimplyTest_Entities
         [Required(AllowEmptyStrings = false, ErrorMessage = "contactLastName alanýna veri girilmelidir.")]
         [StringLength(50, ErrorMessage = "contactLastName alaný 50 karakterden uzun olamaz.")]
         [Column("contactLastName", Order = 3, TypeName = "varchar")]
-        public string contactLastName
+        public string ContactLastName
         { get; set; }
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace SimplyTest_Entities
         [Required(AllowEmptyStrings = false, ErrorMessage = "contactFirstName alanýna veri girilmelidir.")]
         [StringLength(50, ErrorMessage = "contactFirstName alaný 50 karakterden uzun olamaz.")]
         [Column("contactFirstName", Order = 4, TypeName = "varchar")]
-        public string contactFirstName
+        public string ContactFirstName
         { get; set; }
 
         /// <summary>
@@ -58,7 +58,7 @@ namespace SimplyTest_Entities
         [Required(AllowEmptyStrings = false, ErrorMessage = "addressLine1 alanýna veri girilmelidir.")]
         [StringLength(50, ErrorMessage = "addressLine1 alaný 50 karakterden uzun olamaz.")]
         [Column("addressLine1", Order = 6, TypeName = "varchar")]
-        public string addressLine1
+        public string AddressLine1
         { get; set; }
 
         /// <summary>
@@ -66,7 +66,7 @@ namespace SimplyTest_Entities
         /// </summary>
         [StringLength(50, ErrorMessage = "addressLine2 alaný 50 karakterden uzun olamaz.")]
         [Column("addressLine2", Order = 7, TypeName = "varchar")]
-        public string addressLine2
+        public string AddressLine2
         { get; set; }
 
         /// <summary>
@@ -91,7 +91,7 @@ namespace SimplyTest_Entities
         /// </summary>
         [StringLength(15, ErrorMessage = "postalCode alaný 15 karakterden uzun olamaz.")]
         [Column("postalCode", Order = 10, TypeName = "varchar")]
-        public string postalCode
+        public string PostalCode
         { get; set; }
 
         /// <summary>
@@ -107,14 +107,14 @@ namespace SimplyTest_Entities
         /// Gets or Sets the salesRepEmployeeNumber
         /// </summary>
         [Column("salesRepEmployeeNumber", Order = 12, TypeName = "int")]
-        public int? salesRepEmployeeNumber
+        public int? SalesRepEmployeeNumber
         { get; set; }
 
         /// <summary>
         /// Gets or Sets the creditLimit
         /// </summary>
         [Column("creditLimit", Order = 13, TypeName = "decimal")]
-        public decimal? creditLimit
+        public decimal? CreditLimit
         { get; set; }
 
         [ForeignKey("salesRepEmployeeNumber")]
