@@ -1,0 +1,45 @@
+simply net core web api;
+1- Url: localhost:5000/customer?customerNumber=103
+Method: Get
+Body: ---
+
+2- Url : localhost:5000/customer
+Method: Post
+Body: (raw seçilip, data type JSON olacak)
+    {
+        "customerName": "Atelier graphique-2",
+        "contactLastName": "Schmitt",
+        "contactFirstName": "Carine ",
+        "phone": "40.32.2555",
+        "addressLine1": "54, rue Royale",
+        "addressLine2": "54, rue Royale-2",
+        "city": "Nantes",
+        "state": null,
+        "postalCode": "44000",
+        "country": "France",
+        "salesRepEmployeeNumber": 1370,
+        "creditLimit": 23000
+    }
+	
+3- Url : localhost:5000/customer
+Method : Put
+Body : (raw seçilip, data type JSON olacak)
+    {
+        "customerNumber": 497,
+        "customerName": "Atelier graphique-2_updated",
+        "contactLastName": "Schmitt_updated",
+        "contactFirstName": "Carine _updated",
+        "phone": "40.32.2555",
+        "addressLine1": "54, rue Royale_updated",
+        "addressLine2": "54, rue Royale-2",
+        "city": "Nantes",
+        "state": null,
+        "postalCode": "44000",
+        "country": "France",
+        "salesRepEmployeeNumber": 1370,
+        "creditLimit": 23000
+    }
+	
+4- Url : localhost:5000/customer?customerNumber=497
+Method : Delete
+Body : -------
