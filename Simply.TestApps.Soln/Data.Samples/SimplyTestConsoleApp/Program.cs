@@ -1,5 +1,8 @@
 ﻿using MySql.Data.MySqlClient;
 using Simply.Data;
+using Simply.Data.Database;
+using Simply.Data.DatabaseExtensions;
+using Simply.Data.Interfaces;
 using Simply.Data.Objects;
 using System;
 using System.Data;
@@ -19,6 +22,32 @@ namespace SimplyTestConsoleApp
             // TODO : DONE. ANY METHODS TEST PASSED.
             bool exist = false;
             int id = 100;
+            using (ISimpleDatabase database = new SimpleDatabase(GetDbConnection()))
+            {
+                database.BeginTransaction();
+                exist = database.Any("select * from customers where customerNumber < @id", new { id });
+            }
+            if (!exist)
+            {
+                Console.WriteLine($"**There no record for less than {id}.");
+            }
+            else
+            {
+                Console.WriteLine($"**There is one record at least for less than {id}.");
+            }
+            using (ISimpleDatabase database = new SimpleDatabase(GetDbConnection(), commandSetting: SimpleCommandSetting.New().SetParameterNamePrefix('?')))
+            {
+                database.BeginTransaction();
+                exist = database.Any("select * from customers where customerNumber < ?id?", new { id });
+            }
+            if (!exist)
+            {
+                Console.WriteLine($"***There no record for less than {id}.");
+            }
+            else
+            {
+                Console.WriteLine($"***There is one record at least for less than {id}.");
+            }
             using (IDbConnection connection = GetDbConnection())
             {
                 try
