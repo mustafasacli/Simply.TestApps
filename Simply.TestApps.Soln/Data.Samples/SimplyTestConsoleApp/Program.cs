@@ -4,6 +4,7 @@ using Simply.Data.Database;
 using Simply.Data.DatabaseExtensions;
 using Simply.Data.Interfaces;
 using Simply.Data.Objects;
+using Simply_Test_Db;
 using System;
 using System.Data;
 using System.Linq;
@@ -22,11 +23,18 @@ namespace SimplyTestConsoleApp
             // TODO : DONE. ANY METHODS TEST PASSED.
             bool exist = false;
             int id = 100;
-            using (ISimpleDatabase database = new SimpleDatabase(GetDbConnection()))
+            ISimpleDatabase database = new SimpleMySqlDatabase();
+            exist = database.Any("select * from customers where customerNumber < @id", new { id });
+            if (!exist)
             {
-                database.BeginTransaction();
-                exist = database.Any("select * from customers where customerNumber < @id", new { id });
+                Console.WriteLine($"***There no record for less than {id}.");
             }
+            else
+            {
+                Console.WriteLine($"***There is one record at least for less than {id}.");
+            }
+
+            exist = database.Any("select * from customers where customerNumber < @id", new { id });
             if (!exist)
             {
                 Console.WriteLine($"**There no record for less than {id}.");
@@ -35,11 +43,8 @@ namespace SimplyTestConsoleApp
             {
                 Console.WriteLine($"**There is one record at least for less than {id}.");
             }
-            using (ISimpleDatabase database = new SimpleDatabase(GetDbConnection(), commandSetting: SimpleCommandSetting.New().SetParameterNamePrefix('?')))
-            {
-                database.BeginTransaction();
-                exist = database.Any("select * from customers where customerNumber < ?id?", new { id });
-            }
+
+            exist = database.Any("select * from customers where customerNumber < ?id?", new { id });
             if (!exist)
             {
                 Console.WriteLine($"***There no record for less than {id}.");
