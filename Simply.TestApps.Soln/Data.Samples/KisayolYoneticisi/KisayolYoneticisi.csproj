@@ -64,12 +64,6 @@
       <EmbedInteropTypes>True</EmbedInteropTypes>
       <HintPath>External\Interop.IWshRuntimeLibrary.dll</HintPath>
     </Reference>
-    <Reference Include="Simply.Common, Version=1.3.0.0, Culture=neutral, PublicKeyToken=c03dc30a9850669f, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Simply.Common.1.3.0\lib\net451\Simply.Common.dll</HintPath>
-    </Reference>
-    <Reference Include="Simply.Data, Version=3.2.0.0, Culture=neutral, PublicKeyToken=0d4e0a4d073b85f2, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Simply.Data.3.2.0\lib\net451\Simply.Data.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.configuration" />
@@ -125,6 +119,7 @@
     <Compile Include="Source\Logging\Logger.cs" />
     <Compile Include="Source\OpManager\ExportManager.cs" />
     <Compile Include="Source\OpManager\ImportManager.cs" />
+    <Compile Include="Source\OpManager\SQLiteDatabase.cs" />
     <Compile Include="Source\OpManager\SQLiteManager.cs" />
     <Compile Include="Source\QO\Crud.cs" />
     <Compile Include="Source\Util\DataUtility.cs" />
@@ -158,7 +153,6 @@
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -191,6 +185,16 @@
     <Content Include="External\System.Data.SQLite.dll" />
     <Content Include="External\System.Data.SQLite.xml" />
     <Content Include="monitor.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\Simply\Simply.Soln\Simply\Simply.Common\Simply.Common.csproj">
+      <Project>{a81ff695-21ac-48c0-aa35-ba906168b95d}</Project>
+      <Name>Simply.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\Simply\Simply.Soln\Simply\Simply.Data\Simply.Data.csproj">
+      <Project>{f374850b-07d2-4e3c-a3ec-bff273dee3c7}</Project>
+      <Name>Simply.Data</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

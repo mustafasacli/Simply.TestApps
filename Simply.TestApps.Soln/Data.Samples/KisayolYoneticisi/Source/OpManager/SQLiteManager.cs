@@ -9,6 +9,8 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SQLite;
+using Simply.Data.Interfaces;
+using System.Collections;
 
 namespace KisayolYoneticisi.Source.OpManager
 {
@@ -16,44 +18,14 @@ namespace KisayolYoneticisi.Source.OpManager
     {
         #region [ Execute method ]
 
-        internal static int Execute(string query, params DbParam[] parameters)
+        internal static int Execute(string query, object parameterObject)
         {
             int retInt = -1;
 
-            using (SQLiteConnection conn = new SQLiteConnection(AppVariables.ConnectionString))
+            using (ISimpleDatabase database = new SQLiteDatabase())
             {
-                conn.Open();
-                using (SQLiteTransaction trans = conn.BeginTransaction())
-                {
-                    using (SQLiteCommand cmd = conn.CreateCommand())
-                    {
-                        try
-                        {
-                            cmd.CommandText = query;
-                            cmd.Transaction = trans;
-                            if (parameters != null)
-                            {
-                                foreach (var prm in parameters)
-                                {
-                                    cmd.Parameters.AddWithValue(prm.Name, prm.Value);
-                                }
-                            }
-                            retInt = cmd.ExecuteNonQuery();
-                            trans.Commit();
-                        }
-                        catch (Exception)
-                        {
-                            trans.Rollback();
-                            throw;
-                        }
-                        finally
-                        {
-                            cmd.Parameters.Clear();
-                            conn.Close();
-                        }
-                    }// end command
-                }// end transaction
-            }// end connection
+                retInt = database.Execute(query, parameterObject);
+            }
 
             return retInt;
         }
@@ -65,14 +37,7 @@ namespace KisayolYoneticisi.Source.OpManager
 
         public static int Add(Kisayol kisayol)
         {
-            int retInt = -1;
-
-            using (SQLiteConnection conn = new SQLiteConnection(AppVariables.ConnectionString))
-            {
-                retInt = conn.OpenAnd()
-                    .Execute(Crud.InsertQuery(), new { kisayol.KisayolAdi, kisayol.Yol, kisayol.Tarih });
-            }
-
+            int retInt = Execute(Crud.InsertQuery(), new { kisayol.KisayolAdi, kisayol.Yol, kisayol.Tarih });
             return retInt;
         }
 
@@ -82,13 +47,7 @@ namespace KisayolYoneticisi.Source.OpManager
 
         public static int Delete(Kisayol kisayol)
         {
-            int retInt = -1;
-
-            using (SQLiteConnection conn = new SQLiteConnection(AppVariables.ConnectionString))
-            {
-                retInt = conn.OpenAnd().Execute(Crud.DeleteQuery(), new { kisayol.Id });
-            }
-
+            int retInt = Execute(Crud.DeleteQuery(), new { kisayol.Id });
             return retInt;
         }
 
@@ -98,13 +57,7 @@ namespace KisayolYoneticisi.Source.OpManager
 
         public static int Update(Kisayol kisayol)
         {
-            int retInt = -1;
-
-            using (SQLiteConnection conn = new SQLiteConnection(AppVariables.ConnectionString))
-            {
-                retInt = conn.OpenAnd().Execute(Crud.UpdateQuery(), new { kisayol.KisayolAdi, kisayol.Yol, kisayol.Tarih, kisayol.Id });
-            }
-
+            int retInt = Execute(Crud.UpdateQuery(), new { kisayol.KisayolAdi, kisayol.Yol, kisayol.Tarih, kisayol.Id });
             return retInt;
         }
 
@@ -116,14 +69,9 @@ namespace KisayolYoneticisi.Source.OpManager
         {
             DataTable table = null;
 
-            using (SQLiteConnection conn = new SQLiteConnection(AppVariables.ConnectionString))
+            using (ISimpleDatabase database = new SQLiteDatabase())
             {
-                DataSet set =
-                    conn.OpenAnd().GetResultSetQuery(new SimpleDbCommand
-                    {
-                        CommandText = Crud.GetTable()
-                    }).Result;
-                table = set.Tables[0];
+                table = database.GetDataSet(Crud.GetTable(), null).Tables[0];
             }
 
             return table;
@@ -144,24 +92,10 @@ namespace KisayolYoneticisi.Source.OpManager
         {
             int retInt = -1;
 
-            //DataTable table = null;
-
-            using (SQLiteConnection conn = new SQLiteConnection(AppVariables.ConnectionString))
+            using (ISimpleDatabase database = new SQLiteDatabase())
             {
-                retInt = conn.OpenAnd().ExecuteScalar(Crud.GetIdentity(), null).ToInt();
+                retInt = database.ExecuteScalarAs<int>(Crud.GetIdentity(), null);
             }
-
-            //using (SQLiteConnection conn = new SQLiteConnection(AppVariables.ConnectionString))
-            //{
-            //    DataSet set =
-            //        conn.GetResultSetQuery(commandDefinition: new SimpleDbCommand { CommandText = Crud.GetIdentity() }).Result;
-            //    table = set.Tables[0];
-            //}
-
-            //foreach (DataRow row in table.Rows)
-            //{
-            //    retInt = row[0].ToInt();
-            //}
 
             return retInt;
         }

@@ -9,14 +9,15 @@
             Defines the <see cref="T:Simply.Data.DbCommandBuilder"/>.
             </summary>
         </member>
-        <member name="M:Simply.Data.DbCommandBuilder.CreateCommandWithOptions(System.Data.IDbConnection,Simply.Data.Objects.SimpleDbCommand,System.Data.IDbTransaction)">
+        <member name="M:Simply.Data.DbCommandBuilder.CreateCommandWithOptions(System.Data.IDbConnection,Simply.Data.Objects.SimpleDbCommand,System.Data.IDbTransaction,Simply.Data.Interfaces.IQuerySetting)">
             <summary>
             Create IDbCommand instance with database command and db transaction for given db connection.
             </summary>
             <param name="connection">Database connection <see cref="T:System.Data.IDbConnection"/>.</param>
             <param name="simpleDbCommand">database command <see cref="T:Simply.Data.Objects.SimpleDbCommand"/>.</param>
             <param name="transaction">Database transaction <see cref="T:System.Data.IDbTransaction"/>.</param>
-            <returns>The <see cref="T:System.Data.IDbCommand"/>.</returns>
+            <param name="querySetting">Query setting object instance.</param>
+            <returns>Returns A Database command instance. <see cref="T:System.Data.IDbCommand"/>.</returns>
         </member>
         <member name="M:Simply.Data.DbCommandBuilder.RebuildQueryWithParamaters(System.String,Simply.Data.Objects.DbCommandParameter[],System.String,System.Nullable{System.Char})">
             <summary>
@@ -164,6 +165,12 @@
             Closes DbConnection if not closed.
             </summary>
             <param name="connection">Database Connection.</param>
+        </member>
+        <member name="M:Simply.Data.DbConnectionExtension.CloseAndDispose(System.Data.IDbConnection)">
+            <summary>
+            Closes the and dispose.
+            </summary>
+            <param name="connection">The connection.</param>
         </member>
         <member name="M:Simply.Data.DbConnectionExtension.OpenIfNot(System.Data.IDbConnection)">
             <summary>
@@ -435,8 +442,8 @@
             Executes query with parameters and returns DataReader object.
             </summary>
             <param name="connection">Database connection.</param>
-            <param name="sql">Sql query.</param>
-            <param name="obj">object contains db parameters as property.</param>
+            <param name="sqlQuery">Sql query.</param>
+            <param name="parameterObject">object contains db parameters as property.</param>
             <param name="commandType">(Optional) Command type.</param>
             <param name="transaction">(Optional) Database transaction.</param>
             <param name="commandBehavior">CommandBehaviour for DataReader.</param>
@@ -448,8 +455,8 @@
             Executes query with parameters and returns DataReader object.
             </summary>
             <param name="connection">Database connection.</param>
-            <param name="sql">Sql query.</param>
-            <param name="obj">object contains db parameters as property.</param>
+            <param name="sqlQuery">Sql query.</param>
+            <param name="parameterObject">object contains db parameters as property.</param>
             <param name="transaction">(Optional) Database transaction.</param>
             <param name="commandBehavior">CommandBehaviour for DataReader.</param>
             <param name="commandSetting">Command setting</param>
@@ -460,8 +467,8 @@
             An IDbConnection extension method that executes the reader asynchronous operation.
             </summary>
             <param name="connection">Database connection.</param>
-            <param name="sql">Sql query.</param>
-            <param name="obj">object contains db parameters as property.</param>
+            <param name="sqlQuery">Sql query.</param>
+            <param name="parameterObject">object contains db parameters as property.</param>
             <param name="transaction">(Optional) Database transaction.</param>
             <param name="commandBehavior">Db Command Behavior</param>
             <param name="commandSetting">Command setting</param>
@@ -1143,7 +1150,7 @@
             
              </summary>
              <param name="connectionType">db connacteion type.</param>
-             <param name="tempsimpleDbCommand">odbc database command</param>
+             <param name="tempSimpleDbCommand">odbc database command</param>
              <param name="setOverratedParamsToOutput">if it is true overrated parameters set as output else will be throw error.</param>
              <returns></returns>
         </member>
@@ -1577,6 +1584,1558 @@
             Defines the UndefinedKey.
             </summary>
         </member>
+        <member name="T:Simply.Data.DbAnyOperator">
+            <summary>
+            Defines the <see cref="T:Simply.Data.DbAnyOperator"/>.
+            </summary>
+        </member>
+        <member name="M:Simply.Data.DbAnyOperator.Any(Simply.Data.Interfaces.ISimpleDatabase,System.String,System.Object,Simply.Data.Interfaces.ICommandSetting)">
+            <summary>
+            The Any.
+            </summary>
+            <param name="database">The simple database object instance.</param>
+            <param name="sqlQuery">Sql Query<see cref="T:System.String"/>.</param>
+            <param name="parameterObject">parameter Value object <see cref="T:System.Object"/>.</param>
+            <param name="commandSetting">The command setting.</param>
+            <returns>The <see cref="T:System.Boolean"/>.</returns>
+        </member>
+        <member name="M:Simply.Data.DbAnyOperator.Any(Simply.Data.Interfaces.ISimpleDatabase,Simply.Data.Objects.SimpleDbCommand)">
+            <summary>
+            The Any.
+            </summary>
+            <param name="database">The simple database object instance.</param>
+            <param name="simpleDbCommand">The simpleDbCommand <see cref="T:Simply.Data.Objects.SimpleDbCommand"/>.</param>
+            <returns>The <see cref="T:System.Boolean"/>.</returns>
+        </member>
+        <member name="M:Simply.Data.DbAnyOperator.AnyOdbc(Simply.Data.Interfaces.ISimpleDatabase,System.String,System.Object[],Simply.Data.Interfaces.ICommandSetting)">
+            <summary>
+            The Any.
+            </summary>
+            <param name="database">The simple database object instance.</param>
+            <param name="odbcSqlQuery">The odbcSqlQuery <see cref="T:System.String"/>.</param>
+            <param name="parameterValues">The parameterValues <see cref="!:object[]"/>.</param>
+            <param name="commandSetting">The command setting.</param>
+            <returns>The <see cref="T:System.Boolean"/>.</returns>
+        </member>
+        <member name="M:Simply.Data.DbAnyOperator.AnyJdbc(Simply.Data.Interfaces.ISimpleDatabase,System.String,System.Object[],Simply.Data.Interfaces.ICommandSetting)">
+            <summary>
+            The Any for jdbc sql query.
+            </summary>
+            <param name="database">The simple database object instance.</param>
+            <param name="jdbcSqlQuery">Jdbc Sql query <see cref="T:System.String"/> 
+            like #SELECT T1.* FROM TABLE T1 WHERE T1.INT_COLUMN = ?1 AND T2.DATE_COLUMN = ?2 #.</param>
+            <param name="parameterValues">The parameterValues <see cref="!:object[]"/>.</param>
+            <param name="commandSetting">The command setting.</param>
+            <returns>The <see cref="T:System.Boolean"/>.</returns>
+        </member>
+        <member name="T:Simply.Data.DbCountOperator">
+            <summary>
+            Defines the <see cref="T:Simply.Data.DbCountOperator"/>.
+            </summary>
+        </member>
+        <member name="M:Simply.Data.DbCountOperator.Count(Simply.Data.Interfaces.ISimpleDatabase,Simply.Data.Objects.SimpleDbCommand)">
+            <summary>
+            counts rows for given database command.
+            </summary>
+            <param name="database">The simple database object instance.</param>
+            <param name="simpleDbCommand">database command<see cref="T:Simply.Data.Objects.SimpleDbCommand"/></param>
+            <returns>Returns row count as int value <see cref="T:System.Int32"/>.</returns>
+        </member>
+        <member name="M:Simply.Data.DbCountOperator.CountLong(Simply.Data.Interfaces.ISimpleDatabase,Simply.Data.Objects.SimpleDbCommand)">
+            <summary>
+            counts rows as long for given database command.
+            </summary>
+            <param name="database">The simple database object instance.</param>
+            <param name="simpleDbCommand">database command <see cref="T:Simply.Data.Objects.SimpleDbCommand"/></param>
+            <returns>Returns row count as long value <see cref="T:System.Int64"/>.</returns>
+        </member>
+        <member name="M:Simply.Data.DbCountOperator.Count(Simply.Data.Interfaces.ISimpleDatabase,System.String,System.Object,Simply.Data.Interfaces.ICommandSetting)">
+            <summary>
+            counts rows for given sql query and parameters.
+            </summary>
+            <param name="database">The simple database object instance.</param>
+            <param name="sqlQuery">Sql query <see cref="T:System.String"/>.</param>
+            <param name="parameterObject">object which has parameters as property <see cref="T:System.Object"/>.</param>
+            <param name="commandSetting">The command setting.</param>
+            <returns>Returns row count as int value <see cref="T:System.Int32"/>.</returns>
+        </member>
+        <member name="M:Simply.Data.DbCountOperator.CountLong(Simply.Data.Interfaces.ISimpleDatabase,System.String,System.Object,Simply.Data.Interfaces.ICommandSetting)">
+            <summary>
+            counts rows as long for given sql query and parameters.
+            </summary>
+            <param name="database">The simple database object instance.</param>
+            <param name="sqlQuery">Sql query <see cref="T:System.String"/>.</param>
+            <param name="parameterObject">object which has parameters as property <see cref="T:System.Object"/>.</param>
+            <param name="commandSetting">The command setting.</param>
+            <returns>Returns row count as long value <see cref="T:System.Int64"/>.</returns>
+        </member>
+        <member name="M:Simply.Data.DbCountOperator.CountOdbc(Simply.Data.Interfaces.ISimpleDatabase,System.String,System.Object[],Simply.Data.Interfaces.ICommandSetting)">
+            <summary>
+            counts rows for given odbc sql query and parameters.
+            </summary>
+            <param name="database">The simple database object instance.</param>
+            <param name="odbcSqlQuery">
+            The ODBC SQL query.Like SELECT * FROM TABLE_NAME WHERE COLUMN2 &gt; ? AND COLUMN3 = TRUNC(?)
+            </param>
+            <param name="parameterValues">Sql command parameter values.</param>
+            <param name="commandSetting">The command setting.</param>
+            <returns>Returns row count as int value <see cref="T:System.Int32"/>.</returns>
+        </member>
+        <member name="M:Simply.Data.DbCountOperator.CountLongOdbc(Simply.Data.Interfaces.ISimpleDatabase,System.String,System.Object[],Simply.Data.Interfaces.ICommandSetting)">
+            <summary>
+            counts rows as long value for given odbc sql query and parameters.
+            </summary>
+            <param name="database">The simple database object instance.</param>
+            <param name="odbcSqlQuery">
+            The ODBC SQL query.Like SELECT * FROM TABLE_NAME WHERE COLUMN2 &gt; ? AND COLUMN3 = TRUNC(?)
+            </param>
+            <param name="parameterValues">Sql command parameter values.</param>
+            <param name="commandSetting">The command setting.</param>
+            <returns>Returns count value as long.</returns>
+        </member>
+        <member name="M:Simply.Data.DbCountOperator.CountJdbc(Simply.Data.Interfaces.ISimpleDatabase,System.String,System.Object[],Simply.Data.Interfaces.ICommandSetting)">
+            <summary>
+            counts rows for given jdbc sql query and parameters.
+            </summary>
+            <param name="database">The simple database object instance.</param>
+            <param name="jdbcSqlQuery">
+            The JDBC SQL query.Like SELECT * FROM TABLE_NAME WHERE COLUMN2 &gt; ?1 AND COLUMN3 = TRUNC(?2)
+            </param>
+            <param name="parameterValues">Sql command parameter values.</param>
+            <param name="commandSetting">The command setting.</param>
+            <returns>Returns row count as int value <see cref="T:System.Int32"/>.</returns>
+        </member>
+        <member name="M:Simply.Data.DbCountOperator.CountLongJdbc(Simply.Data.Interfaces.ISimpleDatabase,System.String,System.Object[],Simply.Data.Interfaces.ICommandSetting)">
+            <summary>
+            counts rows as long value for given jdbc sql query and parameters.
+            </summary>
+            <param name="database">The simple database object instance.</param>
+            <param name="jdbcSqlQuery">
+            The JDBC SQL query.Like SELECT * FROM TABLE_NAME WHERE COLUMN2 &gt; ?1 AND COLUMN3 = TRUNC(?2)
+            </param>
+            <param name="parameterValues">Sql command parameter values.</param>
+            <param name="commandSetting">The command setting.</param>
+            <returns>Returns count value as long.</returns>
+        </member>
+        <member name="T:Simply.Data.DbExecuteOperator">
+            <summary>
+            Defines the <see cref="T:Simply.Data.DbExecuteOperator"/>.
+            </summary>
+        </member>
+        <member name="M:Simply.Data.DbExecuteOperator.Execute(Simply.Data.Interfaces.ISimpleDatabase,System.String,System.Object,Simply.Data.Interfaces.ICommandSetting)">
+            <summary>
+            Executes query and returns result as int.
+            </summary>
+            <param name="database">The simple database object instance.</param>
+            <param name="sqlQuery">Sql query.</param>
+            <param name="parameterObject">object contains db parameters as property.</param>
+            <param name="commandSetting">The command setting.</param>
+            <returns>Returns exection result as int.</returns>
+        </member>
+        <member name="M:Simply.Data.DbExecuteOperator.Execute(Simply.Data.Interfaces.ISimpleDatabase,Simply.Data.Objects.SimpleDbCommand)">
+            <summary>
+            Executes db command and returns result as int.
+            </summary>
+            <param name="database">The simple database object instance.</param>
+            <param name="simpleDbCommand">Db database command <see cref="T:Simply.Data.Objects.SimpleDbCommand"/></param>
+        </member>
+        <member name="M:Simply.Data.DbExecuteOperator.ExecuteOdbc(Simply.Data.Interfaces.ISimpleDatabase,System.String,System.Object[],Simply.Data.Interfaces.ICommandSetting)">
+            <summary>
+            Executes the specified ODBC SQL query.
+            </summary>
+            <param name="database">The simple database object instance.</param>
+            <param name="odbcSqlQuery">The ODBC SQL query.</param>
+            <param name="parameterValues">Sql command parameters.</param>
+            <param name="commandSetting">The command setting.</param>
+            <returns>Returns execution result as int.</returns>
+        </member>
+        <member name="M:Simply.Data.DbExecuteOperator.ExecuteAsync(Simply.Data.Interfaces.ISimpleDatabase,System.String,System.Object,Simply.Data.Interfaces.ICommandSetting)">
+            <summary>
+            An IDbConnection extension method that executes the asynchronous operation.
+            </summary>
+            <param name="database">The simple database object instance.</param>
+            <param name="sqlQuery">Sql query.</param>
+            <param name="parameterObject">object contains db parameters as property.</param>
+            <param name="commandSetting">The command setting.</param>
+            <returns>An asynchronous result that yields the execute.</returns>
+        </member>
+        <member name="M:Simply.Data.DbExecuteOperator.ExecuteAsync(Simply.Data.Interfaces.ISimpleDatabase,Simply.Data.Objects.SimpleDbCommand)">
+            <summary>
+            An IDbConnection extension method that executes the asynchronous operation.
+            </summary>
+            <param name="database">The simple database object instance.</param>
+            <param name="simpleDbCommand">Db database command <see cref="T:Simply.Data.Objects.SimpleDbCommand"/></param>
+            <returns>An asynchronous result that yields the execute.</returns>
+        </member>
+        <member name="M:Simply.Data.DbExecuteOperator.ExecuteOdbcAsync(Simply.Data.Interfaces.ISimpleDatabase,System.String,System.Object[],Simply.Data.Interfaces.ICommandSetting)">
+            <summary>
+            An IDbConnection extension method that executes the asynchronous operation.
+            </summary>
+            <param name="database">The simple database object instance.</param>
+            <param name="odbcSqlQuery">The ODBC SQL query.</param>
+            <param name="parameterValues">Sql command parameters.</param>
+            <param name="commandSetting">The command setting.</param>
+            <returns>An asynchronous result that yields the execute.</returns>
+        </member>
+        <member name="M:Simply.Data.DbExecuteOperator.ExecuteResult(Simply.Data.Interfaces.ISimpleDatabase,System.String,System.Object,Simply.Data.Interfaces.ICommandSetting)">
+            <summary>
+            Executes query and returns result as int.
+            </summary>
+            <param name="database">The simple database object instance.</param>
+            <param name="sqlQuery">Sql query.</param>
+            <param name="parameterObject">object contains db parameters as property.</param>
+            <param name="commandSetting">The command setting.</param>
+            <returns>Returns exection result as int.</returns>
+        </member>
+        <member name="M:Simply.Data.DbExecuteOperator.ExecuteResult(Simply.Data.Interfaces.ISimpleDatabase,Simply.Data.Objects.SimpleDbCommand)">
+            <summary>
+            Executes query and returns result as int.
+            </summary>
+            <param name="database">The simple database object instance.</param>
+            <param name="simpleDbCommand">Db database command <see cref="T:Simply.Data.Objects.SimpleDbCommand"/></param>
+        </member>
+        <member name="M:Simply.Data.DbExecuteOperator.ExecuteResultOdbc(Simply.Data.Interfaces.ISimpleDatabase,System.String,System.Object[],Simply.Data.Interfaces.ICommandSetting)">
+            <summary>
+            Executes the specified ODBC SQL query.
+            </summary>
+            <param name="database">The simple database object instance.</param>
+            <param name="odbcSqlQuery">The ODBC SQL query.</param>
+            <param name="parameterValues">Sql command parameters.</param>
+            <param name="commandSetting">The command setting.</param>
+            <returns>Returns execution result as int.</returns>
+        </member>
+        <member name="M:Simply.Data.DbExecuteOperator.Execute(Simply.Data.Interfaces.ISimpleDatabase,System.Collections.Generic.List{Simply.Data.Objects.SimpleDbCommand})">
+            <summary>
+            Executes db command list and returns result as int.
+            </summary>
+            <param name="database">The simple database object instance.</param>
+            <param name="dbCommands">Db database command list. <see cref="T:Simply.Data.Objects.SimpleDbCommand"/></param>
+            <returns>Returns execution result as int.</returns>
+        </member>
+        <member name="M:Simply.Data.DbExecuteOperator.ExecuteJdbc(Simply.Data.Interfaces.ISimpleDatabase,System.String,System.Object[],Simply.Data.Interfaces.ICommandSetting)">
+            <summary>
+            Executes the specified JDBC SQL query.
+            </summary>
+            <param name="database">The simple database object instance.</param>
+            <param name="jdbcSqlQuery">The JDBC SQL query.</param>
+            <param name="parameterValues">Sql command parameters.</param>
+            <param name="commandSetting">The command setting.</param>
+            <returns>Returns execution result as int.</returns>
+        </member>
+        <member name="M:Simply.Data.DbExecuteOperator.ExecuteResultJdbc(Simply.Data.Interfaces.ISimpleDatabase,System.String,System.Object[],Simply.Data.Interfaces.ICommandSetting)">
+            <summary>
+            Executes the specified JDBC SQL query.
+            </summary>
+            <param name="database">The simple database object instance.</param>
+            <param name="jdbcSqlQuery">The JDBC SQL query.</param>
+            <param name="parameterValues">Sql command parameters.</param>
+            <param name="commandSetting">The command setting.</param>
+            <returns>Returns execution result as int.</returns>
+        </member>
+        <member name="T:Simply.Data.DbExecuteScalarOperator">
+            <summary>
+            Defines the <see cref="T:Simply.Data.DbExecuteScalarOperator"/>.
+            </summary>
+        </member>
+        <member name="M:Simply.Data.DbExecuteScalarOperator.ExecuteScalar(Simply.Data.Interfaces.ISimpleDatabase,Simply.Data.Objects.SimpleDbCommand)">
+            <summary>
+            ExecuteScalar query with parameters and returns result object.
+            </summary>
+            <param name="database">The simple database object instance.</param>
+            <param name="simpleDbCommand">database command.</param>
+            <returns>Returns execute scalar result as object.</returns>
+        </member>
+        <member name="M:Simply.Data.DbExecuteScalarOperator.ExecuteScalarAs``1(Simply.Data.Interfaces.ISimpleDatabase,Simply.Data.Objects.SimpleDbCommand)">
+            <summary>
+            ExecuteScalar query with parameters and returns result object.
+            </summary>
+            <typeparam name="T">T class.</typeparam>
+            <param name="database">The simple database object instance.</param>
+            <param name="simpleDbCommand">database command.</param>
+            <returns>Returns execute scalar result as object instance.</returns>
+        </member>
+        <member name="M:Simply.Data.DbExecuteScalarOperator.ExecuteScalar(Simply.Data.Interfaces.ISimpleDatabase,System.String,System.Object,Simply.Data.Interfaces.ICommandSetting)">
+            <summary>
+            ExecuteScalar query with parameters and returns result object.
+            </summary>
+            <param name="database">The simple database object instance.</param>
+            <param name="sqlQuery">Sql query.</param>
+            <param name="parameterObject">object contains db parameters as property.</param>
+            <param name="commandSetting">The command setting.</param>
+            <returns>Returns execute scalar result as object.</returns>
+        </member>
+        <member name="M:Simply.Data.DbExecuteScalarOperator.ExecuteScalarAs``1(Simply.Data.Interfaces.ISimpleDatabase,System.String,System.Object,Simply.Data.Interfaces.ICommandSetting)">
+            <summary>
+            An IDbConnection extension method that executes the scalar as operation.
+            </summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="database">The simple database object instance.</param>
+            <param name="sqlQuery">The SQL text.</param>
+            <param name="parameterObject">object contains db parameters as property.</param>
+            <param name="commandSetting">The command setting.</param>
+            <returns>Returns execute scalar result as T instance.</returns>
+        </member>
+        <member name="M:Simply.Data.DbExecuteScalarOperator.ExecuteScalarOdbc(Simply.Data.Interfaces.ISimpleDatabase,System.String,System.Object[],Simply.Data.Interfaces.ICommandSetting)">
+            <summary>
+            Execute Scalar the specified ODBC SQL query.
+            </summary>
+            <param name="database">The simple database object instance.</param>
+            <param name="odbcSqlQuery">The ODBC SQL query.</param>
+            <param name="parameterValues">Sql command parameters.</param>
+            <param name="commandSetting">The command setting.</param>
+            <returns>Returns execute scalar result as object.</returns>
+        </member>
+        <member name="M:Simply.Data.DbExecuteScalarOperator.ExecuteScalarOdbcAs``1(Simply.Data.Interfaces.ISimpleDatabase,System.String,System.Object[],Simply.Data.Interfaces.ICommandSetting)">
+            <summary>
+            Execute Scalar the specified ODBC SQL query.
+            </summary>
+            <param name="database">The simple database object instance.</param>
+            <param name="odbcSqlQuery">The ODBC SQL query.</param>
+            <param name="parameterValues">Sql command parameters.</param>
+            <param name="commandSetting">The command setting.</param>
+            <returns>Returns execute scalar result as object instance.</returns>
+        </member>
+        <member name="M:Simply.Data.DbExecuteScalarOperator.ExecuteScalarAsAsync``1(Simply.Data.Interfaces.ISimpleDatabase,System.String,System.Object,Simply.Data.Interfaces.ICommandSetting)">
+            <summary>
+            ExecuteScalar query with parameters and returns result object as async operation.
+            </summary>
+            <typeparam name="T">T struct.</typeparam>
+            <param name="database">The simple database object instance.</param>
+            <param name="sqlQuery">Sql query.</param>
+            <param name="parameterObject">object contains db parameters as property.</param>
+            <param name="commandSetting">The command setting.</param>
+            <returns>Returns execute scalar result as object instance.</returns>
+        </member>
+        <member name="M:Simply.Data.DbExecuteScalarOperator.ExecuteScalarAsync``1(Simply.Data.Interfaces.ISimpleDatabase,Simply.Data.Objects.SimpleDbCommand)">
+            <summary>
+            An IDbConnection extension method that executes the scalar asynchronous operation.
+            </summary>
+            <param name="database">The simple database object instance.</param>
+            <param name="simpleDbCommand">database command.</param>
+            <returns>An asynchronous result that yields the execute scalar.</returns>
+        </member>
+        <member name="M:Simply.Data.DbExecuteScalarOperator.ExecuteScalarOdbcAsync``1(Simply.Data.Interfaces.ISimpleDatabase,System.String,System.Object[],Simply.Data.Interfaces.ICommandSetting)">
+            <summary>
+            Execute Scalar the specified ODBC SQL query.
+            </summary>
+            <param name="database">The simple database object instance.</param>
+            <param name="odbcSqlQuery">The ODBC SQL query.</param>
+            <param name="parameterValues">Sql command parameters.</param>
+            <param name="commandSetting">The command setting.</param>
+            <returns>Returns execute scalar result as object instance.</returns>
+        </member>
+        <member name="M:Simply.Data.DbExecuteScalarOperator.ExecuteScalarResult(Simply.Data.Interfaces.ISimpleDatabase,Simply.Data.Objects.SimpleDbCommand)">
+            <summary>
+            ExecuteScalar query with parameters and returns result object.
+            </summary>
+            <param name="database">The simple database object instance.</param>
+            <param name="simpleDbCommand">database command.</param>
+            <returns>Returns execute scalar result as object.</returns>
+        </member>
+        <member name="M:Simply.Data.DbExecuteScalarOperator.ExecuteScalarResultAs``1(Simply.Data.Interfaces.ISimpleDatabase,Simply.Data.Objects.SimpleDbCommand)">
+            <summary>
+            ExecuteScalar query with parameters and returns result object.
+            </summary>
+            <typeparam name="T">T class.</typeparam>
+            <param name="database">The simple database object instance.</param>
+            <param name="simpleDbCommand">database command.</param>
+            <returns>Returns execute scalar result as object instance.</returns>
+        </member>
+        <member name="M:Simply.Data.DbExecuteScalarOperator.ExecuteScalarResult(Simply.Data.Interfaces.ISimpleDatabase,System.String,System.Object,Simply.Data.Interfaces.ICommandSetting)">
+            <summary>
+            ExecuteScalar query with parameters and returns result object.
+            </summary>
+            <param name="database">The simple database object instance.</param>
+            <param name="sqlQuery">Sql query.</param>
+            <param name="parameterObject">object contains db parameters as property.</param>
+            <param name="commandSetting">The command setting.</param>
+            <returns>Returns execute scalar result as object.</returns>
+        </member>
+        <member name="M:Simply.Data.DbExecuteScalarOperator.ExecuteScalarResultAs``1(Simply.Data.Interfaces.ISimpleDatabase,System.String,System.Object,Simply.Data.Interfaces.ICommandSetting)">
+            <summary>
+            An IDbConnection extension method that executes the scalar as operation.
+            </summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="database">The simple database object instance.</param>
+            <param name="sqlQuery">The SQL text.</param>
+            <param name="parameterObject">object contains db parameters as property.</param>
+            <param name="commandSetting">The command setting.</param>
+            <returns>Returns execute scalar result as T instance.</returns>
+        </member>
+        <member name="M:Simply.Data.DbExecuteScalarOperator.ExecuteScalarResultOdbc(Simply.Data.Interfaces.ISimpleDatabase,System.String,System.Object[],Simply.Data.Interfaces.ICommandSetting)">
+            <summary>
+            Execute Scalar the specified ODBC SQL query.
+            </summary>
+            <param name="database">The simple database object instance.</param>
+            <param name="odbcSqlQuery">The ODBC SQL query.</param>
+            <param name="parameterValues">Sql command parameters.</param>
+            <param name="commandSetting">The command setting.</param>
+            <returns>Returns execute scalar result as object.</returns>
+        </member>
+        <member name="M:Simply.Data.DbExecuteScalarOperator.ExecuteScalarResultOdbcAs``1(Simply.Data.Interfaces.ISimpleDatabase,System.String,System.Object[],Simply.Data.Interfaces.ICommandSetting)">
+            <summary>
+            Execute Scalar the specified ODBC SQL query.
+            </summary>
+            <param name="database">The simple database object instance.</param>
+            <param name="odbcSqlQuery">The ODBC SQL query.</param>
+            <param name="parameterValues">Sql command parameters.</param>
+            <param name="commandSetting">The command setting.</param>
+            <returns>Returns execute scalar result as object instance.</returns>
+        </member>
+        <member name="M:Simply.Data.DbExecuteScalarOperator.ExecuteScalar(Simply.Data.Interfaces.ISimpleDatabase,System.Collections.Generic.List{Simply.Data.Objects.SimpleDbCommand})">
+            <summary>
+            Executes db command list and returns result as object array.
+            </summary>
+            <param name="database">The simple database object instance.</param>
+            <param name="dbCommands">Db database command list. <see cref="T:Simply.Data.Objects.SimpleDbCommand" /></param>
+            <returns>Returns object array.</returns>
+        </member>
+        <member name="M:Simply.Data.DbExecuteScalarOperator.ExecuteScalarJdbc(Simply.Data.Interfaces.ISimpleDatabase,System.String,System.Object[],Simply.Data.Interfaces.ICommandSetting)">
+            <summary>
+            Execute Scalar the specified JDBC SQL query.
+            </summary>
+            <param name="database">The simple database object instance.</param>
+            <param name="jdbcSqlQuery">The JDBC SQL query.</param>
+            <param name="parameterValues">Sql command parameters.</param>
+            <param name="commandSetting">The command setting.</param>
+            <returns>Returns execute scalar result as object.</returns>
+        </member>
+        <member name="M:Simply.Data.DbExecuteScalarOperator.ExecuteScalarJdbcAs``1(Simply.Data.Interfaces.ISimpleDatabase,System.String,System.Object[],Simply.Data.Interfaces.ICommandSetting)">
+            <summary>
+            Execute Scalar the specified JDBC SQL query.
+            </summary>
+            <param name="database">The simple database object instance.</param>
+            <param name="jdbcSqlQuery">The JDBC SQL query.</param>
+            <param name="parameterValues">Sql command parameters.</param>
+            <param name="commandSetting">The command setting.</param>
+            <returns>Returns execute scalar result as object instance.</returns>
+        </member>
+        <member name="M:Simply.Data.DbExecuteScalarOperator.ExecuteScalarResultJdbc(Simply.Data.Interfaces.ISimpleDatabase,System.String,System.Object[],Simply.Data.Interfaces.ICommandSetting)">
+            <summary>
+            Execute Scalar the specified JDBC SQL query.
+            </summary>
+            <param name="database">The simple database object instance.</param>
+            <param name="jdbcSqlQuery">The JDBC SQL query.</param>
+            <param name="parameterValues">Sql command parameters.</param>
+            <param name="commandSetting">The command setting.</param>
+            <returns>Returns execute scalar result as object.</returns>
+        </member>
+        <member name="M:Simply.Data.DbExecuteScalarOperator.ExecuteScalarResultJdbcAs``1(Simply.Data.Interfaces.ISimpleDatabase,System.String,System.Object[],Simply.Data.Interfaces.ICommandSetting)">
+            <summary>
+            Execute Scalar the specified JDBC SQL query.
+            </summary>
+            <param name="database">The simple database object instance.</param>
+            <param name="jdbcSqlQuery">The JDBC SQL query.</param>
+            <param name="parameterValues">Sql command parameters.</param>
+            <param name="commandSetting">The command setting.</param>
+            <returns>Returns execute scalar result as object instance.</returns>
+        </member>
+        <member name="T:Simply.Data.DbFirstOperator">
+            <summary>
+            Defines the <see cref="T:Simply.Data.DbFirstOperator"/>.
+            </summary>
+        </member>
+        <member name="M:Simply.Data.DbFirstOperator.First``1(Simply.Data.Interfaces.ISimpleDatabase,Simply.Data.Objects.SimpleDbCommand)">
+            <summary>
+            Get First Row of the Resultset as object instance.
+            </summary>
+            <typeparam name="T">T class.</typeparam>
+            <param name="database">The simple database object instance.</param>
+            <param name="simpleDbCommand">database command.</param>
+            <returns>Returns first record as dynamic object instance.</returns>
+        </member>
+        <member name="M:Simply.Data.DbFirstOperator.First``1(Simply.Data.Interfaces.ISimpleDatabase,System.String,System.Object,Simply.Data.Interfaces.ICommandSetting)">
+            <summary>
+            Get First Row of the Resultset as object instance.
+            </summary>
+            <typeparam name="T">T class.</typeparam>
+            <param name="database">The simple database object instance.</param>
+            <param name="sqlQuery">Sql query.
+            if parameterNamePrefix is ? and Query: Select * From TableName Where Column1 = ?p1?
+            Then;
+            Query For Oracle ==> Select * From TableName Where Column1 = :p1
+            Query For Sql Server ==> Select * From TableName Where Column1 = @p1
+            if parameterNamePrefix is null and Query: Select * From TableName Where Column1 = :p1 (for PostgreSql)
+            no conversion occured.
+            parameterNamePrefix will be set in ICommandSetting instance.
+            </param>
+            <param name="parameterObject">object contains db parameters as property.</param>
+            <param name="commandSetting">The command setting.</param>
+            <returns>Returns first record as object instance.</returns>
+        </member>
+        <member name="M:Simply.Data.DbFirstOperator.FirstOdbc``1(Simply.Data.Interfaces.ISimpleDatabase,System.String,System.Object[],Simply.Data.Interfaces.ICommandSetting)">
+            <summary>
+            Get First Row of the Odbc Sql Query Resultset as object instance.
+            </summary>
+            <param name="database">The simple database object instance.</param>
+            <param name="odbcSqlQuery">The ODBC SQL query ( Example: SELECT * FROM TABLE_NAME WHERE ID_COLUMN = ? ).</param>
+            <param name="parameterValues">Sql command parameter values.</param>
+            <param name="commandSetting">The command setting.</param>
+            <returns>Returns first record as object instance.</returns>
+        </member>
+        <member name="M:Simply.Data.DbFirstOperator.FirstJdbc``1(Simply.Data.Interfaces.ISimpleDatabase,System.String,System.Object[],Simply.Data.Interfaces.ICommandSetting)">
+            <summary>
+            Get First Row of the Jdbc Sql Query Resultset as object instance.
+            </summary>
+            <param name="database">The simple database object instance.</param>
+            <param name="jdbcSqlQuery">The JDBC SQL query ( Example: SELECT * FROM TABLE_NAME WHERE ID_COLUMN = ?1 ).</param>
+            <param name="parameterValues">Sql command parameter values.</param>
+            <param name="commandSetting">The command setting.</param>
+            <returns>Returns first record as object instance.</returns>
+        </member>
+        <member name="M:Simply.Data.DbFirstOperator.FirstAsync``1(Simply.Data.Interfaces.ISimpleDatabase,Simply.Data.Objects.SimpleDbCommand)">
+            <summary>
+            Get First Row of the Resultset as object instance with async operation.
+            </summary>
+            <typeparam name="T">T class.</typeparam>
+            <param name="database">The simple database object instance.</param>
+            <param name="simpleDbCommand">database command.</param>
+            <returns>Returns first record as T object instance as async.</returns>
+        </member>
+        <member name="M:Simply.Data.DbFirstOperator.FirstAsync``1(Simply.Data.Interfaces.ISimpleDatabase,System.String,System.Object,Simply.Data.Interfaces.ICommandSetting)">
+            <summary>
+            Get First Row of the Resultset as object instance with async operation.
+            </summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="database">The simple database object instance.</param>
+            <param name="sqlQuery">Sql query.
+            if parameterNamePrefix is ? and Query: Select * From TableName Where Column1 = ?p1?
+            Then;
+            Query For Oracle ==> Select * From TableName Where Column1 = :p1
+            Query For Sql Server ==> Select * From TableName Where Column1 = @p1
+            if parameterNamePrefix is null and Query: Select * From TableName Where Column1 = :p1 (for PostgreSql)
+            no conversion occured.
+            parameterNamePrefix will be set in ICommandSetting instance.
+            </param>
+            <param name="parameterObject">object contains db parameters as property.</param>
+            <param name="commandSetting">The command setting.</param>
+            <returns>An asynchronous result that yields a T.</returns>
+        </member>
+        <member name="M:Simply.Data.DbFirstOperator.FirstOdbcAsync``1(Simply.Data.Interfaces.ISimpleDatabase,System.String,System.Object[],Simply.Data.Interfaces.ICommandSetting)">
+            <summary>
+            Get First Row of the Odbc Sql Query Resultset as object instance with async operation.
+            </summary>
+            <param name="database">The simple database object instance.</param>
+            <param name="odbcSqlQuery">The ODBC SQL query ( Example: SELECT * FROM TABLE_NAME WHERE ID_COLUMN = ? ).</param>
+            <param name="parameterValues">Sql command parameter values.</param>
+            <param name="commandSetting">The command setting.</param>
+            <returns>An asynchronous result that yields the first as T.</returns>
+        </member>
+        <member name="M:Simply.Data.DbFirstOperator.FirstJdbcAsync``1(Simply.Data.Interfaces.ISimpleDatabase,System.String,System.Object[],Simply.Data.Interfaces.ICommandSetting)">
+            <summary>
+            Get First Row of the Jdbc Sql Query Resultset as object instance with async operation.
+            </summary>
+            <param name="database">The simple database object instance.</param>
+            <param name="jdbcSqlQuery">The JDBC SQL query ( Example: SELECT * FROM TABLE_NAME WHERE ID_COLUMN = ?1 ).</param>
+            <param name="parameterValues">Sql command parameter values.</param>
+            <param name="commandSetting">The command setting.</param>
+            <returns>An asynchronous result that yields the first as T.</returns>
+        </member>
+        <member name="M:Simply.Data.DbFirstOperator.FirstRow(Simply.Data.Interfaces.ISimpleDatabase,Simply.Data.Objects.SimpleDbCommand)">
+            <summary>
+            Get First Row of the Resultset as simple db row instance.
+            </summary>
+            <param name="database">The simple database object instance.</param>
+            <param name="simpleDbCommand">database command <see cref="T:Simply.Data.Objects.SimpleDbCommand"/>.</param>
+            <returns>Returns first record as simple db row instance.</returns>
+        </member>
+        <member name="M:Simply.Data.DbFirstOperator.FirstRow(Simply.Data.Interfaces.ISimpleDatabase,System.String,System.Object,Simply.Data.Interfaces.ICommandSetting)">
+            <summary>
+            Get First Row of the Resultset as SimpleDbRow object instance.
+            </summary>
+            <param name="database">The simple database object instance.</param>
+            <param name="sqlQuery">Sql query.
+            if parameterNamePrefix is ? and Query: Select * From TableName Where Column1 = ?p1?
+            Then;
+            Query For Oracle ==> Select * From TableName Where Column1 = :p1
+            Query For Sql Server ==> Select * From TableName Where Column1 = @p1
+            if parameterNamePrefix is null and Query: Select * From TableName Where Column1 = :p1 (for PostgreSql)
+            no conversion occured.
+            parameterNamePrefix will be set in ICommandSetting instance.
+            </param>
+            <param name="parameterObject">object contains db parameters as property.</param>
+            <param name="commandSetting">The command setting.</param>
+            <returns>Returns first record as dynamic object.</returns>
+        </member>
+        <member name="M:Simply.Data.DbFirstOperator.FirstRowOdbc(Simply.Data.Interfaces.ISimpleDatabase,System.String,System.Object[],Simply.Data.Interfaces.ICommandSetting)">
+            <summary>
+            Get First Row of the Odbc Sql Query Resultset as object instance.
+            </summary>
+            <param name="database">The simple database object instance.</param>
+            <param name="odbcSqlQuery">The ODBC SQL query ( Example: SELECT * FROM TABLE_NAME WHERE ID_COLUMN = ? ).</param>
+            <param name="parameterValues">Sql command parameter values.</param>
+            <param name="commandSetting">The command setting.</param>
+            <returns>Returns first record as object instance.</returns>
+        </member>
+        <member name="M:Simply.Data.DbFirstOperator.FirstRowJdbc(Simply.Data.Interfaces.ISimpleDatabase,System.String,System.Object[],Simply.Data.Interfaces.ICommandSetting)">
+            <summary>
+            Get First Row of the Jdbc Sql Query Resultset as object instance.
+            </summary>
+            <param name="database">The simple database object instance.</param>
+            <param name="jdbcSqlQuery">The JDBC SQL query ( Example: SELECT * FROM TABLE_NAME WHERE ID_COLUMN = ?1 ).</param>
+            <param name="parameterValues">Sql command parameter values.</param>
+            <param name="commandSetting">The command setting.</param>
+            <returns>Returns first record as object instance.</returns>
+        </member>
+        <member name="T:Simply.Data.DbLastOperator">
+            <summary>
+            Defines the <see cref="T:Simply.Data.DbLastOperator"/>.
+            </summary>
+        </member>
+        <member name="M:Simply.Data.DbLastOperator.Last``1(Simply.Data.Interfaces.ISimpleDatabase,Simply.Data.Objects.SimpleDbCommand)">
+            <summary>
+            Get Last Row of the Resultset as object instance.
+            </summary>
+            <typeparam name="T">T class.</typeparam>
+            <param name="database">The simple database object instance.</param>
+            <param name="simpleDbCommand">database command.</param>
+            <returns>Returns last record as object instance.</returns>
+        </member>
+        <member name="M:Simply.Data.DbLastOperator.Last``1(Simply.Data.Interfaces.ISimpleDatabase,System.String,System.Object,Simply.Data.Interfaces.ICommandSetting)">
+            <summary>
+            Get Last Row of the Resultset as object instance.
+            </summary>
+            <typeparam name="T">T class.</typeparam>
+            <param name="database">The simple database object instance.</param>
+            <param name="sqlQuery">Sql query.
+            if parameterNamePrefix is ? and Query: Select * From TableName Where Column1 = ?p1?
+            Then;
+            Query For Oracle ==> Select * From TableName Where Column1 = :p1
+            Query For Sql Server ==> Select * From TableName Where Column1 = @p1
+            if parameterNamePrefix is null and Query: Select * From TableName Where Column1 = :p1 (for PostgreSql)
+            no conversion occured.
+            parameterNamePrefix will be set in ICommandSetting instance.
+            </param>
+            <param name="parameterObject">object contains db parameters as property.</param>
+            <param name="commandSetting">The command setting.</param>
+            <returns>Returns last record as object instance.</returns>
+        </member>
+        <member name="M:Simply.Data.DbLastOperator.LastOdbc``1(Simply.Data.Interfaces.ISimpleDatabase,System.String,System.Object[],Simply.Data.Interfaces.ICommandSetting)">
+            <summary>
+            Get Last Row of the Odbc Sql query Resultset as object instance.
+            </summary>
+            <param name="database">The simple database object instance.</param>
+            <param name="odbcSqlQuery">
+            The ODBC SQL query ( Example: SELECT * FROM TABLE_NAME WHERE ID_COLUMN = ? ).
+            </param>
+            <param name="parameterValues">Sql command parameter values.</param>
+            <param name="commandSetting">The command setting.</param>
+            <returns>Returns last record as object instance.</returns>
+        </member>
+        <member name="M:Simply.Data.DbLastOperator.LastJdbc``1(Simply.Data.Interfaces.ISimpleDatabase,System.String,System.Object[],Simply.Data.Interfaces.ICommandSetting)">
+            <summary>
+            Get Last Row of the Jdbc Sql query Resultset as object instance.
+            </summary>
+            <param name="database">The simple database object instance.</param>
+            <param name="jdbcSqlQuery">
+            The JDBC SQL query ( Example: SELECT * FROM TABLE_NAME WHERE ID_COLUMN = ?1 ).
+            </param>
+            <param name="parameterValues">Sql command parameter values.</param>
+            <param name="commandSetting">The command setting.</param>
+            <returns>Returns last record as object instance.</returns>
+        </member>
+        <member name="M:Simply.Data.DbLastOperator.LastAsync``1(Simply.Data.Interfaces.ISimpleDatabase,Simply.Data.Objects.SimpleDbCommand)">
+            <summary>
+            Get Last Row of the Resultset as dynamic object instance with async operation.
+            </summary>
+            <typeparam name="T">T class.</typeparam>
+            <param name="database">The simple database object instance.</param>
+            <param name="simpleDbCommand">database command.</param>
+            <returns>An asynchronous result that yields the last record as object instance.</returns>
+        </member>
+        <member name="M:Simply.Data.DbLastOperator.LastAsync``1(Simply.Data.Interfaces.ISimpleDatabase,System.String,System.Object,Simply.Data.Interfaces.ICommandSetting)">
+            <summary>
+            Get Last Row of the Resultset as object instance with async operation.
+            </summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="database">The simple database object instance.</param>
+            <param name="sqlQuery">Sql query.
+            Select * From TableName Where Column1 = ?p1?
+            parameterNamePrefix : ?
+            Query For Oracle ==> Select * From TableName Where Column1 = :p1
+            Query For Sql Server ==> Select * From TableName Where Column1 = @p1
+            parameterNamePrefix will be set in ICommandSetting instance.
+            </param>
+            <param name="parameterObject">object contains db parameters as property.</param>
+            <param name="commandSetting">The command setting.</param>
+            <returns>An asynchronous result that yields a T.</returns>
+        </member>
+        <member name="M:Simply.Data.DbLastOperator.LastOdbcAsync``1(Simply.Data.Interfaces.ISimpleDatabase,System.String,System.Object[],Simply.Data.Interfaces.ICommandSetting)">
+            <summary>
+            Get Last Row of the Resultset as object instance with async operation.
+            </summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="database">The simple database object instance.</param>
+            <param name="odbcSqlQuery">
+            The ODBC SQL query ( Example: SELECT * FROM TABLE_NAME WHERE ID_COLUMN = ? ).
+            </param>
+            <param name="parameterValues">object contains db parameters as property.</param>
+            <param name="commandSetting">The command setting.</param>
+            <returns>An asynchronous result that yields a T.</returns>
+        </member>
+        <member name="M:Simply.Data.DbLastOperator.LastJdbcAsync``1(Simply.Data.Interfaces.ISimpleDatabase,System.String,System.Object[],Simply.Data.Interfaces.ICommandSetting)">
+            <summary>
+            Get Last Row of the Resultset as object instance with async operation.
+            </summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="database">The simple database object instance.</param>
+            <param name="jdbcSqlQuery">
+            The JDBC SQL query ( Example: SELECT * FROM TABLE_NAME WHERE ID_COLUMN = ?1 ).
+            </param>
+            <param name="parameterValues">object contains db parameters as property.</param>
+            <param name="commandSetting">The command setting.</param>
+            <returns>An asynchronous result that yields a T.</returns>
+        </member>
+        <member name="M:Simply.Data.DbLastOperator.LastRowResult(Simply.Data.Interfaces.ISimpleDatabase,Simply.Data.Objects.SimpleDbCommand)">
+            <summary>
+            Get Last Row of the Resultset as SimpleDbRow object instance.
+            </summary>
+            <param name="database">The simple database object instance.</param>
+            <param name="simpleDbCommand">database command.</param>
+            <returns>Returns last record as dynamic object instance.</returns>
+        </member>
+        <member name="M:Simply.Data.DbLastOperator.LastRow(Simply.Data.Interfaces.ISimpleDatabase,Simply.Data.Objects.SimpleDbCommand)">
+            <summary>
+            Get Last Row of the Resultset as SimpleDbRow object instance.
+            </summary>
+            <param name="database">The simple database object instance.</param>
+            <param name="simpleDbCommand">database command.</param>
+            <returns>Returns last record as dynamic object instance.</returns>
+        </member>
+        <member name="M:Simply.Data.DbLastOperator.LastRow(Simply.Data.Interfaces.ISimpleDatabase,System.String,System.Object,Simply.Data.Interfaces.ICommandSetting)">
+            <summary>
+            Get Last Row of the Resultset as SimpleDbRow object instance.
+            </summary>
+            <param name="database">The simple database object instance.</param>
+            <param name="sqlQuery">Sql query.
+            if parameterNamePrefix is ? and Query: Select * From TableName Where Column1 = ?p1?
+            Then;
+            Query For Oracle ==> Select * From TableName Where Column1 = :p1
+            Query For Sql Server ==> Select * From TableName Where Column1 = @p1
+            if parameterNamePrefix is null and Query: Select * From TableName Where Column1 = :p1 (for PostgreSql)
+            no conversion occured.
+            parameterNamePrefix will be set in ICommandSetting instance.
+            </param>
+            <param name="parameterObject">object contains db parameters as property.</param>
+            <param name="commandSetting">The command setting.</param>
+            <returns>Returns last record as SimpleDbRow instance.</returns>
+        </member>
+        <member name="M:Simply.Data.DbLastOperator.LastRowOdbc(Simply.Data.Interfaces.ISimpleDatabase,System.String,System.Object[],Simply.Data.Interfaces.ICommandSetting)">
+            <summary>
+            Get Last Row of the Odbc Sql query Resultset as object instance.
+            </summary>
+            <param name="database">The simple database object instance.</param>
+            <param name="odbcSqlQuery">
+            The ODBC SQL query ( Example: SELECT * FROM TABLE_NAME WHERE ID_COLUMN = ? ).
+            </param>
+            <param name="parameterValues">Sql command parameter values.</param>
+            <param name="commandSetting">The command setting.</param>
+            <returns>Returns last record as SimpleDbRow instance.</returns>
+        </member>
+        <member name="M:Simply.Data.DbLastOperator.LastRowJdbc(Simply.Data.Interfaces.ISimpleDatabase,System.String,System.Object[],Simply.Data.Interfaces.ICommandSetting)">
+            <summary>
+            Get Last Row of the Jdbc Sql query Resultset as object instance.
+            </summary>
+            <param name="database">The simple database object instance.</param>
+            <param name="jdbcSqlQuery">
+            The JDBC SQL query ( Example: SELECT * FROM TABLE_NAME WHERE ID_COLUMN = ?1 ).
+            </param>
+            <param name="parameterValues">Sql command parameter values.</param>
+            <param name="commandSetting">The command setting.</param>
+            <returns>Returns last record as SimpleDbRow instance.</returns>
+        </member>
+        <member name="T:Simply.Data.DbListOperator">
+            <summary>
+            Defines the <see cref="T:Simply.Data.DbListOperator"/>.
+            </summary>
+        </member>
+        <member name="M:Simply.Data.DbListOperator.List``1(Simply.Data.Interfaces.ISimpleDatabase,Simply.Data.Objects.SimpleDbCommand,Simply.Data.Interfaces.IPageInfo,System.Nullable{System.Data.CommandBehavior})">
+            <summary>
+            GetDbRowListQuery Gets query result set as object instance list.
+            </summary>
+            <param name="database">The simple database object instance.</param>
+            <param name="simpleDbCommand">database command.</param>
+            <param name="pageInfo">page info for skip and take counts. it is optional.
+            if it is null then paging will be disabled.</param>
+            <param name="behavior">The behavior <see cref="T:System.Nullable`1"/>.</param>
+            <returns>Returns SimpleDbRow object list.</returns>
+        </member>
+        <member name="M:Simply.Data.DbListOperator.List``1(Simply.Data.Interfaces.ISimpleDatabase,System.String,System.Object,Simply.Data.Interfaces.ICommandSetting,Simply.Data.Interfaces.IPageInfo,System.Nullable{System.Data.CommandBehavior})">
+            <summary>
+            Gets query result set as object instance list.
+            </summary>
+            <param name="database">The simple database object instance.</param>
+            <param name="sqlQuery">Sql query.
+            if parameterNamePrefix is ? and Query: Select * From TableName Where Column1 = ?p1?
+            Then;
+            Query For Oracle ==> Select * From TableName Where Column1 = :p1
+            Query For Sql Server ==> Select * From TableName Where Column1 = @p1
+            if parameterNamePrefix is null and Query: Select * From TableName Where Column1 = :p1 (for PostgreSql)
+            no conversion occured.
+            parameterNamePrefix will be set in ICommandSetting instance.
+            </param>
+            <param name="parameterObject">object contains db parameters as property.</param>
+            <param name="commandSetting">The command setting.</param>
+            <param name="pageInfo">page info for skip and take counts. it is optional.
+            if it is null then paging will be disabled.</param>
+            <param name="behavior">The behavior <see cref="T:System.Nullable`1"/>.</param>
+            <returns>Returns list of SimpleDbRow object list.</returns>
+        </member>
+        <member name="M:Simply.Data.DbListOperator.ListOdbc``1(Simply.Data.Interfaces.ISimpleDatabase,System.String,System.Object[],Simply.Data.Interfaces.ICommandSetting,Simply.Data.Interfaces.IPageInfo,System.Nullable{System.Data.CommandBehavior})">
+            <summary>
+            Gets odbc sql query result set as SimpleDbRow object list.
+            </summary>
+            <param name="database">The simple database object instance.</param>
+            <param name="odbcSqlQuery">The ODBC SQL query.</param>
+            <param name="parameterValues">Sql command parameter values.</param>
+            <param name="commandSetting">The command setting.</param>
+            <param name="pageInfo">page info for skip and take counts. it is optional.
+            if it is null then paging will be disabled.</param>
+            <param name="behavior">The behavior <see cref="T:System.Nullable`1"/>.</param>
+            <returns>Returns SimpleDbRow object list.</returns>
+        </member>
+        <member name="M:Simply.Data.DbListOperator.ListJdbc``1(Simply.Data.Interfaces.ISimpleDatabase,System.String,System.Object[],Simply.Data.Interfaces.ICommandSetting,Simply.Data.Interfaces.IPageInfo,System.Nullable{System.Data.CommandBehavior})">
+            <summary>
+            Gets odbc sql query result set as SimpleDbRow object list.
+            </summary>
+            <param name="database">The simple database object instance.</param>
+            <param name="odbcSqlQuery">The ODBC SQL query.</param>
+            <param name="parameterValues">Sql command parameter values.</param>
+            <param name="commandSetting">The command setting.</param>
+            <param name="pageInfo">page info for skip and take counts. it is optional.
+            if it is null then paging will be disabled.</param>
+            <param name="behavior">The behavior <see cref="T:System.Nullable`1"/>.</param>
+            <returns>Returns SimpleDbRow object list.</returns>
+        </member>
+        <member name="M:Simply.Data.DbListOperator.ListResult``1(Simply.Data.Interfaces.ISimpleDatabase,Simply.Data.Objects.SimpleDbCommand,Simply.Data.Interfaces.IPageInfo,System.Nullable{System.Data.CommandBehavior})">
+            <summary>
+            GetDbRowListQuery Gets query result set as object instance list.
+            </summary>
+            <param name="database">The simple database object instance.</param>
+            <param name="simpleDbCommand">database command.</param>
+            <param name="pageInfo">page info for skip and take counts. it is optional.
+            if it is null then paging will be disabled.</param>
+            <param name="behavior">The behavior <see cref="T:System.Nullable`1"/>.</param>
+            <returns>Returns SimpleDbRow object list.</returns>
+        </member>
+        <member name="M:Simply.Data.DbListOperator.ListResult``1(Simply.Data.Interfaces.ISimpleDatabase,System.String,System.Object,Simply.Data.Interfaces.ICommandSetting,Simply.Data.Interfaces.IPageInfo,System.Nullable{System.Data.CommandBehavior})">
+            <summary>
+            Gets query multi result set as multi simpledbrow list.
+            </summary>
+            <param name="database">The simple database object instance.</param>
+            <param name="sqlQuery">Sql query.
+            if parameterNamePrefix is ? and Query: Select * From TableName Where Column1 = ?p1?
+            Then;
+            Query For Oracle ==> Select * From TableName Where Column1 = :p1
+            Query For Sql Server ==> Select * From TableName Where Column1 = @p1
+            if parameterNamePrefix is null and Query: Select * From TableName Where Column1 = :p1 (for PostgreSql)
+            no conversion occured.
+            parameterNamePrefix will be set in ICommandSetting instance.
+            </param>
+            <param name="parameterObject">object contains db parameters as property.</param>
+            <param name="commandSetting">The command setting.</param>
+            <param name="pageInfo">page info for skip and take counts. it is optional.
+            if it is null then paging will be disabled.</param>
+            <param name="behavior">The behavior <see cref="T:System.Nullable`1"/>.</param>
+            <returns>Returns list of SimpleDbRow object list.</returns>
+        </member>
+        <member name="M:Simply.Data.DbListOperator.ListOdbcResult``1(Simply.Data.Interfaces.ISimpleDatabase,System.String,System.Object[],Simply.Data.Interfaces.ICommandSetting,Simply.Data.Interfaces.IPageInfo,System.Nullable{System.Data.CommandBehavior})">
+            <summary>
+            Gets odbc sql query result set as SimpleDbRow object list.
+            </summary>
+            <param name="database">The simple database object instance.</param>
+            <param name="odbcSqlQuery">The ODBC SQL query.</param>
+            <param name="parameterValues">Sql command parameter values.</param>
+            <param name="commandSetting">The command setting.</param>
+            <param name="pageInfo">page info for skip and take counts. it is optional.
+            if it is null then paging will be disabled.</param>
+            <param name="behavior">The behavior <see cref="T:System.Nullable`1"/>.</param>
+            <returns>Returns SimpleDbRow object list.</returns>
+        </member>
+        <member name="M:Simply.Data.DbListOperator.ListJdbcResult``1(Simply.Data.Interfaces.ISimpleDatabase,System.String,System.Object[],Simply.Data.Interfaces.ICommandSetting,Simply.Data.Interfaces.IPageInfo,System.Nullable{System.Data.CommandBehavior})">
+            <summary>
+            Gets jdbc sql query result set as SimpleDbRow object list.
+            </summary>
+            <param name="database">The simple database object instance.</param>
+            <param name="jdbcSqlQuery">The JDBC SQL query.</param>
+            <param name="parameterValues">Sql command parameter values.</param>
+            <param name="commandSetting">The command setting.</param>
+            <param name="pageInfo">page info for skip and take counts. it is optional.
+            if it is null then paging will be disabled.</param>
+            <param name="behavior">The behavior <see cref="T:System.Nullable`1"/>.</param>
+            <returns>Returns SimpleDbRow object list.</returns>
+        </member>
+        <member name="T:Simply.Data.DbPagedListOperator">
+            <summary>
+            Defines the <see cref="T:Simply.Data.DbPagedListOperator"/>.
+            </summary>
+        </member>
+        <member name="M:Simply.Data.DbPagedListOperator.GetListAsync``1(Simply.Data.Interfaces.ISimpleDatabase,Simply.Data.Objects.SimpleDbCommand,Simply.Data.Interfaces.IPageInfo,System.Nullable{System.Data.CommandBehavior})">
+            <summary>
+            GetDbRowListQuery Gets query result set as object instance list.
+            </summary>
+            <param name="database">The simple database object instance.</param>
+            <param name="simpleDbCommand">database command.</param>
+            <param name="pageInfo">page info for skip and take counts. it is optional.
+            if it is null then paging will be disabled.</param>
+            <param name="behavior">The behavior <see cref="T:System.Nullable`1"/>.</param>
+            <returns>Returns SimpleDbRow object list.</returns>
+        </member>
+        <member name="M:Simply.Data.DbPagedListOperator.QueryListAsync``1(Simply.Data.Interfaces.ISimpleDatabase,System.String,System.Object,Simply.Data.Interfaces.IPageInfo,Simply.Data.Interfaces.ICommandSetting,System.Nullable{System.Data.CommandBehavior})">
+            <summary>
+            Gets Resultset of query as object instance list with async operation.
+            </summary>
+            <typeparam name="T">T class.</typeparam>
+            <param name="database">The simple database object instance.</param>
+            <param name="sqlQuery">Sql query.
+            Select * From TableName Where Column1 = ?p1?
+            parameterNamePrefix : ?
+            Query For Oracle ==> Select * From TableName Where Column1 = :p1
+            Query For Sql Server ==> Select * From TableName Where Column1 = @p1
+            parameterNamePrefix will be set in ICommandSetting instance.
+            </param>
+            <param name="parameterObject">object contains db parameters as property.</param>
+            <param name="pageInfo">page info for skip and take counts.</param>
+            <param name="commandSetting">The command setting.</param>
+            <param name="behavior">The behavior <see cref="T:System.Nullable`1"/>.</param>
+            <returns>Returns as object list async.</returns>
+        </member>
+        <member name="M:Simply.Data.DbPagedListOperator.GetListAsync``1(Simply.Data.Interfaces.ISimpleDatabase,System.String,System.Object[],Simply.Data.Interfaces.ICommandSetting,Simply.Data.Interfaces.IPageInfo,System.Nullable{System.Data.CommandBehavior})">
+            <summary>
+            Gets odbc sql query result set as SimpleDbRow object list.
+            </summary>
+            <param name="database">The simple database object instance.</param>
+            <param name="odbcSqlQuery">The ODBC SQL query.</param>
+            <param name="parameterValues">Sql command parameter values.</param>
+            <param name="commandSetting">The command setting.</param>
+            <param name="pageInfo">page info for skip and take counts. it is optional.
+            if it is null then paging will be disabled.</param>
+            <param name="behavior">The behavior <see cref="T:System.Nullable`1"/>.</param>
+            <returns>Returns SimpleDbRow object list.</returns>
+        </member>
+        <member name="T:Simply.Data.DbResultSetOperator">
+            <summary>
+            Defines the <see cref="T:Simply.Data.DbResultSetOperator"/>.
+            </summary>
+        </member>
+        <member name="M:Simply.Data.DbResultSetOperator.GetDataSet(Simply.Data.Interfaces.ISimpleDatabase,System.String,System.Object,Simply.Data.Interfaces.ICommandSetting)">
+            <summary>
+            Get Resultset of the specified SQL query.
+            </summary>
+            <param name="database">The simple database object instance.</param>
+            <param name="sqlQuery">The SQL query.</param>
+            <param name="parameterObject">Sql command parameters.</param>
+            <param name="commandSetting">The command setting.</param>
+            <returns>Returns result set in a dataset instance.</returns>
+        </member>
+        <member name="M:Simply.Data.DbResultSetOperator.GetDataSetOdbc(Simply.Data.Interfaces.ISimpleDatabase,System.String,System.Object[],Simply.Data.Interfaces.ICommandSetting)">
+            <summary>
+            Get Resultset of the specified ODBC SQL query.
+            </summary>
+            <param name="database">The simple database object instance.</param>
+            <param name="odbcSqlQuery">The ODBC SQL query.</param>
+            <param name="parameterValues">Sql command parameters.</param>
+            <param name="commandSetting">The command setting.</param>
+            <returns>Returns result set in a dataset instance.</returns>
+        </member>
+        <member name="M:Simply.Data.DbResultSetOperator.GetDataSetJdbc(Simply.Data.Interfaces.ISimpleDatabase,System.String,System.Object[],Simply.Data.Interfaces.ICommandSetting)">
+            <summary>
+            Get Resultset of the specified JDBC SQL query.
+            </summary>
+            <param name="database">The simple database object instance.</param>
+            <param name="jdbcSqlQuery">The JDBC SQL query.</param>
+            <param name="parameterValues">Sql command parameters.</param>
+            <param name="commandSetting">The command setting.</param>
+            <returns>Returns result set in a dataset instance.</returns>
+        </member>
+        <member name="M:Simply.Data.DbResultSetOperator.GetResultSetQuery(Simply.Data.Interfaces.ISimpleDatabase,Simply.Data.Objects.SimpleDbCommand)">
+            <summary>
+            Get Resultset of the Command definition.
+            </summary>
+            <param name="database">The simple database object instance.</param>
+            <param name="simpleDbCommand">database command.</param>
+            <returns>Returns result set in a dataset instance.</returns>
+        </member>
+        <member name="M:Simply.Data.DbResultSetOperator.GetDataSetResult(Simply.Data.Interfaces.ISimpleDatabase,Simply.Data.Objects.SimpleDbCommand,Simply.Data.Interfaces.IPageInfo)">
+            <summary>
+            GetDynamicResultSetSkipAndTake Gets query resultset as dynamic object list with skip and take.
+            </summary>
+            <param name="database">The simple database object instance.</param>
+            <param name="simpleDbCommand">database command.</param>
+            <param name="pageInfo">page info for skip and take counts. it is optional. if it is null then paging will be disabled.</param>
+            <returns>Returns dynamic object list.</returns>
+        </member>
+        <member name="T:Simply.Data.DbSingleOperator">
+            <summary>
+            Defines the <see cref="T:Simply.Data.DbSingleOperator"/>.
+            </summary>
+        </member>
+        <member name="M:Simply.Data.DbSingleOperator.Single``1(Simply.Data.Interfaces.ISimpleDatabase,Simply.Data.Objects.SimpleDbCommand)">
+            <summary>
+            Get Single Row of the Resultset as object instance.
+            </summary>
+            <typeparam name="T">T class.</typeparam>
+            <param name="database">The simple database object instance.</param>
+            <param name="simpleDbCommand">database command.</param>
+            <returns>Returns single record as dynamic object instance.</returns>
+        </member>
+        <member name="M:Simply.Data.DbSingleOperator.Single``1(Simply.Data.Interfaces.ISimpleDatabase,System.String,System.Object,Simply.Data.Interfaces.ICommandSetting)">
+            <summary>
+            Get Single Row of the Resultset as object instance.
+            </summary>
+            <typeparam name="T">T class.</typeparam>
+            <param name="database">The simple database object instance.</param>
+            <param name="sqlQuery">Sql query.
+            if parameterNamePrefix is ? and Query: Select * From TableName Where Column1 = ?p1?
+            Then;
+            Query For Oracle ==> Select * From TableName Where Column1 = :p1
+            Query For Sql Server ==> Select * From TableName Where Column1 = @p1
+            if parameterNamePrefix is null and Query: Select * From TableName Where Column1 = :p1 (for PostgreSql)
+            no conversion occured.
+            parameterNamePrefix will be set in ICommandSetting instance.
+            </param>
+            <param name="parameterObject">object contains db parameters as property.</param>
+            <param name="commandSetting">The command setting.</param>
+            <returns>Returns single record as object instance.</returns>
+        </member>
+        <member name="M:Simply.Data.DbSingleOperator.SingleOdbc``1(Simply.Data.Interfaces.ISimpleDatabase,System.String,System.Object[],Simply.Data.Interfaces.ICommandSetting)">
+            <summary>
+            Get Single Row of the Odbc Sql Query Resultset as object instance.
+            </summary>
+            <param name="database">The simple database object instance.</param>
+            <param name="odbcSqlQuery">The ODBC SQL query ( Example: SELECT * FROM TABLE_NAME WHERE ID_COLUMN = ? ).</param>
+            <param name="parameterValues">Sql command parameter values.</param>
+            <param name="commandSetting">The command setting.</param>
+            <returns>Returns single record as object instance.</returns>
+        </member>
+        <member name="M:Simply.Data.DbSingleOperator.SingleJdbc``1(Simply.Data.Interfaces.ISimpleDatabase,System.String,System.Object[],Simply.Data.Interfaces.ICommandSetting)">
+            <summary>
+            Get Single Row of the Jdbc Sql Query Resultset as object instance.
+            </summary>
+            <param name="database">The simple database object instance.</param>
+            <param name="jdbcSqlQuery">The JDBC SQL query ( Example: SELECT * FROM TABLE_NAME WHERE ID_COLUMN = ?1 ).</param>
+            <param name="parameterValues">Sql command parameter values.</param>
+            <param name="commandSetting">The command setting.</param>
+            <returns>Returns single record as object instance.</returns>
+        </member>
+        <member name="M:Simply.Data.DbSingleOperator.SingleRow(Simply.Data.Interfaces.ISimpleDatabase,Simply.Data.Objects.SimpleDbCommand)">
+            <summary>
+            Get Single Row of the Resultset as simple db row instance.
+            </summary>
+            <param name="database">The simple database object instance.</param>
+            <param name="simpleDbCommand">database command <see cref="T:Simply.Data.Objects.SimpleDbCommand"/>.</param>
+            <returns>Returns single record as simple db row instance.</returns>
+        </member>
+        <member name="M:Simply.Data.DbSingleOperator.SingleRow(Simply.Data.Interfaces.ISimpleDatabase,System.String,System.Object,Simply.Data.Interfaces.ICommandSetting)">
+            <summary>
+            Get Single Row of the Resultset as dynamic object instance.
+            </summary>
+            <param name="database">The simple database object instance.</param>
+            <param name="sqlQuery">Sql query.
+            if parameterNamePrefix is ? and Query: Select * From TableName Where Column1 = ?p1?
+            Then;
+            Query For Oracle ==> Select * From TableName Where Column1 = :p1
+            Query For Sql Server ==> Select * From TableName Where Column1 = @p1
+            if parameterNamePrefix is null and Query: Select * From TableName Where Column1 = :p1 (for PostgreSql)
+            no conversion occured.
+            parameterNamePrefix will be set in ICommandSetting instance.
+            </param>
+            <param name="parameterObject">object contains db parameters as property.</param>
+            <param name="commandSetting">The command setting.</param>
+            <returns>Returns single record as dynamic object.</returns>
+        </member>
+        <member name="M:Simply.Data.DbSingleOperator.SingleOdbcRow(Simply.Data.Interfaces.ISimpleDatabase,System.String,System.Object[],Simply.Data.Interfaces.ICommandSetting)">
+            <summary>
+            Get Single Row of the Odbc Sql Query Resultset as object instance.
+            </summary>
+            <param name="database">The simple database object instance.</param>
+            <param name="odbcSqlQuery">The ODBC SQL query ( Example: SELECT * FROM TABLE_NAME WHERE ID_COLUMN = ? ).</param>
+            <param name="parameterValues">Sql command parameter values.</param>
+            <param name="commandSetting">The command setting.</param>
+            <returns>Returns single record as object instance.</returns>
+        </member>
+        <member name="M:Simply.Data.DbSingleOperator.SingleJdbcRow(Simply.Data.Interfaces.ISimpleDatabase,System.String,System.Object[],Simply.Data.Interfaces.ICommandSetting)">
+            <summary>
+            Get Single Row of the Jdbc Sql Query Resultset as object instance.
+            </summary>
+            <param name="database">The simple database object instance.</param>
+            <param name="jdbcSqlQuery">The JDBC SQL query ( Example: SELECT * FROM TABLE_NAME WHERE ID_COLUMN = ?1 ).</param>
+            <param name="parameterValues">Sql command parameter values.</param>
+            <param name="commandSetting">The command setting.</param>
+            <returns>Returns single record as object instance.</returns>
+        </member>
+        <member name="M:Simply.Data.DbSingleOperator.SingleAsync``1(Simply.Data.Interfaces.ISimpleDatabase,Simply.Data.Objects.SimpleDbCommand)">
+            <summary>
+            Get Single Row of the Resultset as simple db row object instance with async operation.
+            </summary>
+            <param name="database">The simple database object instance.</param>
+            <param name="simpleDbCommand">database command <see cref="T:Simply.Data.Objects.SimpleDbCommand"/>.</param>
+            <returns>An asynchronous result that yields the single as object instance.</returns>
+        </member>
+        <member name="M:Simply.Data.DbSingleOperator.SingleAsync``1(Simply.Data.Interfaces.ISimpleDatabase,System.String,System.Object,Simply.Data.Interfaces.ICommandSetting)">
+            <summary>
+            Get Single Row of the Resultset as object instance with async operation.
+            </summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="database">The simple database object instance.</param>
+            <param name="sqlQuery">Sql query.
+            Select * From TableName Where Column1 = ?p1?
+            parameterNamePrefix : ?
+            Query For Oracle ==> Select * From TableName Where Column1 = :p1
+            Query For Sql Server ==> Select * From TableName Where Column1 = @p1
+            parameterNamePrefix will be set in ICommandSetting instance.
+            </param>
+            <param name="parameterObject">object contains db parameters as property.</param>
+            <param name="commandSetting">The command setting.</param>
+            <returns>An asynchronous result that yields a T.</returns>
+        </member>
+        <member name="M:Simply.Data.DbSingleOperator.SingleOdbcAsync``1(Simply.Data.Interfaces.ISimpleDatabase,System.String,System.Object[],Simply.Data.Interfaces.ICommandSetting)">
+            <summary>
+            Get Single Row of the Resultset as simple db row object instance with async operation.
+            </summary>
+            <param name="database">The simple database object instance.</param>
+            <param name="odbcSqlQuery">The ODBC SQL query ( Example: SELECT * FROM TABLE_NAME WHERE ID_COLUMN = ? ).</param>
+            <param name="parameterValues">Sql command parameter values.</param>
+            <param name="commandSetting">The command setting.</param>s
+            <returns>An asynchronous result that yields the single as object instance.</returns>
+        </member>
+        <member name="M:Simply.Data.DbSingleOperator.SingleJdbcAsync``1(Simply.Data.Interfaces.ISimpleDatabase,System.String,System.Object[],Simply.Data.Interfaces.ICommandSetting)">
+            <summary>
+            Get Single Row of the Resultset as simple db row object instance with async operation.
+            </summary>
+            <param name="database">The simple database object instance.</param>
+            <param name="jdbcSqlQuery">The JDBC SQL query ( Example: SELECT * FROM TABLE_NAME WHERE ID_COLUMN = ?1 ).</param>
+            <param name="parameterValues">Sql command parameter values.</param>
+            <param name="commandSetting">The command setting.</param>s
+            <returns>An asynchronous result that yields the single as object instance.</returns>
+        </member>
+        <member name="M:Simply.Data.DbSingleOperator.SingleRowResult(Simply.Data.Interfaces.ISimpleDatabase,Simply.Data.Objects.SimpleDbCommand)">
+            <summary>
+            Get Single Row of the Resultset as simple db row instance.
+            </summary>
+            <param name="database">The simple database object instance.</param>
+            <param name="simpleDbCommand">database command <see cref="T:Simply.Data.Objects.SimpleDbCommand"/>.</param>
+            <returns>Returns single record as simple db row instance.</returns>
+        </member>
+        <member name="T:Simply.Data.DatabaseExtensions.SimpleDatabaseExtension">
+            <summary>
+            Defines the <see cref="T:Simply.Data.DatabaseExtensions.SimpleDatabaseExtension"/>.
+            </summary>
+        </member>
+        <member name="M:Simply.Data.DatabaseExtensions.SimpleDatabaseExtension.GetDbConnection``1(``0)">
+            <summary>
+            Gets the db connection.
+            </summary>
+            <param name="database">The simple database object instance.</param>
+            <returns>A IDbConnection.</returns>
+        </member>
+        <member name="M:Simply.Data.DatabaseExtensions.SimpleDatabaseExtension.GetDbTransaction``1(``0)">
+            <summary>
+            Gets the db transaction.
+            </summary>
+            <param name="database">The simple database object instance.</param>
+            <returns>A IDbTransaction.</returns>
+        </member>
+        <member name="T:Simply.Data.SimpleDbRowListOperator">
+            <summary>
+            Defines the <see cref="T:Simply.Data.SimpleDbRowListOperator"/>.
+            </summary>
+        </member>
+        <member name="M:Simply.Data.SimpleDbRowListOperator.ListRow(Simply.Data.Interfaces.ISimpleDatabase,Simply.Data.Objects.SimpleDbCommand,Simply.Data.Interfaces.IPageInfo,System.Nullable{System.Data.CommandBehavior})">
+            <summary>
+            GetDbRowListQuery Gets query result set as SimpleDbRow object list.
+            </summary>
+            <param name="database">The simple database object instance.</param>
+            <param name="simpleDbCommand">database command.</param>
+            <param name="pageInfo">page info for skip and take counts. it is optional.
+            if it is null then paging will be disabled.</param>
+            <param name="behavior">The behavior <see cref="T:System.Nullable`1"/>.</param>
+            <returns>Returns SimpleDbRow object list.</returns>
+        </member>
+        <member name="M:Simply.Data.SimpleDbRowListOperator.ListRow(Simply.Data.Interfaces.ISimpleDatabase,System.String,System.Object,Simply.Data.Interfaces.ICommandSetting,Simply.Data.Interfaces.IPageInfo,System.Nullable{System.Data.CommandBehavior})">
+            <summary>
+            Gets query multi result set as multi simpledbrow list.
+            </summary>
+            <param name="database">The simple database object instance.</param>
+            <param name="sqlQuery">Sql query.
+            if parameterNamePrefix is ? and Query: Select * From TableName Where Column1 = ?p1?
+            Then;
+            Query For Oracle ==> Select * From TableName Where Column1 = :p1
+            Query For Sql Server ==> Select * From TableName Where Column1 = @p1
+            if parameterNamePrefix is null and Query: Select * From TableName Where Column1 = :p1 (for PostgreSql)
+            no conversion occured.
+            parameterNamePrefix will be set in ICommandSetting instance.
+            </param>
+            <param name="parameterObject">object contains db parameters as property.</param>
+            <param name="commandSetting">The command setting.</param>
+            <param name="pageInfo">page info for skip and take counts. it is optional.
+            if it is null then paging will be disabled.</param>
+            <param name="behavior">The behavior <see cref="T:System.Nullable`1"/>.</param>
+            <returns>Returns list of SimpleDbRow object list.</returns>
+        </member>
+        <member name="M:Simply.Data.SimpleDbRowListOperator.ListRowOdbc(Simply.Data.Interfaces.ISimpleDatabase,System.String,System.Object[],Simply.Data.Interfaces.ICommandSetting,Simply.Data.Interfaces.IPageInfo,System.Nullable{System.Data.CommandBehavior})">
+            <summary>
+            Gets odbc sql query result set as SimpleDbRow object list.
+            </summary>
+            <param name="database">The simple database object instance.</param>
+            <param name="odbcSqlQuery">The ODBC SQL query.</param>
+            <param name="parameterValues">Sql command parameter values.</param>
+            <param name="commandSetting">The command setting.</param>
+            <param name="pageInfo">page info for skip and take counts. it is optional.
+            if it is null then paging will be disabled.</param>
+            <param name="behavior">The behavior <see cref="T:System.Nullable`1"/>.</param>
+            <returns>Returns SimpleDbRow object list.</returns>
+        </member>
+        <member name="M:Simply.Data.SimpleDbRowListOperator.ListRowJdbc(Simply.Data.Interfaces.ISimpleDatabase,System.String,System.Object[],Simply.Data.Interfaces.ICommandSetting,Simply.Data.Interfaces.IPageInfo,System.Nullable{System.Data.CommandBehavior})">
+            <summary>
+            Gets jdbc sql query result set as SimpleDbRow object list.
+            </summary>
+            <param name="database">The simple database object instance.</param>
+            <param name="jdbcSqlQuery">The JDBC SQL query.</param>
+            <param name="parameterValues">Sql command parameter values.</param>
+            <param name="commandSetting">The command setting.</param>
+            <param name="pageInfo">page info for skip and take counts. it is optional.
+            if it is null then paging will be disabled.</param>
+            <param name="behavior">The behavior <see cref="T:System.Nullable`1"/>.</param>
+            <returns>Returns SimpleDbRow object list.</returns>
+        </member>
+        <member name="M:Simply.Data.SimpleDbRowListOperator.ListRowResult(Simply.Data.Interfaces.ISimpleDatabase,Simply.Data.Objects.SimpleDbCommand,Simply.Data.Interfaces.IPageInfo,System.Nullable{System.Data.CommandBehavior})">
+            <summary>
+            GetDbRowListQuery Gets query result set as SimpleDbRow object list.
+            </summary>
+            <param name="database">The simple database object instance.</param>
+            <param name="simpleDbCommand">database command.</param>
+            <param name="pageInfo">page info for skip and take counts. it is optional.
+            if it is null then paging will be disabled.</param>
+            <param name="behavior">The behavior <see cref="T:System.Nullable`1"/>.</param>
+            <returns>Returns SimpleDbRow object list.</returns>
+        </member>
+        <member name="M:Simply.Data.SimpleDbRowListOperator.MultiListRow(Simply.Data.Interfaces.ISimpleDatabase,Simply.Data.Objects.SimpleDbCommand,System.Nullable{System.Data.CommandBehavior})">
+            <summary>
+            Gets query multi result set as multi SimpleDbRow list.
+            </summary>
+            <param name="database">The simple database object instance.</param>
+            <param name="simpleDbCommand">database command.</param>
+            <param name="behavior">The behavior <see cref="T:System.Nullable`1"/>.</param>
+            <returns>Returns multi SimpleDbRow list.</returns>
+        </member>
+        <member name="M:Simply.Data.SimpleDbRowListOperator.MultiListRow(Simply.Data.Interfaces.ISimpleDatabase,System.String,System.Object,Simply.Data.Interfaces.ICommandSetting,System.Nullable{System.Data.CommandBehavior})">
+            <summary>
+            Gets query multi result set as multi simpledbrow list.
+            </summary>
+            <param name="database">The simple database object instance.</param>
+            <param name="sqlQuery">Sql query.
+            if parameterNamePrefix is ? and Query: Select * From TableName Where Column1 = ?p1?
+            Then;
+            Query For Oracle ==> Select * From TableName Where Column1 = :p1
+            Query For Sql Server ==> Select * From TableName Where Column1 = @p1
+            if parameterNamePrefix is null and Query: Select * From TableName Where Column1 = :p1 (for PostgreSql)
+            no conversion occured.
+            parameterNamePrefix will be set in ICommandSetting instance.
+            </param>
+            <param name="parameterObject">object contains db parameters as property.</param>
+            <param name="commandSetting">The command setting.</param>
+            <param name="behavior">The behavior <see cref="T:System.Nullable`1"/>.</param>
+            <returns>Returns list of SimpleDbRow object list.</returns>
+        </member>
+        <member name="M:Simply.Data.SimpleDbRowListOperator.MultiListRowOdbc(Simply.Data.Interfaces.ISimpleDatabase,System.String,System.Object[],Simply.Data.Interfaces.ICommandSetting,System.Nullable{System.Data.CommandBehavior})">
+            <summary>
+            Gets odbc sql query result set as SimpleDbRow object list.
+            </summary>
+            <param name="database">The simple database object instance.</param>
+            <param name="odbcSqlQuery">The ODBC SQL query.</param>
+            <param name="parameterValues">Sql command parameter values.</param>
+            <param name="commandSetting">The command setting.</param>
+            <param name="behavior">The behavior <see cref="T:System.Nullable`1"/>.</param>
+            <returns>Returns SimpleDbRow object list.</returns>
+        </member>
+        <member name="M:Simply.Data.SimpleDbRowListOperator.MultiListRowJdbc(Simply.Data.Interfaces.ISimpleDatabase,System.String,System.Object[],Simply.Data.Interfaces.ICommandSetting,System.Nullable{System.Data.CommandBehavior})">
+            <summary>
+            Gets jdbc sql query result set as SimpleDbRow object list.
+            </summary>
+            <param name="database">The simple database object instance.</param>
+            <param name="jdbcSqlQuery">The JDBC SQL query.</param>
+            <param name="parameterValues">Sql command parameter values.</param>
+            <param name="commandSetting">The command setting.</param>
+            <param name="behavior">The behavior <see cref="T:System.Nullable`1"/>.</param>
+            <returns>Returns SimpleDbRow object list.</returns>
+        </member>
+        <member name="M:Simply.Data.SimpleDbRowListOperator.MultiListRowResult(Simply.Data.Interfaces.ISimpleDatabase,Simply.Data.Objects.SimpleDbCommand,System.Nullable{System.Data.CommandBehavior})">
+            <summary>
+            GetMultiDbRowListQuery Gets query multi result set as multi SimpleDbRow list.
+            </summary>
+            <param name="database">The simple database object instance.</param>
+            <param name="simpleDbCommand">database command.</param>
+            <param name="behavior">The behavior <see cref="T:System.Nullable`1"/>.</param>
+            <returns>Returns multi SimpleDbRow list.</returns>
+        </member>
+        <member name="M:Simply.Data.SimpleDbRowListOperator.MultiListRowResult(Simply.Data.Interfaces.ISimpleDatabase,System.String,System.Object,Simply.Data.Interfaces.ICommandSetting,Simply.Data.Interfaces.IPageInfo,System.Nullable{System.Data.CommandBehavior})">
+            <summary>
+            Gets query multi result set as multi simpledbrow list.
+            </summary>
+            <param name="database">The simple database object instance.</param>
+            <param name="sqlQuery">Sql query.
+            if parameterNamePrefix is ? and Query: Select * From TableName Where Column1 = ?p1?
+            Then;
+            Query For Oracle ==> Select * From TableName Where Column1 = :p1
+            Query For Sql Server ==> Select * From TableName Where Column1 = @p1
+            if parameterNamePrefix is null and Query: Select * From TableName Where Column1 = :p1 (for PostgreSql)
+            no conversion occured.
+            parameterNamePrefix will be set in ICommandSetting instance.
+            </param>
+            <param name="parameterObject">object contains db parameters as property.</param>
+            <param name="commandSetting">The command setting.</param>
+            <param name="pageInfo">page info for skip and take counts. it is optional.
+            if it is null then paging will be disabled.</param>
+            <param name="behavior">The behavior <see cref="T:System.Nullable`1"/>.</param>
+            <returns>Returns list of SimpleDbRow object list.</returns>
+        </member>
+        <member name="M:Simply.Data.SimpleDbRowListOperator.MultiListRowOdbcResult(Simply.Data.Interfaces.ISimpleDatabase,System.String,System.Object[],Simply.Data.Interfaces.ICommandSetting,Simply.Data.Interfaces.IPageInfo,System.Nullable{System.Data.CommandBehavior})">
+            <summary>
+            Gets odbc sql query result set as SimpleDbRow object list.
+            </summary>
+            <param name="database">The simple database object instance.</param>
+            <param name="odbcSqlQuery">The ODBC SQL query.</param>
+            <param name="parameterValues">Sql command parameter values.</param>
+            <param name="commandSetting">The command setting.</param>
+            <param name="pageInfo">page info for skip and take counts. it is optional.
+            if it is null then paging will be disabled.</param>
+            <param name="behavior">The behavior <see cref="T:System.Nullable`1"/>.</param>
+            <returns>Returns SimpleDbRow object list.</returns>
+        </member>
+        <member name="M:Simply.Data.SimpleDbRowListOperator.MultiListRowJdbcResult(Simply.Data.Interfaces.ISimpleDatabase,System.String,System.Object[],Simply.Data.Interfaces.ICommandSetting,Simply.Data.Interfaces.IPageInfo,System.Nullable{System.Data.CommandBehavior})">
+            <summary>
+            Gets jdbc sql query result set as SimpleDbRow object list.
+            </summary>
+            <param name="database">The simple database object instance.</param>
+            <param name="jdbcSqlQuery">The JDBC SQL query.</param>
+            <param name="parameterValues">Sql command parameter values.</param>
+            <param name="commandSetting">The command setting.</param>
+            <param name="pageInfo">page info for skip and take counts. it is optional.
+            if it is null then paging will be disabled.</param>
+            <param name="behavior">The behavior <see cref="T:System.Nullable`1"/>.</param>
+            <returns>Returns SimpleDbRow object list.</returns>
+        </member>
+        <member name="T:Simply.Data.Database.SimpleDatabase">
+            <summary>
+            Simple Database object for database operations.
+            </summary>
+            <seealso cref="T:Simply.Data.Interfaces.ISimpleDatabase" />
+        </member>
+        <member name="F:Simply.Data.Database.SimpleDatabase.empty">
+            <summary>
+            Defines the empty.
+            </summary>
+        </member>
+        <member name="F:Simply.Data.Database.SimpleDatabase.disposed">
+            <summary>
+            The disposed for disposing.
+            </summary>
+        </member>
+        <member name="F:Simply.Data.Database.SimpleDatabase.transactionState">
+            <summary>
+            The transaction state.
+            0; transaction state empty.
+            1; transaction can be committed/rollbacked.
+            2; transaction has been committed/rollbacked.
+            </summary>
+        </member>
+        <member name="F:Simply.Data.Database.SimpleDatabase.connection">
+            <summary>
+            The connection
+            </summary>
+        </member>
+        <member name="F:Simply.Data.Database.SimpleDatabase.transaction">
+            <summary>
+            The transaction
+            </summary>
+        </member>
+        <member name="M:Simply.Data.Database.SimpleDatabase.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Simply.Data.Database.SimpleDatabase"/> class.
+            </summary>
+        </member>
+        <member name="M:Simply.Data.Database.SimpleDatabase.#ctor(System.Data.IDbConnection,System.Data.IDbTransaction,Simply.Data.Interfaces.IQuerySetting)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Simply.Data.Database.SimpleDatabase"/> class.
+            </summary>
+            <param name="connection">The connection.</param>
+            <param name="transaction">The transaction.</param>
+            <param name="querySetting">Query Setting instance.</param>
+        </member>
+        <member name="M:Simply.Data.Database.SimpleDatabase.#ctor(System.Data.Common.DbProviderFactory,System.String,Simply.Data.Interfaces.IQuerySetting)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Simply.Data.Database.SimpleDatabase"/> class.
+            </summary>
+            <param name="providerFactory">The provider factory.</param>
+            <param name="connectionString">The connection string.</param>
+            <param name="querySetting">Query Setting instance.</param>
+        </member>
+        <member name="P:Simply.Data.Database.SimpleDatabase.QuerySetting">
+            <summary>
+            Gets the query setting.
+            </summary>
+            <value>
+            The query setting.
+            </value>
+        </member>
+        <member name="P:Simply.Data.Database.SimpleDatabase.ConnectionType">
+            <summary>
+            Gets the type of the database connection.
+            </summary>
+            <value>
+            The type of the database connection.
+            </value>
+        </member>
+        <member name="P:Simply.Data.Database.SimpleDatabase.CommandLogAction">
+            <summary>
+            Gets the action for command logging.
+            </summary>
+        </member>
+        <member name="P:Simply.Data.Database.SimpleDatabase.DbCommandLogAction">
+            <summary>
+            Gets the action for command logging.
+            </summary>
+        </member>
+        <member name="P:Simply.Data.Database.SimpleDatabase.LogCommand">
+            <summary>
+            Gets, sets value for SimpleDbCommand logging.
+            </summary>
+        </member>
+        <member name="P:Simply.Data.Database.SimpleDatabase.LogDbCommand">
+            <summary>
+            Gets, sets value for IDbCommand logging.
+            </summary>
+        </member>
+        <member name="M:Simply.Data.Database.SimpleDatabase.Dispose(System.Boolean)">
+            <summary>
+            Releases unmanaged and - optionally - managed resources.
+            </summary>
+            <param name="disposing"><c>true</c> to release both managed and unmanaged resources;
+            <c>false</c> to release only unmanaged resources.</param>
+        </member>
+        <member name="M:Simply.Data.Database.SimpleDatabase.Dispose">
+            <summary>
+            disposes both managed and unmanaged resources.
+            </summary>
+        </member>
+        <member name="M:Simply.Data.Database.SimpleDatabase.Begin(System.Nullable{System.Data.IsolationLevel})">
+            <summary>
+            Begins the transaction.
+            </summary>
+            <param name="isolationLevel">The isolation level.</param>
+        </member>
+        <member name="M:Simply.Data.Database.SimpleDatabase.Commit">
+            <summary>
+            Commits the transaction.
+            </summary>
+        </member>
+        <member name="M:Simply.Data.Database.SimpleDatabase.Rollback">
+            <summary>
+            Rollbacks the transaction.
+            </summary>
+        </member>
+        <member name="M:Simply.Data.Database.SimpleDatabase.Finalize">
+            <summary>
+            Begins the transction.
+            </summary>
+        </member>
+        <member name="M:Simply.Data.Database.SimpleDatabase.TranslateParametersFromObject(System.Object)">
+            <summary>
+            Translates the parameters from object.
+            </summary>
+            <param name="obj">object that contains parameters as property.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Simply.Data.Database.SimpleDatabase.TranslateOdbcQuery(System.String)">
+            <summary>
+            The Translate Odbc Query to parametrized query.
+            </summary>
+            <param name="odbcSqlQuery">The query <see cref="T:System.String"/>.</param>
+            <returns>
+            The <see cref="!:string[]"/> Returns translated query and parameters in same array. First
+            element of array is translated query and other elements are query parameters. Query :
+            "SELECT T1.* FROM TABLE1 T1 WHERE T1.ID_COLUMN = ?"
+            For Sql Server Result;
+            "SELECT T1.* FROM TABLE1 T1 WHERE T1.ID_COLUMN = @p0", "@p0"
+            For Oracle Result;
+            "SELECT T1.* FROM TABLE1 T1 WHERE T1.ID_COLUMN = :p0", ":p0"
+            </returns>
+        </member>
+        <member name="M:Simply.Data.Database.SimpleDatabase.BuildSimpleDbCommandForTranslate(System.String,Simply.Data.Objects.DbCommandParameter[],Simply.Data.Interfaces.ICommandSetting,System.Boolean)">
+            <summary>
+            Builds SimpleDbCommand instance for Translate of Odbc Sql Query.
+            </summary>
+            <param name="odbcSqlQuery">The query <see cref="T:System.String"/>.</param>
+            <param name="commandParameters">The commandParameters <see cref="!:DbCommandParameter[]"/>.</param>
+            <param name="commandSetting">The command setting.</param>
+            <param name="setOverratedParametersToOutput">if it is true overrated parameters set as output else will be throw error.</param>
+            <returns>Returns database command object instance <see cref="T:Simply.Data.Objects.SimpleDbCommand" />.</returns>
+        </member>
+        <member name="M:Simply.Data.Database.SimpleDatabase.BuildSimpleDbCommandForOdbcQuery(System.String,System.Object[],Simply.Data.Interfaces.ICommandSetting,System.Boolean)">
+            <summary>
+            Builds SimpleDbCommand instance for Translate of Odbc Sql Query.
+            </summary>
+            <param name="odbcSqlQuery">The query <see cref="T:System.String"/>.</param>
+            <param name="parameterValues">Sql command parameter values.</param>
+            <param name="commandSetting">The command setting.</param>
+            <param name="setOverratedParametersToOutput">if it is true overrated parameters set as output else will be throw error.</param>
+            <returns>Returns simple database command object instance <see cref="T:Simply.Data.Objects.SimpleDbCommand" />.</returns>
+        </member>
+        <member name="M:Simply.Data.Database.SimpleDatabase.BuildSimpleDbCommandForQuery(System.String,System.Object,Simply.Data.Interfaces.ICommandSetting)">
+            <summary>
+            Builds the simple database command for SQL query.
+            </summary>
+            <param name="sqlQuery">The SQL query.</param>
+            <param name="parameterObject">The parameter object.</param>
+            <param name="commandSetting">The command setting.</param>
+            <returns>Returns simple database command object instance <see cref="T:Simply.Data.Objects.SimpleDbCommand" />.</returns>
+        </member>
+        <member name="M:Simply.Data.Database.SimpleDatabase.CreateCommand(Simply.Data.Objects.SimpleDbCommand,System.Boolean)">
+            <summary>
+            Create IDbCommand instance with database command.
+            </summary>
+            <param name="simpleDbCommand">database command <see cref="T:Simply.Data.Objects.SimpleDbCommand"/>.</param>
+            <param name="connectionShouldBeOpened">if it is true database connection will be opened, else not.</param>
+            <returns>Returns DbCommand object instance <see cref="T:System.Data.IDbCommand"/>.</returns>
+        </member>
+        <member name="M:Simply.Data.Database.SimpleDatabase.CreateDataAdapter">
+            <summary>
+            Gets DbDataAdapter instance of database connection.
+            </summary>
+            <returns>Returns DbDataAdapter instance.</returns>
+        </member>
+        <member name="M:Simply.Data.Database.SimpleDatabase.ApplyPageInfo(Simply.Data.Objects.SimpleDbCommand,Simply.Data.Interfaces.IPageInfo)">
+            <summary>
+            Applies the paging info into simple db command.
+            </summary>
+            <param name="dbCommand">The database command.</param>
+            <param name="pageInfo">The page information.</param>
+            <returns>Applies paging and return simpledbcommand instance.</returns>
+        </member>
+        <member name="M:Simply.Data.Database.SimpleDatabase.CommandLog(Simply.Data.Objects.SimpleDbCommand)">
+            <summary>
+            Logs the command.
+            </summary>
+            <param name="simpleDbCommand">The simple db command.</param>
+        </member>
+        <member name="M:Simply.Data.Database.SimpleDatabase.DbCommandLog(System.Data.IDbCommand)">
+            <summary>
+            Logs the database command.
+            </summary>
+            <param name="dbCommand">The database command.</param>
+        </member>
+        <member name="M:Simply.Data.Database.SimpleDatabase.BuildSimpleDbCommandForJdbcQuery(System.String,System.Object[],Simply.Data.Interfaces.ICommandSetting,System.Boolean)">
+            <summary>
+            Builds SimpleDbCommand instance for Translate of Odbc Sql Query.
+            </summary>
+            <param name="jdbcSqlQuery">Jdbc Sql query <see cref="T:System.String"/> 
+            like #SELECT T1.* FROM TABLE T1 WHERE T1.INT_COLUMN = ?1 AND T2.DATE_COLUMN = ?2 #.</param>
+            <param name="parameterValues">Sql command parameter values.</param>
+            <param name="commandSetting">The command setting.</param>
+            <param name="setOverratedParametersToOutput">if it is true overrated parameters set as output else will be throw error.</param>
+            <returns>Returns simple database command object instance <see cref="T:Simply.Data.Objects.SimpleDbCommand" />.</returns>
+        </member>
         <member name="T:Simply.Data.DataExtensions">
             <summary>
             Defines the <see cref="T:Simply.Data.DataExtensions" />.
@@ -1710,13 +3269,6 @@
             <param name="table">The table to act on.</param>
             <returns>Table as a List{dynamic}.</returns>
         </member>
-        <member name="M:Simply.Data.DataExtensions.AsDynamicEnumerable(System.Data.DataTable)">
-             <summary>
-            
-             </summary>
-             <param name="table">datatable convert to dynamic object.</param>
-             <returns>returns IEnumerable{dynamic} objects instances.</returns>
-        </member>
         <member name="T:Simply.Data.DataReaderAsyncOperator">
             <summary>
             Defines the <see cref="T:Simply.Data.DataReaderAsyncOperator" />.
@@ -1777,7 +3329,7 @@
             <param name="dataReader">Datareader instance.</param>
             <returns>Returns Dictionary{string, Type} object instance. </returns>
         </member>
-        <member name="M:Simply.Data.DataReaderOperator.GetSimleRowListSkipAndTake(System.Data.IDataReader,System.UInt32,System.UInt32,System.Boolean)">
+        <member name="M:Simply.Data.DataReaderOperator.GetSimpleRowListSkipAndTake(System.Data.IDataReader,System.UInt32,System.UInt32,System.Boolean)">
             <summary>
             GetDynamicResultSetSkipAndTake Get dynamic object List with skip and take options.
             </summary>
@@ -1902,8 +3454,8 @@
             <summary>
             Gets Output Parameters Of Command.
             </summary>
-            <param name="command">Db command instance<see cref="T:System.Data.IDbCommand"/>.</param>
-            <returns>Db command parameters<see cref="!:DbCommandParameter[]"/>.</returns>
+            <param name="command">Db command instance <see cref="T:System.Data.IDbCommand"/>.</param>
+            <returns>Db command parameters <see cref="!:DbCommandParameter[]"/>.</returns>
         </member>
         <member name="M:Simply.Data.DbCommandExtensions.CommandExtensions.CreateDbParameter(System.Data.IDbCommand,System.String,System.Object,System.Nullable{System.Data.DbType},System.Data.ParameterDirection)">
             <summary>
@@ -1974,12 +3526,13 @@
             <param name="commandParameters">database command parameters<see cref="T:System.Collections.Generic.List`1"/>.</param>
             <returns>Returns IDbCommand object instance.</returns>
         </member>
-        <member name="M:Simply.Data.DbCommandExtensions.CommandExtensions.IncludeCommandParameters(System.Data.IDbCommand,System.Collections.Generic.List{System.Object})">
+        <member name="M:Simply.Data.DbCommandExtensions.CommandExtensions.IncludeCommandParameters(System.Data.IDbCommand,System.Collections.Generic.List{System.Object},Simply.Data.Interfaces.IQuerySetting)">
             <summary>
             Includes Command Parameters.
             </summary>
             <param name="command">The command <see cref="T:System.Data.IDbCommand"/>.</param>
             <param name="commandParameters">database command parameters<see cref="!:List&lt;System.Object&gt;"/>.</param>
+            <param name="querySetting">Query setting object instance.</param>
             <returns>Returns IDbCommand object instance.</returns>
         </member>
         <member name="M:Simply.Data.DbCommandExtensions.CommandExtensions.IncludeCommandParameters(System.Data.IDbCommand,System.Object[])">
@@ -2308,6 +3861,116 @@
              <param name="take">item count for take.</param>
              <returns>Returns object instance</returns>
         </member>
+        <member name="T:Simply.Data.Interfaces.ISimpleDatabase">
+             <summary>
+            
+             </summary>
+             <seealso cref="T:System.IDisposable" />
+        </member>
+        <member name="P:Simply.Data.Interfaces.ISimpleDatabase.QuerySetting">
+            <summary>
+            Gets the query setting.
+            </summary>
+            <value>
+            The query setting.
+            </value>
+        </member>
+        <member name="P:Simply.Data.Interfaces.ISimpleDatabase.ConnectionType">
+            <summary>
+            Gets the type of the database connection.
+            </summary>
+            <value>
+            The type of the database connection.
+            </value>
+        </member>
+        <member name="P:Simply.Data.Interfaces.ISimpleDatabase.CommandLogAction">
+            <summary>
+            Gets the action for command logging.
+            </summary>
+        </member>
+        <member name="P:Simply.Data.Interfaces.ISimpleDatabase.DbCommandLogAction">
+            <summary>
+            Gets the action for command logging.
+            </summary>
+        </member>
+        <member name="P:Simply.Data.Interfaces.ISimpleDatabase.LogCommand">
+            <summary>
+            Gets, sets value for simpledbcommand logging.
+            </summary>
+        </member>
+        <member name="P:Simply.Data.Interfaces.ISimpleDatabase.LogDbCommand">
+            <summary>
+            Gets, sets value for IDbCommand logging.
+            </summary>
+        </member>
+        <member name="M:Simply.Data.Interfaces.ISimpleDatabase.Begin(System.Nullable{System.Data.IsolationLevel})">
+            <summary>
+            Begins the transaction.
+            </summary>
+            <param name="isolationLevel">The isolation level.</param>
+        </member>
+        <member name="M:Simply.Data.Interfaces.ISimpleDatabase.Commit">
+            <summary>
+            Commits the transaction.
+            </summary>
+        </member>
+        <member name="M:Simply.Data.Interfaces.ISimpleDatabase.Rollback">
+            <summary>
+            Rollbacks the transaction.
+            </summary>
+        </member>
+        <member name="M:Simply.Data.Interfaces.ISimpleDatabase.BuildSimpleDbCommandForOdbcQuery(System.String,System.Object[],Simply.Data.Interfaces.ICommandSetting,System.Boolean)">
+            <summary>
+            Builds SimpleDbCommand instance for Translate of Odbc Sql Query.
+            </summary>
+            <param name="odbcSqlQuery">The query <see cref="T:System.String"/>.</param>
+            <param name="parameterValues">Sql command parameter values.</param>
+            <param name="commandSetting">The command setting.</param>
+            <param name="setOverratedParametersToOutput">if it is true overrated parameters set as output else will be throw error.</param>
+            <returns>Returns simple database command object instance <see cref="T:Simply.Data.Objects.SimpleDbCommand" />.</returns>
+        </member>
+        <member name="M:Simply.Data.Interfaces.ISimpleDatabase.BuildSimpleDbCommandForQuery(System.String,System.Object,Simply.Data.Interfaces.ICommandSetting)">
+            <summary>
+            Builds the simple database command for SQL query.
+            </summary>
+            <param name="sqlQuery">The SQL query.</param>
+            <param name="parameterObject">The parameter object.</param>
+            <param name="commandSetting">The command setting.</param>
+            <returns>Returns simple database command object instance <see cref="T:Simply.Data.Objects.SimpleDbCommand" />.</returns>
+        </member>
+        <member name="M:Simply.Data.Interfaces.ISimpleDatabase.CreateCommand(Simply.Data.Objects.SimpleDbCommand,System.Boolean)">
+            <summary>
+            Create IDbCommand instance with database command and db transaction for given db connection.
+            </summary>
+            <param name="simpleDbCommand">database command <see cref="T:Simply.Data.Objects.SimpleDbCommand"/>.</param>
+            <param name="connectionShouldBeOpened">if it is true database connection will be opened, else not.</param>
+            <returns>Returns DbCommand object instance <see cref="T:System.Data.IDbCommand"/>.</returns>
+        </member>
+        <member name="M:Simply.Data.Interfaces.ISimpleDatabase.CreateDataAdapter">
+            <summary>
+            Gets DbDataAdapter instance of database connection.
+            </summary>
+            <returns>Returns DbDataAdapter instance.</returns>
+        </member>
+        <member name="M:Simply.Data.Interfaces.ISimpleDatabase.ApplyPageInfo(Simply.Data.Objects.SimpleDbCommand,Simply.Data.Interfaces.IPageInfo)">
+            <summary>
+            Applies the paging info into simple db command.
+            </summary>
+            <param name="dbCommand">The database command.</param>
+            <param name="pageInfo">The page information.</param>
+            <returns>Applies paging and return simpledbcommand instance.</returns>
+        </member>
+        <member name="M:Simply.Data.Interfaces.ISimpleDatabase.BuildSimpleDbCommandForJdbcQuery(System.String,System.Object[],Simply.Data.Interfaces.ICommandSetting,System.Boolean)">
+            <summary>
+            Builds SimpleDbCommand instance for Translate of Odbc Sql Query.
+            </summary>
+            <param name="jdbcSqlQuery">Jdbc Sql query <see cref="T:System.String"/> 
+            like #SELECT T1.* FROM TABLE T1 WHERE T1.INT_COLUMN = ?1 AND T2.DATE_COLUMN = ?2 #.</param>
+            <param name="parameterValues">Sql command parameter values.</param>
+            <param name="commandSetting">The command setting.</param>
+            <param name="setOverratedParametersToOutput">if it is true overrated parameters set as output else will be throw error.</param>
+            <returns>Returns simple database command object instance <see cref="T:Simply.Data.Objects.SimpleDbCommand" />.</returns>
+        </member>
         <member name="T:Simply.Data.Interfaces.IQuerySetting">
             <summary>
             Represents Parameter Prefix, Column-Table Prefix And Suffix, Last Record Sql Part, Skip and take part.
@@ -2447,33 +4110,30 @@
             Creates new SimpleDbCommand instance.
             </summary>
         </member>
-        <member name="M:Simply.Data.Objects.SimpleDbCommand.#ctor(System.String,System.Nullable{System.Data.CommandType},System.Boolean,System.Nullable{System.Int32})">
+        <member name="M:Simply.Data.Objects.SimpleDbCommand.#ctor(System.String,System.Nullable{System.Data.CommandType},System.Nullable{System.Int32})">
             <summary>
             Initializes a new instance of the <see cref="T:Simply.Data.Objects.SimpleDbCommand"/> class.
             </summary>
             <param name="commandText">The command text.</param>
             <param name="commandType">The command type.</param>
-            <param name="oracleCommandBindByName">If true, oracle command bind by name.</param>
             <param name="commandTimeout">The command timeout.</param>
         </member>
-        <member name="M:Simply.Data.Objects.SimpleDbCommand.#ctor(System.String,System.Collections.Generic.IEnumerable{System.Object},System.Nullable{System.Data.CommandType},System.Boolean,System.Nullable{System.Int32})">
+        <member name="M:Simply.Data.Objects.SimpleDbCommand.#ctor(System.String,System.Collections.Generic.IEnumerable{System.Object},System.Nullable{System.Data.CommandType},System.Nullable{System.Int32})">
             <summary>
             Initializes a new instance of the <see cref="T:Simply.Data.Objects.SimpleDbCommand"/> class.
             </summary>
             <param name="commandText">The command text.</param>
             <param name="commandParameters">The command parameters.</param>
             <param name="commandType">The command type.</param>
-            <param name="oracleCommandBindByName">If true, oracle command bind by name.</param>
             <param name="commandTimeout">The command timeout.</param>
         </member>
-        <member name="M:Simply.Data.Objects.SimpleDbCommand.#ctor(System.String,System.Collections.Generic.IEnumerable{Simply.Data.Objects.DbCommandParameter},System.Nullable{System.Data.CommandType},System.Boolean,System.Nullable{System.Int32})">
+        <member name="M:Simply.Data.Objects.SimpleDbCommand.#ctor(System.String,System.Collections.Generic.IEnumerable{Simply.Data.Objects.DbCommandParameter},System.Nullable{System.Data.CommandType},System.Nullable{System.Int32})">
             <summary>
             Initializes a new instance of the <see cref="T:Simply.Data.Objects.SimpleDbCommand"/> class.
             </summary>
             <param name="commandText">The command text.</param>
             <param name="commandParameters">The command parameters.</param>
             <param name="commandType">The command type.</param>
-            <param name="oracleCommandBindByName">If true, oracle command bind by name.</param>
             <param name="commandTimeout">The command timeout.</param>
         </member>
         <member name="P:Simply.Data.Objects.SimpleDbCommand.CommandType">
@@ -2510,11 +4170,6 @@
             clears parameters.
             </summary>
         </member>
-        <member name="P:Simply.Data.Objects.SimpleDbCommand.OracleCommandBindByName">
-            <summary>
-            Gets Sets OracleCommand BindByName value.
-            </summary>
-        </member>
         <member name="P:Simply.Data.Objects.SimpleDbCommand.ParameterNamePrefix">
             <summary>
             Gets Parameter Name Prefix for Rebuild Query.
@@ -2539,6 +4194,13 @@
             </summary>
             <param name="querySetting">The query setting.</param>
             <param name="obj">The value object.</param>
+        </member>
+        <member name="M:Simply.Data.Objects.SimpleDbCommand.RecompileQuery(Simply.Data.Interfaces.IQuerySetting,System.Collections.Generic.List{Simply.Data.Objects.DbCommandParameter})">
+            <summary>
+            Recompiles the query.
+            </summary>
+            <param name="querySetting">The query setting.</param>
+            <param name="parameters">The parameters.</param>
         </member>
         <member name="T:Simply.Data.Objects.DbCommandParameter">
             <summary>
@@ -2649,6 +4311,14 @@
             <summary>
             Resets Database Type.
             </summary>
+        </member>
+        <member name="P:Simply.Data.Objects.DbCommandParameter.PropertyName">
+            <summary>
+            Gets or sets the name of the property.
+            </summary>
+            <value>
+            The name of the property.
+            </value>
         </member>
         <member name="T:Simply.Data.Objects.DbCommandResult`1">
             <summary>
@@ -2825,6 +4495,70 @@
             <param name="parameterNamePrefix">The parameter name prefix.</param>
             <returns>Returns ICommandSetting object instance.</returns>
         </member>
+        <member name="T:Simply.Data.BaseQuerySetting">
+            <summary>
+            Represents Parameter Prefix, Column-Table Prefix And Suffix and last IdentityInsert Part.
+            </summary>
+        </member>
+        <member name="M:Simply.Data.BaseQuerySetting.#ctor(Simply.Data.Enums.DbConnectionTypes)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Simply.Data.BaseQuerySetting"/> class.
+            </summary>
+            <param name="connectionType">Database Connection type.</param>
+        </member>
+        <member name="P:Simply.Data.BaseQuerySetting.ParameterPrefix">
+            <summary>
+            Gets Parameter Name Prefix.
+            </summary>
+        </member>
+        <member name="P:Simply.Data.BaseQuerySetting.Prefix">
+            <summary>
+            Gets Table and Column Name Prefix.
+            </summary> 
+        </member>
+        <member name="P:Simply.Data.BaseQuerySetting.Suffix">
+            <summary>
+            Gets Table and Column Name Suffix.
+            </summary>
+        </member>
+        <member name="P:Simply.Data.BaseQuerySetting.StringConcatOperation">
+            <summary>
+            Gets the string concat operation.
+            </summary>
+            <value>
+            The string concat operation.
+            </value>
+        </member>
+        <member name="P:Simply.Data.BaseQuerySetting.SkipAndTakeFormat">
+            <summary>
+            Gets the Skip and take format.
+            </summary>
+        </member>
+        <member name="P:Simply.Data.BaseQuerySetting.LastFormat">
+            <summary>
+            Last Record Sql Format
+            </summary>
+        </member>
+        <member name="P:Simply.Data.BaseQuerySetting.ConnectionType">
+            <summary>
+            Gets Db Connection Type.
+            </summary>
+        </member>
+        <member name="P:Simply.Data.BaseQuerySetting.ParameterSuffix">
+            <summary>
+            Gets Parameter Suffix.
+            </summary>
+        </member>
+        <member name="P:Simply.Data.BaseQuerySetting.SubstringFormat">
+            <summary>
+            Gets the string substring format.
+            </summary>
+        </member>
+        <member name="P:Simply.Data.BaseQuerySetting.CountFormat">
+            <summary>
+            Gets the string count format.
+            </summary>
+        </member>
         <member name="T:Simply.Data.DB2QuerySettings">
             <summary>
             Represents Parameter Prefix, Column-Table Prefix And Suffix and last IdentityInsert Part.
@@ -2835,59 +4569,6 @@
             Initializes a new instance of the <see cref="T:Simply.Data.DB2QuerySettings"/> class.
             </summary>
             <param name="connectionType">Database Connection type.</param>
-        </member>
-        <member name="P:Simply.Data.DB2QuerySettings.ParameterPrefix">
-            <summary>
-            Gets Parameter Name Prefix.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.DB2QuerySettings.Prefix">
-            <summary>
-            Gets Table and Column Name Prefix.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.DB2QuerySettings.Suffix">
-            <summary>
-            Gets Table and Column Name Suffix.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.DB2QuerySettings.StringConcatOperation">
-            <summary>
-            Gets the string concat operation.
-            </summary>
-            <value>
-            The string concat operation.
-            </value>
-        </member>
-        <member name="P:Simply.Data.DB2QuerySettings.SkipAndTakeFormat">
-            <summary>
-            Gets the Skip and take format.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.DB2QuerySettings.LastFormat">
-            <summary>
-            Last Record Sql Format
-            </summary>
-        </member>
-        <member name="P:Simply.Data.DB2QuerySettings.ConnectionType">
-            <summary>
-            Gets Db Connection Type.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.DB2QuerySettings.ParameterSuffix">
-            <summary>
-            Gets Parameter Suffix.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.DB2QuerySettings.SubstringFormat">
-            <summary>
-            Gets the string substring format.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.DB2QuerySettings.CountFormat">
-            <summary>
-            Gets the string count format.
-            </summary>
         </member>
         <member name="T:Simply.Data.QuerySettings.QuerySettingsFactory">
             <summary>
@@ -2919,59 +4600,6 @@
             </summary>
             <param name="connectionType">Database Connection type.</param>
         </member>
-        <member name="P:Simply.Data.FirebirdQuerySetting.ParameterPrefix">
-            <summary>
-            Gets Parameter Name Prefix.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.FirebirdQuerySetting.Prefix">
-            <summary>
-            Gets Table and Column Name Prefix.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.FirebirdQuerySetting.Suffix">
-            <summary>
-            Gets Table and Column Name Suffix.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.FirebirdQuerySetting.StringConcatOperation">
-            <summary>
-            Gets the string concat operation.
-            </summary>
-            <value>
-            The string concat operation.
-            </value>
-        </member>
-        <member name="P:Simply.Data.FirebirdQuerySetting.SkipAndTakeFormat">
-            <summary>
-            Gets the Skip and take format.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.FirebirdQuerySetting.LastFormat">
-            <summary>
-            Last Record Sql Format
-            </summary>
-        </member>
-        <member name="P:Simply.Data.FirebirdQuerySetting.ConnectionType">
-            <summary>
-            Gets Db Connection Type.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.FirebirdQuerySetting.ParameterSuffix">
-            <summary>
-            Gets Parameter Suffix.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.FirebirdQuerySetting.SubstringFormat">
-            <summary>
-            Gets the string substring format.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.FirebirdQuerySetting.CountFormat">
-            <summary>
-            Gets the string count format.
-            </summary>
-        </member>
         <member name="T:Simply.Data.MsSqlQuerySetting">
             <summary>
             Represents Parameter Prefix, Column-Table Prefix And Suffix and last IdentityInsert Part.
@@ -2982,57 +4610,6 @@
             Initializes a new instance of the <see cref="T:Simply.Data.MsSqlQuerySetting"/> class.
             </summary>
             <param name="connectionType">Database Connection type.</param>
-        </member>
-        <member name="P:Simply.Data.MsSqlQuerySetting.ParameterPrefix">
-            <summary>
-            Gets Parameter Name Prefix.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.MsSqlQuerySetting.Prefix">
-            <summary>
-            Gets Table and Column Name Prefix.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.MsSqlQuerySetting.Suffix">
-            <summary>
-            Gets Table and Column Name Suffix.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.MsSqlQuerySetting.StringConcatOperation">
-            <summary>
-            Gets the string concat operation.
-            </summary>
-            <value>The string concat operation.</value>
-        </member>
-        <member name="P:Simply.Data.MsSqlQuerySetting.SkipAndTakeFormat">
-            <summary>
-            Gets the Skip and take format.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.MsSqlQuerySetting.LastFormat">
-            <summary>
-            Last Record Sql Format
-            </summary>
-        </member>
-        <member name="P:Simply.Data.MsSqlQuerySetting.ConnectionType">
-            <summary>
-            Gets Db Connection Type.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.MsSqlQuerySetting.ParameterSuffix">
-            <summary>
-            Gets Parameter Suffix.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.MsSqlQuerySetting.SubstringFormat">
-            <summary>
-            Gets the string substring format.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.MsSqlQuerySetting.CountFormat">
-            <summary>
-            Gets the string count format.
-            </summary>
         </member>
         <member name="T:Simply.Data.MySqlQuerySetting">
             <summary>
@@ -3045,57 +4622,6 @@
             </summary>
             <param name="connectionType">Database Connection type.</param>
         </member>
-        <member name="P:Simply.Data.MySqlQuerySetting.ParameterPrefix">
-            <summary>
-            Gets Parameter Name Prefix.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.MySqlQuerySetting.Prefix">
-            <summary>
-            Gets Table and Column Name Prefix.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.MySqlQuerySetting.Suffix">
-            <summary>
-            Gets Table and Column Name Suffix.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.MySqlQuerySetting.StringConcatOperation">
-            <summary>
-            Gets the string concat operation.
-            </summary>
-            <value>The string concat operation.</value>
-        </member>
-        <member name="P:Simply.Data.MySqlQuerySetting.SkipAndTakeFormat">
-            <summary>
-            Gets the Skip and take format.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.MySqlQuerySetting.LastFormat">
-            <summary>
-            Last Record Sql Format
-            </summary>
-        </member>
-        <member name="P:Simply.Data.MySqlQuerySetting.ConnectionType">
-            <summary>
-            Gets Db Connection Type.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.MySqlQuerySetting.ParameterSuffix">
-            <summary>
-            Gets Parameter Suffix.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.MySqlQuerySetting.SubstringFormat">
-            <summary>
-            Gets the string substring format.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.MySqlQuerySetting.CountFormat">
-            <summary>
-            Gets the string count format.
-            </summary>
-        </member>
         <member name="T:Simply.Data.NuodbQuerySetting">
             <summary>
             Represents Parameter Prefix, Column-Table Prefix And Suffix and last IdentityInsert Part.
@@ -3106,57 +4632,6 @@
             Initializes a new instance of the <see cref="T:Simply.Data.NuodbQuerySetting"/> class.
             </summary>
             <param name="connectionType">Database Connection type.</param>
-        </member>
-        <member name="P:Simply.Data.NuodbQuerySetting.ParameterPrefix">
-            <summary>
-            Gets Parameter Name Prefix.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.NuodbQuerySetting.Prefix">
-            <summary>
-            Gets Table and Column Name Prefix.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.NuodbQuerySetting.Suffix">
-            <summary>
-            Gets Table and Column Name Suffix.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.NuodbQuerySetting.StringConcatOperation">
-            <summary>
-            Gets the string concat operation.
-            </summary>
-            <value>The string concat operation.</value>
-        </member>
-        <member name="P:Simply.Data.NuodbQuerySetting.SkipAndTakeFormat">
-            <summary>
-            Gets the Skip and take format.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.NuodbQuerySetting.LastFormat">
-            <summary>
-            Last Record Sql Format
-            </summary>
-        </member>
-        <member name="P:Simply.Data.NuodbQuerySetting.ConnectionType">
-            <summary>
-            Gets Db Connection Type.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.NuodbQuerySetting.ParameterSuffix">
-            <summary>
-            Gets Parameter Suffix.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.NuodbQuerySetting.SubstringFormat">
-            <summary>
-            Gets the string substring format.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.NuodbQuerySetting.CountFormat">
-            <summary>
-            Gets the string count format.
-            </summary>
         </member>
         <member name="T:Simply.Data.OdbcQuerySetting">
             <summary>
@@ -3169,57 +4644,6 @@
             </summary>
             <param name="connectionType">Database Connection type.</param>
         </member>
-        <member name="P:Simply.Data.OdbcQuerySetting.ParameterPrefix">
-            <summary>
-            Gets Parameter Name Prefix.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.OdbcQuerySetting.Prefix">
-            <summary>
-            Gets Table and Column Name Prefix.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.OdbcQuerySetting.Suffix">
-            <summary>
-            Gets Table and Column Name Suffix.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.OdbcQuerySetting.StringConcatOperation">
-            <summary>
-            Gets the string concat operation.
-            </summary>
-            <value>The string concat operation.</value>
-        </member>
-        <member name="P:Simply.Data.OdbcQuerySetting.SkipAndTakeFormat">
-            <summary>
-            Gets the Skip and take format.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.OdbcQuerySetting.LastFormat">
-            <summary>
-            Last Record Sql Format
-            </summary>
-        </member>
-        <member name="P:Simply.Data.OdbcQuerySetting.ConnectionType">
-            <summary>
-            Gets Db Connection Type.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.OdbcQuerySetting.ParameterSuffix">
-            <summary>
-            Gets Parameter Suffix.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.OdbcQuerySetting.SubstringFormat">
-            <summary>
-            Gets the string substring format.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.OdbcQuerySetting.CountFormat">
-            <summary>
-            Gets the string count format.
-            </summary>
-        </member>
         <member name="T:Simply.Data.OledbQuerySetting">
             <summary>
             Represents Parameter Prefix, Column-Table Prefix And Suffix and last IdentityInsert Part.
@@ -3230,57 +4654,6 @@
             Initializes a new instance of the <see cref="T:Simply.Data.OledbQuerySetting"/> class.
             </summary>
             <param name="connectionType">Database Connection type.</param>
-        </member>
-        <member name="P:Simply.Data.OledbQuerySetting.ParameterPrefix">
-            <summary>
-            Gets Parameter Name Prefix.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.OledbQuerySetting.Prefix">
-            <summary>
-            Gets Table and Column Name Prefix.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.OledbQuerySetting.Suffix">
-            <summary>
-            Gets Table and Column Name Suffix.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.OledbQuerySetting.StringConcatOperation">
-            <summary>
-            Gets the string concat operation.
-            </summary>
-            <value>The string concat operation.</value>
-        </member>
-        <member name="P:Simply.Data.OledbQuerySetting.SkipAndTakeFormat">
-            <summary>
-            Gets the Skip and take format.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.OledbQuerySetting.LastFormat">
-            <summary>
-            Last Record Sql Format
-            </summary>
-        </member>
-        <member name="P:Simply.Data.OledbQuerySetting.ConnectionType">
-            <summary>
-            Gets Db Connection Type.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.OledbQuerySetting.ParameterSuffix">
-            <summary>
-            Gets Parameter Suffix.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.OledbQuerySetting.SubstringFormat">
-            <summary>
-            Gets the string substring format.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.OledbQuerySetting.CountFormat">
-            <summary>
-            Gets the string count format.
-            </summary>
         </member>
         <member name="T:Simply.Data.OracleQuerySetting">
             <summary>
@@ -3293,57 +4666,6 @@
             </summary>
             <param name="connectionType">Database Connection type.</param>
         </member>
-        <member name="P:Simply.Data.OracleQuerySetting.ParameterPrefix">
-            <summary>
-            Gets Parameter Name Prefix.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.OracleQuerySetting.Prefix">
-            <summary>
-            Gets Table and Column Name Prefix.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.OracleQuerySetting.Suffix">
-            <summary>
-            Gets Table and Column Name Suffix.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.OracleQuerySetting.StringConcatOperation">
-            <summary>
-            Gets the string concat operation.
-            </summary>
-            <value>The string concat operation.</value>
-        </member>
-        <member name="P:Simply.Data.OracleQuerySetting.SkipAndTakeFormat">
-            <summary>
-            Gets the Skip and take format.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.OracleQuerySetting.LastFormat">
-            <summary>
-            Last Record Sql Format
-            </summary>
-        </member>
-        <member name="P:Simply.Data.OracleQuerySetting.ConnectionType">
-            <summary>
-            Gets Db Connection Type.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.OracleQuerySetting.ParameterSuffix">
-            <summary>
-            Gets Parameter Suffix.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.OracleQuerySetting.SubstringFormat">
-            <summary>
-            Gets the string substring format.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.OracleQuerySetting.CountFormat">
-            <summary>
-            Gets the string count format.
-            </summary>
-        </member>
         <member name="T:Simply.Data.PgSqlQuerySetting">
             <summary>
             Represents Parameter Prefix, Column-Table Prefix And Suffix and last IdentityInsert Part.
@@ -3354,57 +4676,6 @@
             Initializes a new instance of the <see cref="T:Simply.Data.PgSqlQuerySetting"/> class.
             </summary>
             <param name="connectionType">Database Connection type.</param>
-        </member>
-        <member name="P:Simply.Data.PgSqlQuerySetting.ParameterPrefix">
-            <summary>
-            Gets Parameter Name Prefix.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.PgSqlQuerySetting.Prefix">
-            <summary>
-            Gets Table and Column Name Prefix.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.PgSqlQuerySetting.Suffix">
-            <summary>
-            Gets Table and Column Name Suffix.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.PgSqlQuerySetting.StringConcatOperation">
-            <summary>
-            Gets the string concat operation.
-            </summary>
-            <value>The string concat operation.</value>
-        </member>
-        <member name="P:Simply.Data.PgSqlQuerySetting.SkipAndTakeFormat">
-            <summary>
-            Gets the Skip and take format.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.PgSqlQuerySetting.LastFormat">
-            <summary>
-            Last Record Sql Format
-            </summary>
-        </member>
-        <member name="P:Simply.Data.PgSqlQuerySetting.ConnectionType">
-            <summary>
-            Gets Db Connection Type.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.PgSqlQuerySetting.ParameterSuffix">
-            <summary>
-            Gets Parameter Suffix.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.PgSqlQuerySetting.SubstringFormat">
-            <summary>
-            Gets the string substring format.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.PgSqlQuerySetting.CountFormat">
-            <summary>
-            Gets the string count format.
-            </summary>
         </member>
         <member name="T:Simply.Data.SqlBaseQuerySettings">
             <summary>
@@ -3417,57 +4688,6 @@
             </summary>
             <param name="connectionType">Database Connection type.</param>
         </member>
-        <member name="P:Simply.Data.SqlBaseQuerySettings.ParameterPrefix">
-            <summary>
-            Gets Parameter Name Prefix.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.SqlBaseQuerySettings.Prefix">
-            <summary>
-            Gets Table and Column Name Prefix.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.SqlBaseQuerySettings.Suffix">
-            <summary>
-            Gets Table and Column Name Suffix.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.SqlBaseQuerySettings.StringConcatOperation">
-            <summary>
-            Gets the string concat operation.
-            </summary>
-            <value>The string concat operation.</value>
-        </member>
-        <member name="P:Simply.Data.SqlBaseQuerySettings.SkipAndTakeFormat">
-            <summary>
-            Gets the Skip and take format.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.SqlBaseQuerySettings.LastFormat">
-            <summary>
-            Last Record Sql Format
-            </summary>
-        </member>
-        <member name="P:Simply.Data.SqlBaseQuerySettings.ConnectionType">
-            <summary>
-            Gets Db Connection Type.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.SqlBaseQuerySettings.ParameterSuffix">
-            <summary>
-            Gets Parameter Suffix.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.SqlBaseQuerySettings.SubstringFormat">
-            <summary>
-            Gets the string substring format.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.SqlBaseQuerySettings.CountFormat">
-            <summary>
-            Gets the string count format.
-            </summary>
-        </member>
         <member name="T:Simply.Data.SqlCEQuerySetting">
             <summary>
             Represents Parameter Prefix, Column-Table Prefix And Suffix and last IdentityInsert Part.
@@ -3478,57 +4698,6 @@
             Initializes a new instance of the <see cref="T:Simply.Data.SqlCEQuerySetting"/> class.
             </summary>
             <param name="connectionType">Database Connection type.</param>
-        </member>
-        <member name="P:Simply.Data.SqlCEQuerySetting.ParameterPrefix">
-            <summary>
-            Gets Parameter Name Prefix.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.SqlCEQuerySetting.Prefix">
-            <summary>
-            Gets Table and Column Name Prefix.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.SqlCEQuerySetting.Suffix">
-            <summary>
-            Gets Table and Column Name Suffix.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.SqlCEQuerySetting.StringConcatOperation">
-            <summary>
-            Gets the string concat operation.
-            </summary>
-            <value>The string concat operation.</value>
-        </member>
-        <member name="P:Simply.Data.SqlCEQuerySetting.SkipAndTakeFormat">
-            <summary>
-            Gets the Skip and take format.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.SqlCEQuerySetting.LastFormat">
-            <summary>
-            Last Record Sql Format
-            </summary>
-        </member>
-        <member name="P:Simply.Data.SqlCEQuerySetting.ConnectionType">
-            <summary>
-            Gets Db Connection Type.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.SqlCEQuerySetting.ParameterSuffix">
-            <summary>
-            Gets Parameter Suffix.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.SqlCEQuerySetting.SubstringFormat">
-            <summary>
-            Gets the string substring format.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.SqlCEQuerySetting.CountFormat">
-            <summary>
-            Gets the string count format.
-            </summary>
         </member>
         <member name="T:Simply.Data.SqlDatabaseQuerySetting">
             <summary>
@@ -3541,57 +4710,6 @@
             </summary>
             <param name="connectionType">Database Connection type.</param>
         </member>
-        <member name="P:Simply.Data.SqlDatabaseQuerySetting.ParameterPrefix">
-            <summary>
-            Gets Parameter Name Prefix.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.SqlDatabaseQuerySetting.Prefix">
-            <summary>
-            Gets Table and Column Name Prefix.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.SqlDatabaseQuerySetting.Suffix">
-            <summary>
-            Gets Table and Column Name Suffix.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.SqlDatabaseQuerySetting.StringConcatOperation">
-            <summary>
-            Gets the string concat operation.
-            </summary>
-            <value>The string concat operation.</value>
-        </member>
-        <member name="P:Simply.Data.SqlDatabaseQuerySetting.SkipAndTakeFormat">
-            <summary>
-            Gets the Skip and take format.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.SqlDatabaseQuerySetting.LastFormat">
-            <summary>
-            Last Record Sql Format
-            </summary>
-        </member>
-        <member name="P:Simply.Data.SqlDatabaseQuerySetting.ConnectionType">
-            <summary>
-            Gets Db Connection Type.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.SqlDatabaseQuerySetting.ParameterSuffix">
-            <summary>
-            Gets Parameter Suffix.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.SqlDatabaseQuerySetting.SubstringFormat">
-            <summary>
-            Gets the string substring format.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.SqlDatabaseQuerySetting.CountFormat">
-            <summary>
-            Gets the string count format.
-            </summary>
-        </member>
         <member name="T:Simply.Data.SQLiteQuerySetting">
             <summary>
             Represents Parameter Prefix, Column-Table Prefix And Suffix and last IdentityInsert Part.
@@ -3602,57 +4720,6 @@
             Initializes a new instance of the <see cref="T:Simply.Data.SQLiteQuerySetting"/> class.
             </summary>
             <param name="connectionType">Database Connection type.</param>
-        </member>
-        <member name="P:Simply.Data.SQLiteQuerySetting.ParameterPrefix">
-            <summary>
-            Gets Parameter Name Prefix.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.SQLiteQuerySetting.Prefix">
-            <summary>
-            Gets Table and Column Name Prefix.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.SQLiteQuerySetting.Suffix">
-            <summary>
-            Gets Table and Column Name Suffix.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.SQLiteQuerySetting.StringConcatOperation">
-            <summary>
-            Gets the string concat operation.
-            </summary>
-            <value>The string concat operation.</value>
-        </member>
-        <member name="P:Simply.Data.SQLiteQuerySetting.SkipAndTakeFormat">
-            <summary>
-            Gets the Skip and take format.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.SQLiteQuerySetting.LastFormat">
-            <summary>
-            Last Record Sql Format
-            </summary>
-        </member>
-        <member name="P:Simply.Data.SQLiteQuerySetting.ConnectionType">
-            <summary>
-            Gets Db Connection Type.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.SQLiteQuerySetting.ParameterSuffix">
-            <summary>
-            Gets Parameter Suffix.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.SQLiteQuerySetting.SubstringFormat">
-            <summary>
-            Gets the string substring format.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.SQLiteQuerySetting.CountFormat">
-            <summary>
-            Gets the string count format.
-            </summary>
         </member>
         <member name="T:Simply.Data.SybaseQuerySetting">
             <summary>
@@ -3665,57 +4732,6 @@
             </summary>
             <param name="connectionType">Database Connection type.</param>
         </member>
-        <member name="P:Simply.Data.SybaseQuerySetting.ParameterPrefix">
-            <summary>
-            Gets Parameter Name Prefix.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.SybaseQuerySetting.Prefix">
-            <summary>
-            Gets Table and Column Name Prefix.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.SybaseQuerySetting.Suffix">
-            <summary>
-            Gets Table and Column Name Suffix.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.SybaseQuerySetting.StringConcatOperation">
-            <summary>
-            Gets the string concat operation.
-            </summary>
-            <value>The string concat operation.</value>
-        </member>
-        <member name="P:Simply.Data.SybaseQuerySetting.SkipAndTakeFormat">
-            <summary>
-            Gets the Skip and take format.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.SybaseQuerySetting.LastFormat">
-            <summary>
-            Last Record Sql Format
-            </summary>
-        </member>
-        <member name="P:Simply.Data.SybaseQuerySetting.ConnectionType">
-            <summary>
-            Gets Db Connection Type.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.SybaseQuerySetting.ParameterSuffix">
-            <summary>
-            Gets Parameter Suffix.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.SybaseQuerySetting.SubstringFormat">
-            <summary>
-            Gets the string substring format.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.SybaseQuerySetting.CountFormat">
-            <summary>
-            Gets the string count format.
-            </summary>
-        </member>
         <member name="T:Simply.Data.SynergyQuerySetting">
             <summary>
             Represents Parameter Prefix, Column-Table Prefix And Suffix and last IdentityInsert Part.
@@ -3727,57 +4743,6 @@
             </summary>
             <param name="connectionType">Database Connection type.</param>
         </member>
-        <member name="P:Simply.Data.SynergyQuerySetting.ParameterPrefix">
-            <summary>
-            Gets Parameter Name Prefix.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.SynergyQuerySetting.Prefix">
-            <summary>
-            Gets Table and Column Name Prefix.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.SynergyQuerySetting.Suffix">
-            <summary>
-            Gets Table and Column Name Suffix.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.SynergyQuerySetting.StringConcatOperation">
-            <summary>
-            Gets the string concat operation.
-            </summary>
-            <value>The string concat operation.</value>
-        </member>
-        <member name="P:Simply.Data.SynergyQuerySetting.SkipAndTakeFormat">
-            <summary>
-            Gets the Skip and take format.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.SynergyQuerySetting.LastFormat">
-            <summary>
-            Last Record Sql Format
-            </summary>
-        </member>
-        <member name="P:Simply.Data.SynergyQuerySetting.ConnectionType">
-            <summary>
-            Gets Db Connection Type.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.SynergyQuerySetting.ParameterSuffix">
-            <summary>
-            Gets Parameter Suffix.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.SynergyQuerySetting.SubstringFormat">
-            <summary>
-            Gets the string substring format.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.SynergyQuerySetting.CountFormat">
-            <summary>
-            Gets the string count format.
-            </summary>
-        </member>
         <member name="T:Simply.Data.VistaDbQuerySetting">
             <summary>
             Represents Parameter Prefix, Column-Table Prefix And Suffix and last IdentityInsert Part.
@@ -3788,57 +4753,6 @@
             Initializes a new instance of the <see cref="T:Simply.Data.VistaDbQuerySetting"/> class.
             </summary>
             <param name="connectionType">Database Connection type.</param>
-        </member>
-        <member name="P:Simply.Data.VistaDbQuerySetting.ParameterPrefix">
-            <summary>
-            Gets Parameter Name Prefix.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.VistaDbQuerySetting.Prefix">
-            <summary>
-            Gets Table and Column Name Prefix.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.VistaDbQuerySetting.Suffix">
-            <summary>
-            Gets Table and Column Name Suffix.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.VistaDbQuerySetting.StringConcatOperation">
-            <summary>
-            Gets the string concat operation.
-            </summary>
-            <value>The string concat operation.</value>
-        </member>
-        <member name="P:Simply.Data.VistaDbQuerySetting.SkipAndTakeFormat">
-            <summary>
-            Gets the Skip and take format.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.VistaDbQuerySetting.LastFormat">
-            <summary>
-            Last Record Sql Format
-            </summary>
-        </member>
-        <member name="P:Simply.Data.VistaDbQuerySetting.ConnectionType">
-            <summary>
-            Gets Db Connection Type.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.VistaDbQuerySetting.ParameterSuffix">
-            <summary>
-            Gets Parameter Suffix.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.VistaDbQuerySetting.SubstringFormat">
-            <summary>
-            Gets the string substring format.
-            </summary>
-        </member>
-        <member name="P:Simply.Data.VistaDbQuerySetting.CountFormat">
-            <summary>
-            Gets the string count format.
-            </summary>
         </member>
     </members>
 </doc>
