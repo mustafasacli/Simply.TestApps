@@ -1,7 +1,8 @@
-﻿using MySql.Data.MySqlClient;
-using Simply.Data;
+﻿using Simply.Data;
 using Simply.Data.ConnectionExtensions;
+using Simply.Data.Interfaces;
 using Simply.Data.Objects;
+using Simply_Test_Db;
 using System;
 using System.Data;
 
@@ -9,52 +10,24 @@ namespace SimplyTest_Count_ConsoleApp
 {
     internal class Program
     {
-        internal static IDbConnection GetDbConnection()
-        {
-            return new MySqlConnection { ConnectionString = "data source=127.0.0.1;initial catalog=classicmodels;user id=root;" };
-        }
-
         private static void Main(string[] args)
         {
             int orderNumber = 10100;
-            using (IDbConnection connection = GetDbConnection())
-            {
-                try
-                {
-                    //connection.OpenIfNot();
-                    long result = connection.OpenAnd()
-                        .CountLong("select * from `classicmodels`.`orderdetails` where `orderNumber` = @orderNumber", new { orderNumber });
-                    Console.WriteLine(result == 4 ? "4 kayıt bulundu." : $"Hatalı sonuç. {result} kayıt bulundu. ");
-                }
-                finally
-                { connection.CloseIfNot(); }
-            }
-            Console.WriteLine("--------------------------------------------------------");
-            using (IDbConnection connection = GetDbConnection())
-            {
-                try
-                {
-                    //connection.OpenIfNot();
-                    long result = connection.OpenAnd().CountLong("select * from `classicmodels`.`orderdetails` where `orderNumber` = ?orderNumber?", new { orderNumber },
-                        commandSetting: SimpleCommandSetting.New().SetParameterNamePrefix(parameterNamePrefix: '?'));
-                    Console.WriteLine(result == 4 ? "4 kayıt bulundu." : $"Hatalı sonuç. {result} kayıt bulundu. ");
-                }
-                finally
-                { connection.CloseIfNot(); }
-            }
+            ISimpleDatabase database = new SimpleMySqlDatabase();
+            string sql = "select * from `classicmodels`.`orderdetails` where `orderNumber` = @orderNumber";
+            long result = database.CountLong(sql, new { orderNumber });
+            Console.WriteLine(result == 4 ? "4 kayıt bulundu." : $"Hatalı sonuç. {result} kayıt bulundu. ");
             Console.WriteLine("--------------------------------------------------------");
 
-            using (IDbConnection connection = GetDbConnection())
-            {
-                try
-                {
-                    //connection.OpenIfNot();
-                    long result = connection.OpenAnd().CountLong("select * from `classicmodels`.`orderdetails` where `orderNumber` = ?", new object[] { orderNumber });
-                    Console.WriteLine(result == 4 ? "4 kayıt bulundu." : $"Hatalı sonuç. {result} kayıt bulundu. ");
-                }
-                finally
-                { connection.CloseIfNot(); }
-            }
+            sql = "select * from `classicmodels`.`orderdetails` where `orderNumber` = ?orderNumber?";
+            result = database.CountLong(sql, new { orderNumber },
+                SimpleCommandSetting.New().SetParameterNamePrefix(parameterNamePrefix: '?'));
+            Console.WriteLine(result == 4 ? "4 kayıt bulundu." : $"Hatalı sonuç. {result} kayıt bulundu. ");
+            Console.WriteLine("--------------------------------------------------------");
+
+            sql = "select * from `classicmodels`.`orderdetails` where `orderNumber` = ?";
+            result = database.CountLongOdbc(sql, new[] { (object)orderNumber });
+            Console.WriteLine(result == 4 ? "4 kayıt bulundu." : $"Hatalı sonuç. {result} kayıt bulundu. ");
             Console.WriteLine("--------------------------------------------------------");
 
             SimpleDbCommand command = new SimpleDbCommand()
@@ -63,19 +36,10 @@ namespace SimplyTest_Count_ConsoleApp
                 CommandText = "select * from `classicmodels`.`orderdetails` where `orderNumber` = @orderNumber"
             };
             command.AddParameter(new DbCommandParameter { ParameterName = "orderNumber", Value = orderNumber });
-
-            using (IDbConnection connection = GetDbConnection())
-            {
-                try
-                {
-                    //connection.OpenIfNot();
-                    long result = connection.OpenAnd().CountLong(command);
-                    Console.WriteLine(result == 4 ? "4 kayıt bulundu." : $"Hatalı sonuç. {result} kayıt bulundu. ");
-                }
-                finally
-                { connection.CloseIfNot(); }
-            }
+            result = database.CountLong(command);
+            Console.WriteLine(result == 4 ? "4 kayıt bulundu." : $"Hatalı sonuç. {result} kayıt bulundu. ");
             Console.WriteLine("--------------------------------------------------------");
+
             Console.ReadKey();
         }
     }
