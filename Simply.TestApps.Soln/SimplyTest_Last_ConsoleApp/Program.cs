@@ -1,7 +1,8 @@
-﻿using MySql.Data.MySqlClient;
-using Simply.Common.Objects;
+﻿using Simply.Common.Objects;
 using Simply.Data;
+using Simply.Data.Interfaces;
 using Simply.Data.Objects;
+using Simply_Test_Db;
 using SimplyTest_Entities;
 using System;
 using System.Data;
@@ -11,117 +12,53 @@ namespace SimplyTest_Last_ConsoleApp
 {
     internal class Program
     {
-        internal static IDbConnection GetDbConnection()
-        {
-            return new MySqlConnection { ConnectionString = "data source=127.0.0.1;initial catalog=classicmodels;user id=root;" };
-        }
-
         private static void Main(string[] args)
         {
             string productCode = "S18_2325";
-            using (IDbConnection connection = GetDbConnection())
-            {
-                try
-                {
-                    connection.OpenIfNot();
-                    var orderDetail = connection.QueryLast<Orderdetails>("select * from `classicmodels`.`orderdetails` WHERE `productCode` = ?productCode?",
-                        new { productCode }, commandSetting: SimpleCommandSetting.Create().SetParameterNamePrefix('?'));
-                    writeEntity(orderDetail);
-                }
-                finally
-                { connection.CloseIfNot(); }
-            }
-            Console.WriteLine("--------------------------------------------------------");
-            using (IDbConnection connection = GetDbConnection())
-            {
-                try
-                {
-                    connection.OpenIfNot();
-                    var orderDetail = connection.QueryLast<Orderdetails>(
-                        "select * from `classicmodels`.`orderdetails` WHERE `productCode` = ?",
-                        new { productCode });
-                    writeEntity(orderDetail);
-                }
-                finally
-                { connection.CloseIfNot(); }
-            }
+            ISimpleDatabase database = new SimpleMySqlDatabase();
+            Orderdetails orderDetail = database.Last<Orderdetails>("select * from `classicmodels`.`orderdetails` WHERE `productCode` = ?productCode?",
+                       new { productCode }, commandSetting: SimpleCommandSetting.Create().SetParameterNamePrefix('?'));
+            writeEntity(orderDetail);
             Console.WriteLine("--------------------------------------------------------");
 
-            using (IDbConnection connection = GetDbConnection())
-            {
-                try
-                {
-                    SimpleDbCommand command = new SimpleDbCommand();
-                    command.CommandText =
-                        "select * from `classicmodels`.`orderdetails` WHERE `productCode` = @productCode";
-                    command.AddParameter(new DbCommandParameter { Direction = ParameterDirection.Input, ParameterName = "productCode", Value = productCode });
-                    connection.OpenIfNot();
-                    var orderDetail = connection.QueryLast<Orderdetails>(command);
-                    writeEntity(orderDetail.Result);
-                }
-                finally
-                { connection.CloseIfNot(); }
-            }
+            Orderdetails orderDetail2 = database.Last<Orderdetails>(
+                "select * from `classicmodels`.`orderdetails` WHERE `productCode` = ?",
+                new { productCode });
+            writeEntity(orderDetail2);
+            Console.WriteLine("--------------------------------------------------------");
+            SimpleDbCommand command = new SimpleDbCommand();
+            command.CommandText =
+                "select * from `classicmodels`.`orderdetails` WHERE `productCode` = @productCode";
+            command.AddParameter(new DbCommandParameter { Direction = ParameterDirection.Input, ParameterName = "productCode", Value = productCode });
+
+            Orderdetails orderDetail3 = database.Last<Orderdetails>(command);
+            writeEntity(orderDetail3);
+
+            Console.WriteLine("--------------------------------------------------------");
+            Orderdetails orderDetail4 = database.Last<Orderdetails>(
+                "select * from `classicmodels`.`orderdetails` WHERE `productCode` = ?",
+                new[] { productCode });
+            writeEntity(orderDetail4);
             Console.WriteLine("--------------------------------------------------------");
 
-            using (IDbConnection connection = GetDbConnection())
-            {
-                try
-                {
-                    connection.OpenIfNot();
-                    var orderDetail = connection.GetLast<Orderdetails>(
-                        "select * from `classicmodels`.`orderdetails` WHERE `productCode` = ?",
-                        new[] { productCode });
-                    writeEntity(orderDetail);
-                }
-                finally
-                { connection.CloseIfNot(); }
-            }
+            SimpleDbCommand command2 = new SimpleDbCommand();
+            command2.CommandText =
+                "select * from `classicmodels`.`orderdetails` WHERE `productCode` = @productCode";
+            command2.AddParameter(new DbCommandParameter { Direction = ParameterDirection.Input, ParameterName = "productCode", Value = productCode });
+            SimpleDbRow orderDetailRow = database.LastRow(command2);
+            writeDbRow(orderDetailRow);
             Console.WriteLine("--------------------------------------------------------");
 
-            using (IDbConnection connection = GetDbConnection())
-            {
-                try
-                {
-                    SimpleDbCommand command = new SimpleDbCommand();
-                    command.CommandText =
-                        "select * from `classicmodels`.`orderdetails` WHERE `productCode` = @productCode";
-                    command.AddParameter(new DbCommandParameter { Direction = ParameterDirection.Input, ParameterName = "productCode", Value = productCode });
-                    connection.OpenIfNot();
-                    var orderDetailRowResult = connection.QueryLastAsDbRow(command);
-                    writeDbRow(orderDetailRowResult.Result);
-                }
-                finally
-                { connection.CloseIfNot(); }
-            }
+            SimpleDbRow orderDetailRow2 = database.LastRow(
+                "select * from `classicmodels`.`orderdetails` WHERE `productCode` = @productCode",
+                new { productCode });
+            writeDbRow(orderDetailRow2);
             Console.WriteLine("--------------------------------------------------------");
-            using (IDbConnection connection = GetDbConnection())
-            {
-                try
-                {
-                    connection.OpenIfNot();
-                    var orderDetailRow = connection.QueryLastDbRow(
-                        "select * from `classicmodels`.`orderdetails` WHERE `productCode` = @productCode",
-                        new { productCode });
-                    writeDbRow(orderDetailRow);
-                }
-                finally
-                { connection.CloseIfNot(); }
-            }
-            Console.WriteLine("--------------------------------------------------------");
-            using (IDbConnection connection = GetDbConnection())
-            {
-                try
-                {
-                    connection.OpenIfNot();
-                    var orderDetailRow = connection.QueryLastDbRow(
-                        "select * from `classicmodels`.`orderdetails` WHERE `productCode` = #productCode#",
-                        new { productCode }, commandSetting: SimpleCommandSetting.Create().SetParameterNamePrefix('#'));
-                    writeDbRow(orderDetailRow);
-                }
-                finally
-                { connection.CloseIfNot(); }
-            }
+
+            SimpleDbRow orderDetailRow3 = database.LastRow(
+                "select * from `classicmodels`.`orderdetails` WHERE `productCode` = #productCode#",
+                new { productCode }, commandSetting: SimpleCommandSetting.Create().SetParameterNamePrefix('#'));
+            writeDbRow(orderDetailRow3);
             Console.WriteLine("--------------------------------------------------------");
 
             Console.ReadKey();
