@@ -1,8 +1,8 @@
-﻿using MySql.Data.MySqlClient;
-using Simply.Data;
+﻿using Simply.Data;
+using Simply.Data.Interfaces;
+using Simply_Test_Db;
 using SimplyTest_Entities;
 using System;
-using System.Data;
 using System.Reflection;
 using static System.String;
 
@@ -10,16 +10,12 @@ namespace SimplyTest_ExecuteAsOdbc_ConsoleApp
 {
     internal class Program
     {
-        internal static IDbConnection GetDbConnection()
-        {
-            return new MySqlConnection { ConnectionString = "data source=127.0.0.1;initial catalog=classicmodels;user id=root;" };
-        }
-
         private static void Main(string[] args)
         {
             int customerNumber = 103;
+            ISimpleDatabase database = new SimpleMySqlDatabase();
             Customers customer;
-            customer = GetCustomerById(customerNumber);
+            customer = GetCustomerById(database, customerNumber);
             Console.WriteLine("--------------------------------------------------------");
 
             if (customer != null)
@@ -34,40 +30,22 @@ namespace SimplyTest_ExecuteAsOdbc_ConsoleApp
 
                 int executionResult;
 
-                using (IDbConnection connection = GetDbConnection())
-                {
-                    try
-                    {
-                        executionResult = connection.OpenAnd()
-                            .ExecuteAsOdbc(
-                            "UPDATE `classicmodels`.`customers` SET country = ?, creditLimit = ? WHERE `customerNumber` = ?",
-                            new object[] { newCountry, newCreditLimit, customerNumber });
-                        WriteEntity(customer);
-                    }
-                    finally
-                    { connection.CloseIfNot(); }
-                }
+                executionResult = database.ExecuteOdbc(
+                    "UPDATE `classicmodels`.`customers` SET country = ?, creditLimit = ? WHERE `customerNumber` = ?",
+                    new object[] { newCountry, newCreditLimit, customerNumber });
+                WriteEntity(customer);
 
                 Console.WriteLine(Format("{0} rows affected.", executionResult));
 
-                Customers customers2 = GetCustomerById(customerNumber);
+                Customers customers2 = GetCustomerById(database, customerNumber);
                 Console.WriteLine(customers2.Country == newCountry && customers2.CreditLimit == newCreditLimit ? "First update operation affected." : "First update operation not affected.");
 
-                using (IDbConnection connection = GetDbConnection())
-                {
-                    try
-                    {
-                        executionResult = connection.OpenAnd()
-                            .ExecuteAsOdbc(
-                            "UPDATE `classicmodels`.`customers` SET country = ?, creditLimit = ? WHERE `customerNumber` = ?",
-                            new object[] { oldCountry, oldCreditLimit, customerNumber });
-                        WriteEntity(customer);
-                    }
-                    finally
-                    { connection.CloseIfNot(); }
-                }
+                executionResult = database.ExecuteOdbc(
+                    "UPDATE `classicmodels`.`customers` SET country = ?, creditLimit = ? WHERE `customerNumber` = ?",
+                    new object[] { oldCountry, oldCreditLimit, customerNumber });
+                WriteEntity(customer);
 
-                Customers customers3 = GetCustomerById(customerNumber);
+                Customers customers3 = GetCustomerById(database, customerNumber);
                 Console.WriteLine(customers3.Country == customer.Country && customers3.CreditLimit == customer.CreditLimit ? "Second update operation affected." : "Second update operation not affected.");
 
                 Console.WriteLine(Format("{0} rows affected.", executionResult));
@@ -77,22 +55,12 @@ namespace SimplyTest_ExecuteAsOdbc_ConsoleApp
             Console.ReadKey();
         }
 
-        private static Customers GetCustomerById(int customerNumber)
+        private static Customers GetCustomerById(ISimpleDatabase database, int customerNumber)
         {
-            Customers customer;
-            using (IDbConnection connection = GetDbConnection())
-            {
-                try
-                {
-                    customer = connection.OpenAnd()
-                        .GetSingle<Customers>(
+            Customers customer = database.SingleOdbc<Customers>(
                         "SELECT * FROM `classicmodels`.`customers` WHERE `customerNumber` = ?",
-                        new object[] { customerNumber });
-                    WriteEntity(customer);
-                }
-                finally
-                { connection.CloseIfNot(); }
-            }
+                        new[] { (object)customerNumber });
+            WriteEntity(customer);
 
             return customer;
         }
