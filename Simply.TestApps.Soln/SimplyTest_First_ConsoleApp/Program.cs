@@ -1,5 +1,4 @@
-﻿using MySql.Data.MySqlClient;
-using Simply.Common.Objects;
+﻿using Simply.Common.Objects;
 using Simply.Data;
 using Simply.Data.Interfaces;
 using Simply.Data.Objects;
@@ -13,11 +12,6 @@ namespace SimplyTest_First_ConsoleApp
 {
     internal class Program
     {
-        internal static IDbConnection GetDbConnection()
-        {
-            return new MySqlConnection { ConnectionString = "data source=127.0.0.1;initial catalog=classicmodels;user id=root;" };
-        }
-
         private static void Main(string[] args)
         {
             string productCode = "S18_2325";
