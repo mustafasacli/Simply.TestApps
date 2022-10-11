@@ -1,7 +1,8 @@
-﻿using MySql.Data.MySqlClient;
-using Simply.Common.Objects;
+﻿using Simply.Common.Objects;
 using Simply.Data;
+using Simply.Data.Interfaces;
 using Simply.Data.Objects;
+using Simply_Test_Db;
 using SimplyTest_Entities;
 using System;
 using System.Data;
@@ -11,102 +12,54 @@ namespace SimplyTest_Single_ConsoleApp
 {
     internal class Program
     {
-        internal static IDbConnection GetDbConnection()
-        {
-            return new MySqlConnection { ConnectionString = "data source=127.0.0.1;initial catalog=classicmodels;user id=root;" };
-        }
-
         private static void Main(string[] args)
         {
             int customerNumber = 103;
-            using (IDbConnection connection = GetDbConnection())
-            {
-                try
-                {
-                    var orderDetail = connection.OpenAnd()
-                        .QuerySingle<Customers>("SELECT * FROM `classicmodels`.`customers` WHERE `customerNumber` = ?customerNumber?",
-                        new { customerNumber }, commandSetting: SimpleCommandSetting.Create().SetParameterNamePrefix('?'));
-                    writeEntity(orderDetail);
-                }
-                finally
-                { connection.CloseIfNot(); }
-            }
-            Console.WriteLine("--------------------------------------------------------");
-            using (IDbConnection connection = GetDbConnection())
-            {
-                try
-                {
-                    var customer = connection.OpenAnd()
-                        .GetSingle<Customers>(
-                        "SELECT * FROM `classicmodels`.`customers` WHERE `customerNumber` = ?",
-                        new object[] { customerNumber });
-                    writeEntity(customer);
-                }
-                finally
-                { connection.CloseIfNot(); }
-            }
-            Console.WriteLine("--------------------------------------------------------");
 
-            using (IDbConnection connection = GetDbConnection())
-            {
-                try
-                {
-                    SimpleDbCommand command = new SimpleDbCommand();
-                    command.CommandText =
-                        "SELECT * FROM `classicmodels`.`customers` WHERE `customerNumber` = @customerNumber";
-                    command.AddParameter(new DbCommandParameter { Direction = ParameterDirection.Input, ParameterName = "customerNumber", Value = customerNumber });
-                    var customer = connection.OpenAnd()
-                        .QuerySingle<Customers>(command);
-                    writeEntity(customer.Result);
-                }
-                finally
-                { connection.CloseIfNot(); }
-            }
-            Console.WriteLine("--------------------------------------------------------");
-
-            using (IDbConnection connection = GetDbConnection())
-            {
-                try
-                {
-                    var customerRow = connection.OpenAnd()
-                        .QuerySingleAsDbRow(
-                        "SELECT * FROM `classicmodels`.`customers` WHERE `customerNumber` = @customerNumber",
-                        new { customerNumber });
-                    writeDbRow(customerRow);
-                }
-                finally
-                { connection.CloseIfNot(); }
-            }
-            Console.WriteLine("--------------------------------------------------------");
-            using (IDbConnection connection = GetDbConnection())
-            {
-                try
-                {
-                    var customerRow = connection.OpenAnd()
-                        .QuerySingleAsDbRow(
-                        "SELECT * FROM `classicmodels`.`customers` WHERE `customerNumber` = #customerNumber#",
-                        new { customerNumber }, commandSetting: SimpleCommandSetting.Create().SetParameterNamePrefix('#'));
-                    writeDbRow(customerRow);
-                }
-                finally
-                { connection.CloseIfNot(); }
-            }
-            Console.WriteLine("--------------------------------------------------------");
             try
             {
+                ISimpleDatabase database = new SimpleMySqlDatabase();
+                Customers customer1 = database
+                    .Single<Customers>("SELECT * FROM `classicmodels`.`customers` WHERE `customerNumber` = ?customerNumber?",
+                    new { customerNumber }, commandSetting: SimpleCommandSetting.Create().SetParameterNamePrefix('?'));
+                writeEntity(customer1);
+                Console.WriteLine("--------------------------------------------------------");
+
+                Customers customer2 = database
+                    .Single<Customers>(
+                    "SELECT * FROM `classicmodels`.`customers` WHERE `customerNumber` = ?",
+                    new object[] { customerNumber });
+                writeEntity(customer2);
+                Console.WriteLine("--------------------------------------------------------");
+
+                SimpleDbCommand command = new SimpleDbCommand();
+                command.CommandText =
+                    "SELECT * FROM `classicmodels`.`customers` WHERE `customerNumber` = @customerNumber";
+                command.AddParameter(new DbCommandParameter { Direction = ParameterDirection.Input, ParameterName = "customerNumber", Value = customerNumber });
+                Customers customer3 = database
+                            .Single<Customers>(command);
+                writeEntity(customer3);
+                Console.WriteLine("--------------------------------------------------------");
+
+                SimpleDbRow customerRow = database
+                    .SingleRow(
+                    "SELECT * FROM `classicmodels`.`customers` WHERE `customerNumber` = @customerNumber",
+                    new { customerNumber });
+                writeDbRow(customerRow);
+                Console.WriteLine("--------------------------------------------------------");
+
+                SimpleDbRow customerRow2 = database
+                    .SingleRow(
+                    "SELECT * FROM `classicmodels`.`customers` WHERE `customerNumber` = #customerNumber#",
+                    new { customerNumber }, commandSetting: SimpleCommandSetting.Create().SetParameterNamePrefix('#'));
+                writeDbRow(customerRow2);
+                Console.WriteLine("--------------------------------------------------------");
+
                 string productCode = "S18_2325";
-                using (IDbConnection connection = GetDbConnection())
-                {
-                    try
-                    {
-                        var orderDetail = connection.OpenAnd()
-                            .QuerySingle<Orderdetails>("select * from `classicmodels`.`orderdetails` WHERE `productCode` = ?productCode?",
+                Orderdetails orderDetail = database
+                        .Single<Orderdetails>("select * from `classicmodels`.`orderdetails` WHERE `productCode` = ?productCode?",
                             new { productCode }, commandSetting: SimpleCommandSetting.Create().SetParameterNamePrefix('?'));
-                        writeEntity(orderDetail);
-                    }
-                    finally
-                    { connection.CloseIfNot(); }
-                }
+                writeEntity(orderDetail);
             }
             catch (Exception ex)
             { Console.WriteLine(ex.ToString()); }
