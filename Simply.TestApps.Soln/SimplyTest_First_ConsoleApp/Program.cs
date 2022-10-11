@@ -1,7 +1,9 @@
 ﻿using MySql.Data.MySqlClient;
 using Simply.Common.Objects;
 using Simply.Data;
+using Simply.Data.Interfaces;
 using Simply.Data.Objects;
+using Simply_Test_Db;
 using SimplyTest_Entities;
 using System;
 using System.Data;
@@ -19,96 +21,47 @@ namespace SimplyTest_First_ConsoleApp
         private static void Main(string[] args)
         {
             string productCode = "S18_2325";
-            using (IDbConnection connection = GetDbConnection())
-            {
-                try
-                {
-                    connection.OpenIfNot();
-                    var orderDetail = connection.QueryFirst<Orderdetails>(
-                        "select * from `classicmodels`.`orderdetails` WHERE `productCode` = ?productCode?",
-                        new { productCode }, commandSetting: SimpleCommandSetting.Create().SetParameterNamePrefix('?'));
-                    writeEntity(orderDetail);
-                }
-                finally
-                { connection.CloseIfNot(); }
-            }
-            Console.WriteLine("--------------------------------------------------------");
-            using (IDbConnection connection = GetDbConnection())
-            {
-                try
-                {
-                    connection.OpenIfNot();
-                    var orderDetail = connection.QueryFirst<Orderdetails>(
-                        "select * from `classicmodels`.`orderdetails` WHERE `productCode` = ?",
-                        new { productCode });
-                    writeEntity(orderDetail);
-                }
-                finally
-                { connection.CloseIfNot(); }
-            }
+            ISimpleDatabase database = new SimpleMySqlDatabase();
+
+            Orderdetails orderDetail = database.First<Orderdetails>(
+                "select * from `classicmodels`.`orderdetails` WHERE `productCode` = ?productCode?",
+                new { productCode }, commandSetting: SimpleCommandSetting.Create().SetParameterNamePrefix('?'));
+            writeEntity(orderDetail);
             Console.WriteLine("--------------------------------------------------------");
 
-            using (IDbConnection connection = GetDbConnection())
-            {
-                try
-                {
-                    SimpleDbCommand command = new SimpleDbCommand();
-                    command.CommandText =
-                        "select * from `classicmodels`.`orderdetails` WHERE `productCode` = @productCode";
-                    command.AddParameter(new DbCommandParameter { Direction = ParameterDirection.Input, ParameterName = "productCode", Value = productCode });
-                    connection.OpenIfNot();
-                    var orderDetail = connection.QueryFirst<Orderdetails>(command);
-                    writeEntity(orderDetail.Result);
-                }
-                finally
-                { connection.CloseIfNot(); }
-            }
+            Orderdetails orderDetail2 = database.First<Orderdetails>(
+                "select * from `classicmodels`.`orderdetails` WHERE `productCode` = ?",
+                new { productCode });
+            writeEntity(orderDetail2);
             Console.WriteLine("--------------------------------------------------------");
 
-            using (IDbConnection connection = GetDbConnection())
-            {
-                try
-                {
-                    connection.OpenIfNot();
-                    var orderDetail = connection.GetFirst<Orderdetails>(
-                        "select * from `classicmodels`.`orderdetails` WHERE `productCode` = ?",
-                        new[] { productCode });
-                    writeEntity(orderDetail);
-                }
-                finally
-                { connection.CloseIfNot(); }
-            }
+            SimpleDbCommand command = new SimpleDbCommand();
+            command.CommandText =
+                "select * from `classicmodels`.`orderdetails` WHERE `productCode` = @productCode";
+            command.AddParameter(new DbCommandParameter { Direction = ParameterDirection.Input, ParameterName = "productCode", Value = productCode });
+
+            var orderDetail3 = database.First<Orderdetails>(command);
+            writeEntity(orderDetail3);
             Console.WriteLine("--------------------------------------------------------");
 
-            using (IDbConnection connection = GetDbConnection())
-            {
-                try
-                {
-                    SimpleDbCommand command = new SimpleDbCommand();
-                    command.CommandText =
-                        "select * from `classicmodels`.`orderdetails` WHERE `productCode` = @productCode";
-                    command.AddParameter(new DbCommandParameter { Direction = ParameterDirection.Input, ParameterName = "productCode", Value = productCode });
-                    connection.OpenIfNot();
-                    var orderDetailRowResult = connection.QueryFirstAsDbRow(command);
-                    writeDbRow(orderDetailRowResult.Result);
-                }
-                finally
-                { connection.CloseIfNot(); }
-            }
+            Orderdetails orderDetail4 = database.FirstOdbc<Orderdetails>(
+                "select * from `classicmodels`.`orderdetails` WHERE `productCode` = ?",
+                new[] { productCode });
+            writeEntity(orderDetail4);
             Console.WriteLine("--------------------------------------------------------");
-            using (IDbConnection connection = GetDbConnection())
-            {
-                try
-                {
-                    connection.OpenIfNot();
-                    var orderDetailRow = connection.QueryFirstAsDbRow(
-                        "select * from `classicmodels`.`orderdetails` WHERE `productCode` = ?",
-                        new { productCode });
-                    writeDbRow(orderDetailRow);
-                }
-                finally
-                { connection.CloseIfNot(); }
-            }
+            command = new SimpleDbCommand();
+            command.CommandText =
+                "select * from `classicmodels`.`orderdetails` WHERE `productCode` = @productCode";
+            command.AddParameter(new DbCommandParameter { Direction = ParameterDirection.Input, ParameterName = "productCode", Value = productCode });
+
+            var orderDetailRowResult = database.FirstRow(command);
+            writeDbRow(orderDetailRowResult);
+
+            Console.WriteLine("--------------------------------------------------------");
+            SimpleDbRow orderDetailRow = database.FirstRowOdbc(
+                "select * from `classicmodels`.`orderdetails` WHERE `productCode` = ?",
+                new[] { productCode });
+            writeDbRow(orderDetailRow);
             Console.WriteLine("--------------------------------------------------------");
 
             Console.ReadKey();
