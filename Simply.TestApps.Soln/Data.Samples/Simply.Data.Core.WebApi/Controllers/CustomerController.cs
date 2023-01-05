@@ -20,10 +20,10 @@ namespace Simply.Data.Core.WebApi.Controllers
     [Route("[controller]")]
     public class CustomerController : ControllerBase
     {
-        internal static IDbConnection GetDbConnection()
-        {
-            return new MySqlConnection { ConnectionString = "data source=127.0.0.1;initial catalog=classicmodels;user id=root;" };
-        }
+        //internal static IDbConnection GetDbConnection()
+        //{
+        //    return new MySqlConnection { ConnectionString = "data source=127.0.0.1;initial catalog=classicmodels;user id=root;" };
+        //}
 
         private readonly ILogger<CustomerController> _logger;
         private readonly ISimpleDatabase database1;
@@ -197,16 +197,13 @@ where customerNumber=?CustomerNumber?;";
         {
             _logger.LogInformation("customerNumber:#{0}#", customerNumber);
 
-            SimpleResponse response = new SimpleResponse();
             if ((customerNumber ?? 0) < 1)
-            {
-                response.ResponseCode = -1;
-                return response;
-            }
+                return SimpleResponse.New(responseCode: -1);
 
             string strSql = "DELETE FROM `classicmodels`.`customers` WHERE `customerNumber` = ?customerNumber?";
             database1.Begin();
-            response.ResponseCode = database1.Execute(strSql,
+
+            int reposnseCode = database1.Execute(strSql,
                            new
                            {
                                customerNumber
@@ -224,7 +221,7 @@ where customerNumber=?CustomerNumber?;";
             //    { connection.CloseIfNot(); }
             //}
 
-            return response;
+            return SimpleResponse.New(reposnseCode);
         }
     }
 }
