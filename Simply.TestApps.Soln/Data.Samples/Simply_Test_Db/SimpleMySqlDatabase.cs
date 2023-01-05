@@ -1,6 +1,5 @@
 ﻿using MySql.Data.MySqlClient;
 using Simply.Data.Database;
-using System.Configuration;
 using System.Data;
 
 namespace Simply_Test_Db
@@ -9,8 +8,8 @@ namespace Simply_Test_Db
     {
         internal static IDbConnection GetDbConnection()
         {
-            MySqlConnection connection=new MySqlConnection();
-            connection.ConnectionString = ConfigurationManager.AppSettings["connectionString"];
+            MySqlConnection connection = new MySqlConnection();
+            connection.ConnectionString = "data source=127.0.0.1;initial catalog=classicmodels;user id=root;";//ConfigurationManager.AppSettings["connectionString"];
             return connection;
             // return new MySqlConnection { ConnectionString = "data source=127.0.0.1;initial catalog=classicmodels;user id=root;" };
         }

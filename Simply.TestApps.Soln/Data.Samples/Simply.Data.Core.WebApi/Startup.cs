@@ -5,6 +5,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Simply.Data.Interfaces;
+using Simply_Test_Db;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,6 +27,7 @@ namespace Simply.Data.Core.WebApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddScoped<ISimpleDatabase, SimpleMySqlDatabase>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
