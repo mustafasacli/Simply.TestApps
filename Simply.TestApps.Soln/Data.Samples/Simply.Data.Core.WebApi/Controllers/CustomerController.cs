@@ -2,7 +2,6 @@
 using Microsoft.Extensions.Logging;
 using Mst.Project.Dtos;
 using Mst.Project.ViewModel;
-using MySql.Data.MySqlClient;
 using SimpleInfra.Common.Response;
 using SimpleInfra.Mapping;
 using SimpleInfra.Validation;
@@ -10,9 +9,7 @@ using Simply.Common;
 using Simply.Data.Interfaces;
 using Simply.Data.Objects;
 using SimplyTest_Entities;
-using System;
 using System.Collections.Generic;
-using System.Data;
 
 namespace Simply.Data.Core.WebApi.Controllers
 {
@@ -20,11 +17,6 @@ namespace Simply.Data.Core.WebApi.Controllers
     [Route("[controller]")]
     public class CustomerController : ControllerBase
     {
-        //internal static IDbConnection GetDbConnection()
-        //{
-        //    return new MySqlConnection { ConnectionString = "data source=127.0.0.1;initial catalog=classicmodels;user id=root;" };
-        //}
-
         private readonly ILogger<CustomerController> _logger;
         private readonly ISimpleDatabase database1;
 
@@ -42,18 +34,6 @@ namespace Simply.Data.Core.WebApi.Controllers
             List<Customers> customers = database1.List<Customers>(
                 "SELECT * FROM `classicmodels`.`customers` WHERE `customerNumber` = ?customerNumber? or ?customerNumber? is null",
                         new { customerNumber }, commandSetting: SimpleCommandSetting.Create(parameterNamePrefix: '?'));
-
-            //using (IDbConnection connection = GetDbConnection())
-            //{
-            //    try
-            //    {
-            //        customers = connection.OpenAnd()
-            //            .QueryList<Customers>("SELECT * FROM `classicmodels`.`customers` WHERE `customerNumber` = ?customerNumber? or ?customerNumber? is null",
-            //            new { customerNumber }, commandSetting: SimpleCommandSetting.Create(parameterNamePrefix: '?'));
-            //    }
-            //    finally
-            //    { connection.CloseIfNot(); }
-            //}
 
             return SimpleMapper.MapList<Customers, CustomersDto>(customers);
         }
@@ -82,30 +62,6 @@ VALUES(?CustomerNumber?, ?CustomerName?, ?ContactLastName?, ?ContactFirstName?, 
             model.CustomerNumber = (objCustomerNumber.ToIntNullable() ?? 0) + 1;
             response.ResponseCode = database1.Execute(strSql, model, commandSetting: SimpleCommandSetting.Create(parameterNamePrefix: '?'));
             database1.Commit();
-            //using (IDbConnection connection = GetDbConnection())
-            //using (IDbTransaction transaction = connection.OpenAndBeginTransaction())
-            //{
-            //    try
-            //    {
-            //        try
-            //        {
-            //            object objCustomerNumber = connection.OpenAnd()
-            //                            .ExecuteScalar("SELECT MAX(`customerNumber`) FROM `classicmodels`.`customers`",
-            //                            null, transaction, commandSetting: null);
-            //            model.CustomerNumber = (objCustomerNumber.ToIntNullable() ?? 0) + 1;
-            //            response.ResponseCode = connection.Execute(strSql, model, transaction,
-            //                commandSetting: SimpleCommandSetting.Create(parameterNamePrefix: '?'));
-            //            transaction?.Commit();
-            //        }
-            //        catch (Exception)
-            //        {
-            //            transaction?.Rollback();
-            //            throw;
-            //        }
-            //    }
-            //    finally
-            //    { connection.CloseIfNot(); }
-            //}
 
             response.Data = model;
             return response;
@@ -150,44 +106,6 @@ where customerNumber=?CustomerNumber?;";
                             }, commandSetting: SimpleCommandSetting.Create(parameterNamePrefix: '?'));
             database1.Commit();
 
-            //using (IDbConnection connection = GetDbConnection())
-            //using (IDbTransaction transaction = connection.OpenAndBeginTransaction())
-            //{
-            //    try
-            //    {
-            //        try
-            //        {
-            //            response.ResponseCode = connection.OpenAnd()
-            //                .Execute(strSql,
-            //                new
-            //                {
-            //                    model.CustomerName,
-            //                    model.ContactLastName,
-            //                    model.ContactFirstName,
-            //                    model.Phone,
-            //                    model.AddressLine1,
-            //                    model.AddressLine2,
-            //                    model.City,
-            //                    model.State,
-            //                    model.PostalCode,
-            //                    model.Country,
-            //                    model.SalesRepEmployeeNumber,
-            //                    model.CreditLimit,
-            //                    model.CustomerNumber
-            //                },
-            //                transaction, commandSetting: SimpleCommandSetting.Create(parameterNamePrefix: '?'));
-            //            transaction?.Commit();
-            //        }
-            //        catch (Exception)
-            //        {
-            //            transaction?.Rollback();
-            //            throw;
-            //        }
-            //    }
-            //    finally
-            //    { connection.CloseIfNot(); }
-            //}
-
             response.Data = model;
             return response;
         }
@@ -209,17 +127,6 @@ where customerNumber=?CustomerNumber?;";
                                customerNumber
                            }, commandSetting: SimpleCommandSetting.Create(parameterNamePrefix: '?'));
             database1.Commit();
-            //using (IDbConnection connection = GetDbConnection())
-            //{
-            //    try
-            //    {
-            //        response.ResponseCode = connection.OpenAnd()
-            //            .Execute("DELETE FROM `classicmodels`.`customers` WHERE `customerNumber` = ?customerNumber?",
-            //            new { customerNumber }, commandSetting: SimpleCommandSetting.Create(parameterNamePrefix: '?'));
-            //    }
-            //    finally
-            //    { connection.CloseIfNot(); }
-            //}
 
             return SimpleResponse.New(reposnseCode);
         }
