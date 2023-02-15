@@ -4,6 +4,177 @@
         <name>Simply.Common</name>
     </assembly>
     <members>
+        <member name="T:Simply.Common.Enums.DbGeneratedOption">
+            <summary>
+            Represents the pattern used to generate values for a property in the database.
+            </summary>
+        </member>
+        <member name="F:Simply.Common.Enums.DbGeneratedOption.None">
+            <summary>
+            The database does not generate values.
+            </summary>
+        </member>
+        <member name="F:Simply.Common.Enums.DbGeneratedOption.Identity">
+            <summary>
+            The database generates a value when a row is inserted.
+            </summary>
+        </member>
+        <member name="F:Simply.Common.Enums.DbGeneratedOption.Computed">
+            <summary>
+            The database generates a value when a row is inserted or updated.
+            </summary>
+        </member>
+        <member name="T:Simply.Common.Interfaces.ISimpleDefinitor`1">
+            <summary>
+            Property-Column, Table-Class Mapping definitor interface.
+            </summary>
+        </member>
+        <member name="M:Simply.Common.Interfaces.ISimpleDefinitor`1.GetColumnNameOfProperty(System.Reflection.PropertyInfo)">
+            <summary>
+            Get the column name value of property, the column attribute no exist return
+            property name.
+            </summary>
+            <param name="propertyInfo">Property info</param>
+            <returns>Returns Column name of property.</returns>
+        </member>
+        <member name="M:Simply.Common.Interfaces.ISimpleDefinitor`1.GetKeyProperties">
+            <summary>
+            Gets the key properties.
+            </summary>
+            <returns>An array of PropertyInfos.</returns>
+        </member>
+        <member name="M:Simply.Common.Interfaces.ISimpleDefinitor`1.GetIdentityProperties">
+            <summary>
+            Gets the identity properties.
+            </summary>
+            <returns>An array of PropertyInfos.</returns>
+        </member>
+        <member name="M:Simply.Common.Interfaces.ISimpleDefinitor`1.PropertyToDbType(System.Reflection.PropertyInfo)">
+            <summary>
+            Properties the to db type.
+            </summary>
+            <param name="propertyInfo">The property info.</param>
+            <returns>Type as a DbType.</returns>
+        </member>
+        <member name="M:Simply.Common.Interfaces.ISimpleDefinitor`1.ToDbType(System.Type)">
+            <summary>
+            convert type to nullable DbType.
+            </summary>
+            <param name="type">The type to act on.</param>
+            <returns>Type as a DbType.</returns>
+        </member>
+        <member name="M:Simply.Common.Interfaces.ISimpleDefinitor`1.ToDbType(System.Object)">
+            <summary>
+            object to nullable DbType.
+            </summary>
+            <param name="obj">.</param>
+            <returns>.</returns>
+        </member>
+        <member name="M:Simply.Common.Interfaces.ISimpleDefinitor`1.IsSimpleType(System.Type)">
+            <summary>
+            Is the simple type.
+            </summary>
+            <param name="type">The type.</param>
+            <returns>A bool.</returns>
+        </member>
+        <member name="M:Simply.Common.Interfaces.ISimpleDefinitor`1.GetSameProperties``1">
+            <summary>
+            Gets the same properties.
+            </summary>
+            <returns>A list of string.</returns>
+        </member>
+        <member name="M:Simply.Common.Interfaces.ISimpleDefinitor`1.GetValidProperties(System.Boolean,System.Boolean,System.Boolean)">
+            <summary>
+            Gets Valid Properties Of Type.
+            </summary>
+            <param name="includeNotMappedProperties"></param>
+            <param name="includeReadonlyProperties"></param>
+            <param name="includeComputedProperties"></param>
+            <returns>An array of property information.</returns>
+        </member>
+        <member name="M:Simply.Common.Interfaces.ISimpleDefinitor`1.GetPropertyColumns(System.Reflection.PropertyInfo[])">
+            <summary>
+            Gets the property columns.
+            </summary>
+            <param name="properties">The properties.</param>
+            <returns>A IDictionary.</returns>
+        </member>
+        <member name="M:Simply.Common.Interfaces.ISimpleDefinitor`1.GetNumericTypes">
+            <summary>
+            Gets the numeric types.
+            </summary>
+            <returns>A HashSet.</returns>
+        </member>
+        <member name="M:Simply.Common.Interfaces.ISimpleDefinitor`1.IsNumeric(System.Type)">
+            <summary>
+            Is the numeric.
+            </summary>
+            <param name="type">The type.</param>
+            <returns>A bool.</returns>
+        </member>
+        <member name="M:Simply.Common.Interfaces.ISimpleDefinitor`1.GetPropertyColumnOfType(System.Type,System.String)">
+            <summary>
+            Get Column Name from Property Of Type.
+            </summary>
+            <param name="type">The type to act on.</param>
+            <param name="propertyName">Name of the property.</param>
+            <returns>The property column of type.</returns>
+        </member>
+        <member name="M:Simply.Common.Interfaces.ISimpleDefinitor`1.GetTableName">
+            <summary>
+            Gets Table Name.
+            </summary>
+            <returns>The table name of type.</returns>
+        </member>
+        <member name="M:Simply.Common.Interfaces.ISimpleDefinitor`1.GetSchemaName">
+            <summary>
+            Gets Schema Name Of Type.
+            </summary>
+            <returns>The schema name of type.</returns>
+        </member>
+        <member name="M:Simply.Common.Interfaces.ISimpleDefinitor`1.GetPropertyColumn(System.String)">
+            <summary>
+            Get Column Name from Property Of Type.
+            </summary>
+            <param name="propertyName">Name of the property.</param>
+            <returns>The property column of type.</returns>
+        </member>
+        <member name="M:Simply.Common.Interfaces.ISimpleDefinitor`1.GetColumnName``1(System.Linq.Expressions.Expression{System.Func{`0,``0}})">
+            <summary>
+            Gets the column name.
+            </summary>
+            <param name="keySelector">The key selector.</param>
+            <returns>A string.</returns>
+        </member>
+        <member name="M:Simply.Common.Interfaces.ISimpleDefinitor`1.GetColumnsReverse(System.Boolean,System.Boolean)">
+            <summary>
+            Get Column Name-Property Name as dictionary.
+            </summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="includeNotMappedProperties"></param>
+            <param name="includeComputedProperties"></param>
+            <returns>The columns reverse.</returns>
+        </member>
+        <member name="M:Simply.Common.Interfaces.ISimpleDefinitor`1.GetColumns(System.Boolean,System.Boolean)">
+            <summary>
+            Get Property Name-Column Name as dictionary.
+            </summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="includeNotMappedProperties"></param>
+            <param name="includeComputedProperties"></param>
+            <returns>The columns.</returns>
+        </member>
+        <member name="T:Simply.Common.Interfaces.ISimpleDefinitorFactory">
+            <summary>
+            Factory interface for generating ISimpleDefinitor object.
+            </summary>
+        </member>
+        <member name="M:Simply.Common.Interfaces.ISimpleDefinitorFactory.GetDefinitor``1">
+            <summary>
+            Gets the definitor.
+            </summary>
+            <returns>A ISimpleDefinitor object instance.</returns>
+        </member>
         <member name="T:Simply.Common.ArrayHelper">
             <summary>
             Defines the <see cref="T:Simply.Common.ArrayHelper" />.
@@ -119,102 +290,6 @@
             <param name="defaultValue">The default value.</param>
             <returns>The value or default.</returns>
         </member>
-        <member name="T:Simply.Common.DynamicExtensions">
-            <summary>
-            Defines the <see cref="T:Simply.Common.DynamicExtensions"/>.
-            </summary>
-        </member>
-        <member name="M:Simply.Common.DynamicExtensions.ConvertToInstance``1(System.Dynamic.ExpandoObject)">
-            <summary>
-            Convert dynamic object to new T object instance.
-            </summary>
-            <typeparam name="T">Generic type parameter.</typeparam>
-            <param name="expandoObject">The dyn to act on.</param>
-            <returns>to converted.</returns>
-        </member>
-        <member name="M:Simply.Common.DynamicExtensions.ConvertTo``1(System.Object)">
-            <summary>
-            Convert dynamic object to new T object instance.
-            </summary>
-            <typeparam name="T">Generic type parameter.</typeparam>
-            <param name="dynamicObject">The dyn to act on.</param>
-            <returns>to converted.</returns>
-        </member>
-        <member name="M:Simply.Common.DynamicExtensions.ConvertToV2``1(System.Dynamic.ExpandoObject)">
-            <summary>
-            Convert dynamic object to new T object instance.
-            </summary>
-            <typeparam name="T">Generic type parameter.</typeparam>
-            <param name="expandoObject">The dyn to act on.</param>
-            <returns>The given data converted to a v 2.</returns>
-        </member>
-        <member name="M:Simply.Common.DynamicExtensions.ConvertToList``1(System.Collections.Generic.List{System.Dynamic.ExpandoObject})">
-            <summary>
-            A List&lt;ExpandoObject&gt; extension method that converts a dynList to a list.
-            </summary>
-            <typeparam name="T">Generic type parameter.</typeparam>
-            <param name="expandoObjectList">The dynList to act on.</param>
-            <returns>The given data converted to a list.</returns>
-        </member>
-        <member name="M:Simply.Common.DynamicExtensions.ConvertToList``1(System.Collections.Generic.List{System.Object})">
-            <summary>
-            A List&lt;ExpandoObject&gt; extension method that converts a dynList to a list.
-            </summary>
-            <typeparam name="T">Generic type parameter.</typeparam>
-            <param name="dynamicObjectList">The dynList to act on.</param>
-            <returns>The given data converted to a list.</returns>
-        </member>
-        <member name="M:Simply.Common.DynamicExtensions.ConvertToList``1(System.Collections.Generic.List{System.Object},System.Collections.Generic.Dictionary{System.String,System.String})">
-            <summary>
-            A List&lt;ExpandoObject&gt; extension method that converts a dynList to a list.
-            </summary>
-            <typeparam name="T">Generic type parameter.</typeparam>
-            <param name="dynamicObjectList">The dynList to act on.</param>
-            <param name="columnPropertyMap">Column-Property Map</param>
-            <returns>The given data converted to a list.</returns>
-        </member>
-        <member name="M:Simply.Common.DynamicExtensions.SetPropertyValues``1(``0@,System.Reflection.PropertyInfo[],System.Collections.Generic.IDictionary{System.String,System.Object},System.Collections.Generic.IDictionary{System.String,System.String})">
-            <summary>
-            Sets the property values.
-            </summary>
-            <param name="instance">The instance.</param>
-            <param name="properties">The properties.</param>
-            <param name="keyValues">The key values.</param>
-            <param name="columnPropertyMappings">The column property mappings.</param>
-        </member>
-        <member name="M:Simply.Common.DynamicExtensions.ConvertRowsToList``1(System.Collections.Generic.List{Simply.Common.Objects.SimpleDbRow})">
-            <summary>
-            Converts the rows to list.
-            </summary>
-            <param name="rows">The rows.</param>
-            <returns>A list of TS.</returns>
-        </member>
-        <member name="M:Simply.Common.DynamicExtensions.ConvertRowsToList``1(System.Collections.Generic.List{Simply.Common.Objects.SimpleDbRow},System.Collections.Generic.Dictionary{System.String,System.String})">
-            <summary>
-            A List&lt;SimpleDbRow&gt; extension method that converts a dynList to a list.
-            </summary>
-            <typeparam name="T">Generic type parameter.</typeparam>
-            <param name="rows">The dynList to act on.</param>
-            <param name="columnPropertyMap">Column-Property Map</param>
-            <returns>The given data converted to a list.</returns>
-        </member>
-        <member name="M:Simply.Common.DynamicExtensions.SetPropertyValuesFromRow``1(``0@,System.Reflection.PropertyInfo[],Simply.Common.Objects.SimpleDbRow,System.Collections.Generic.IDictionary{System.String,System.String})">
-            <summary>
-            Sets the property values.
-            </summary>
-            <param name="instance">The instance.</param>
-            <param name="properties">The properties.</param>
-            <param name="row">The row.</param>
-            <param name="columnPropertyMappings">The column property mappings.</param>
-        </member>
-        <member name="M:Simply.Common.DynamicExtensions.ConvertRowTo``1(Simply.Common.Objects.SimpleDbRow)">
-            <summary>
-            Convert dynamic object to new T object instance.
-            </summary>
-            <typeparam name="T">Generic type parameter.</typeparam>
-            <param name="row">The dyn to act on.</param>
-            <returns>to converted.</returns>
-        </member>
         <member name="T:Simply.Common.EnumExtensions">
             <summary>
             Defines the <see cref="T:Simply.Common.EnumExtensions"/>.
@@ -249,75 +324,13 @@
             <param name="instancesArray">A variable-length parameters list containing array.</param>
             <returns>True if it succeeds, false if it fails.</returns>
         </member>
-        <member name="M:Simply.Common.GenericExtensions.GetValidProperties``1(``0)">
-            <summary>
-            Gets Valid Properties of object instance.
-            </summary>
-            <typeparam name="T">Generic type parameter.</typeparam>
-            <param name="instance">The t to act on.</param>
-            <returns>An array of property information.</returns>
-        </member>
-        <member name="M:Simply.Common.GenericExtensions.GetPropertyValues``1(``0,System.Boolean)">
+        <member name="M:Simply.Common.GenericExtensions.GetPropertyValues``1(``0)">
             <summary>
             Gets Property Values in a dictionary.
             </summary>
             <typeparam name="T">Generic type parameter.</typeparam>
             <param name="instance">The t to act on.</param>
-            <param name="includeNotMappedProperties">.</param>
             <returns>The properties.</returns>
-        </member>
-        <member name="M:Simply.Common.GenericExtensions.GetPropertyValues``1(``0,System.Collections.Generic.List{System.String})">
-            <summary>
-            Gets given property values as object array.
-            </summary>
-            <typeparam name="T">.</typeparam>
-            <param name="instance">.</param>
-            <param name="propertyNames">.</param>
-            <returns>.</returns>
-        </member>
-        <member name="M:Simply.Common.GenericExtensions.GetColumnsReverse``1(``0)">
-            <summary>
-            Get Column Name-Property Name as dictionary.
-            </summary>
-            <typeparam name="T">Generic type parameter.</typeparam>
-            <param name="instance">The t to act on.</param>
-            <returns>The columns reverse.</returns>
-        </member>
-        <member name="M:Simply.Common.GenericExtensions.GetColumns``1(``0)">
-            <summary>
-            Get Property Name-Column Name as dictionary.
-            </summary>
-            <typeparam name="T">Generic type parameter.</typeparam>
-            <param name="instance">The t to act on.</param>
-            <returns>The columns.</returns>
-        </member>
-        <member name="M:Simply.Common.GenericExtensions.GetKey``1(``0,System.Boolean)">
-            <summary>
-            Gets First Key Property Name, if object has no key property and isFirstPropKey value is
-            true returns first property name as key property.
-            </summary>
-            <typeparam name="T">Generic type parameter.</typeparam>
-            <param name="instance">The t to act on.</param>
-            <param name="isFirstPropertyKey">
-            (Optional) True if is first property key, false if not.
-            </param>
-            <returns>The key.</returns>
-        </member>
-        <member name="M:Simply.Common.GenericExtensions.GetTableName``1(``0)">
-            <summary>
-            Gets table name.
-            </summary>
-            <typeparam name="T">Generic type parameter.</typeparam>
-            <param name="instance">The t to act on.</param>
-            <returns>The table name.</returns>
-        </member>
-        <member name="M:Simply.Common.GenericExtensions.GetSchemaName``1(``0)">
-            <summary>
-            Gets schema name.
-            </summary>
-            <typeparam name="T">Generic type parameter.</typeparam>
-            <param name="instance">The t to act on.</param>
-            <returns>The schema name.</returns>
         </member>
         <member name="M:Simply.Common.GenericExtensions.IsNotNullOrDefault``1(``0)">
             <summary>
@@ -506,58 +519,6 @@
             Defines the <see cref="T:Simply.Common.PropertyExtension"/>.
             </summary>
         </member>
-        <member name="M:Simply.Common.PropertyExtension.GetColumnNameOfProperty(System.Reflection.PropertyInfo)">
-            <summary>
-            Get the column attribute value of property, the column attribute no exist return
-            property name.
-            </summary>
-            <param name="propertyInfo">Property info</param>
-            <returns>Returns Column name of property.</returns>
-        </member>
-        <member name="M:Simply.Common.PropertyExtension.GetKeyProperties(System.Reflection.PropertyInfo[],System.Boolean)">
-            <summary>
-            Get Properties which has Key attribute as array.
-            </summary>
-            <param name="properties">Property list</param>
-            <param name="includeIdentityPropertiesHasNoKey">includes identity properties when properties has no key property.</param>
-            <returns>.</returns>
-        </member>
-        <member name="M:Simply.Common.PropertyExtension.GetKeyPropertyNames(System.Reflection.PropertyInfo[])">
-            <summary>
-            Get Property names which has Key attribute as array.
-            </summary>
-            <param name="properties">Property list</param>
-            <returns>.</returns>
-        </member>
-        <member name="M:Simply.Common.PropertyExtension.GetIdentityProperties(System.Reflection.PropertyInfo[])">
-            <summary>
-            Get Properties which has Identity attribute as array.
-            </summary>
-            <param name="properties">Property list</param>
-            <returns>.</returns>
-        </member>
-        <member name="M:Simply.Common.PropertyExtension.GetIdentityPropertyNames(System.Reflection.PropertyInfo[])">
-            <summary>
-            Returns identity property names.
-            </summary>
-            <param name="properties">property list</param>
-            <returns>Returns identity property names as string list.</returns>
-        </member>
-        <member name="M:Simply.Common.PropertyExtension.GetNotIdentityProperties(System.Reflection.PropertyInfo[])">
-            <summary>
-            Get Properties which has not Identity attribute as array.
-            </summary>
-            <param name="properties">Property list</param>
-            <returns>.</returns>
-        </member>
-        <member name="M:Simply.Common.PropertyExtension.GetPropertiesByGeneratedOption(System.Reflection.PropertyInfo[],System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption)">
-            <summary>
-            Get Properties which has DatabaseGeneratedOption attribute as array.
-            </summary>
-            <param name="properties">Property list</param>
-            <param name="option">Database generated option.</param>
-            <returns>.</returns>
-        </member>
         <member name="M:Simply.Common.PropertyExtension.GetReadWriteProperties(System.Reflection.PropertyInfo[])">
             <summary>
             Get Properties which can read and write.
@@ -571,6 +532,109 @@
             </summary>
             <param name="propertyInfo">The info <see cref="T:System.Reflection.PropertyInfo"/>.</param>
             <returns>Returns nullable DbType<see cref="T:System.Nullable`1"/>.</returns>
+        </member>
+        <member name="T:Simply.Common.SimpleDbRowExtensions">
+            <summary>
+            Defines the <see cref="T:Simply.Common.SimpleDbRowExtensions"/>.
+            </summary>
+        </member>
+        <member name="M:Simply.Common.SimpleDbRowExtensions.ConvertRowsToList``1(System.Collections.Generic.List{Simply.Common.Objects.SimpleDbRow})">
+            <summary>
+            Converts the rows to list.
+            </summary>
+            <param name="rows">The rows.</param>
+            <returns>A list of TS.</returns>
+        </member>
+        <member name="M:Simply.Common.SimpleDbRowExtensions.ConvertRowsToList``1(System.Collections.Generic.List{Simply.Common.Objects.SimpleDbRow},System.Collections.Generic.Dictionary{System.String,System.String})">
+            <summary>
+            A List&lt;SimpleDbRow&gt; extension method that converts a dynList to a list.
+            </summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="rows">The dynList to act on.</param>
+            <param name="columnPropertyMap">Column-Property Map</param>
+            <returns>The given data converted to a list.</returns>
+        </member>
+        <member name="M:Simply.Common.SimpleDbRowExtensions.SetPropertyValuesFromRow``1(``0@,System.Reflection.PropertyInfo[],Simply.Common.Objects.SimpleDbRow,System.Collections.Generic.IDictionary{System.String,System.String})">
+            <summary>
+            Sets the property values.
+            </summary>
+            <param name="instance">The instance.</param>
+            <param name="properties">The properties.</param>
+            <param name="row">The row.</param>
+            <param name="columnPropertyMappings">The column property mappings.</param>
+        </member>
+        <member name="T:Simply.Common.SimpleTypeExtensions">
+            <summary>
+            Defines the <see cref="!:TypeExtensions"/>.
+            </summary>
+        </member>
+        <member name="M:Simply.Common.SimpleTypeExtensions.IsSimpleType(System.Type)">
+            <summary>
+            Determine whether a type is simple (String, Decimal, DateTime, etc) or complex (i.e.
+            custom class with public properties and methods). source code: https://gist.github.com/jonathanconway/3330614.
+            </summary>
+            <param name="type">The type to act on.</param>
+            <returns>True if it succeeds, false if it fails.</returns>
+        </member>
+        <member name="M:Simply.Common.SimpleTypeExtensions.IsSimpleTypeV2(System.Type)">
+            <summary>
+            checks type is SimpleType.
+            </summary>
+            <param name="type">The type to act on.</param>
+            <returns>True if it succeeds, false if it fails.</returns>
+        </member>
+        <member name="M:Simply.Common.SimpleTypeExtensions.ToDbType(System.Type)">
+            <summary>
+            convert type to nullable DbType.
+            </summary>
+            <param name="type">The type to act on.</param>
+            <returns>Type as a DbType.</returns>
+        </member>
+        <member name="M:Simply.Common.SimpleTypeExtensions.ToDbType(System.Object)">
+            <summary>
+            object to nullable DbType.
+            </summary>
+            <param name="obj">.</param>
+            <returns>.</returns>
+        </member>
+        <member name="M:Simply.Common.SimpleTypeExtensions.GetSameProperties(System.Type,System.Type)">
+            <summary>
+            Gets same Properties of two types.
+            </summary>
+            <param name="type1">First type.</param>
+            <param name="type2">Second type.</param>
+            <returns>returns string list.</returns>
+        </member>
+        <member name="M:Simply.Common.SimpleTypeExtensions.IsAnonymousType(System.Type)">
+            <summary>
+            check type is anonymous.
+            </summary>
+            <param name="type">.</param>
+            <returns>.</returns>
+        </member>
+        <member name="M:Simply.Common.SimpleTypeExtensions.CheckIfAnonymousType(System.Type)">
+            <summary>
+            check type is anonymous.
+            </summary>
+            <param name="type">.</param>
+            <returns>.</returns>
+        </member>
+        <member name="T:Simply.Common.TypeHelper">
+            <summary>
+            Defines the <see cref="T:Simply.Common.TypeHelper"/>.
+            </summary>
+        </member>
+        <member name="F:Simply.Common.TypeHelper.NumericTypes">
+            <summary>
+            Defines the NumericTypes.
+            </summary>
+        </member>
+        <member name="M:Simply.Common.TypeHelper.IsNumeric(System.Type)">
+            <summary>
+            The IsNumeric.
+            </summary>
+            <param name="type">The type.</param>
+            <returns>True if it succeeds, false if it fails.</returns>
         </member>
         <member name="T:Simply.Common.StringExtension">
             <summary>
@@ -705,218 +769,6 @@
              <param name="text"></param>
              <returns></returns>
         </member>
-        <member name="T:Simply.Common.TypeExtensions">
-            <summary>
-            Defines the <see cref="T:Simply.Common.TypeExtensions"/>.
-            </summary>
-        </member>
-        <member name="M:Simply.Common.TypeExtensions.IsSimpleType(System.Type)">
-            <summary>
-            Determine whether a type is simple (String, Decimal, DateTime, etc) or complex (i.e.
-            custom class with public properties and methods). source code: https://gist.github.com/jonathanconway/3330614.
-            </summary>
-            <param name="type">The type to act on.</param>
-            <returns>True if it succeeds, false if it fails.</returns>
-        </member>
-        <member name="M:Simply.Common.TypeExtensions.IsSimpleTypeV2(System.Type)">
-            <summary>
-            checks type is SimpleType.
-            </summary>
-            <param name="type">The type to act on.</param>
-            <returns>True if it succeeds, false if it fails.</returns>
-        </member>
-        <member name="M:Simply.Common.TypeExtensions.ToDbType(System.Type)">
-            <summary>
-            convert type to nullable DbType.
-            </summary>
-            <param name="type">The type to act on.</param>
-            <returns>Type as a DbType.</returns>
-        </member>
-        <member name="M:Simply.Common.TypeExtensions.ToDbType(System.Object)">
-            <summary>
-            object to nullable DbType.
-            </summary>
-            <param name="obj">.</param>
-            <returns>.</returns>
-        </member>
-        <member name="M:Simply.Common.TypeExtensions.GetColumnsOfTypeAsReverse(System.Type)">
-            <summary>
-            Gets column names of type as reverse.
-            </summary>
-            <param name="type">The type to act on.</param>
-            <returns>The columns of type as reverse.</returns>
-        </member>
-        <member name="M:Simply.Common.TypeExtensions.GetKeyOfType(System.Type)">
-            <summary>
-            Gets key property name of type.
-            </summary>
-            <param name="type">The type to act on.</param>
-            <returns>The key of type.</returns>
-        </member>
-        <member name="M:Simply.Common.TypeExtensions.GetIdentityPropertyOfType(System.Type)">
-            <summary>
-            Gets identity property name of type.
-            </summary>
-            <param name="type">The type to act on.</param>
-            <returns>The ıdentity property of type.</returns>
-        </member>
-        <member name="M:Simply.Common.TypeExtensions.GetIdentityPropertyList(System.Type)">
-            <summary>
-            Gets Identity Properties.
-            </summary>
-            <param name="type">.</param>
-            <returns>.</returns>
-        </member>
-        <member name="M:Simply.Common.TypeExtensions.GetKeyColumnOfType(System.Type)">
-            <summary>
-            Gets column name of key property for given type.
-            </summary>
-            <param name="type">The type to act on.</param>
-            <returns>The key column of type.</returns>
-        </member>
-        <member name="M:Simply.Common.TypeExtensions.GetPropertyColumnOfType(System.Type,System.String)">
-            <summary>
-            Get Column Name from Property Of Type.
-            </summary>
-            <param name="type">The type to act on.</param>
-            <param name="propertyName">Name of the property.</param>
-            <returns>The property column of type.</returns>
-        </member>
-        <member name="M:Simply.Common.TypeExtensions.GetTableNameOfType(System.Type)">
-            <summary>
-            Gets Table Name Of Type.
-            </summary>
-            <param name="type">The type to act on.</param>
-            <returns>The table name of type.</returns>
-        </member>
-        <member name="M:Simply.Common.TypeExtensions.GetSchemaNameOfType(System.Type)">
-            <summary>
-            Gets Schema Name Of Type.
-            </summary>
-            <param name="type">The type to act on.</param>
-            <returns>The schema name of type.</returns>
-        </member>
-        <member name="M:Simply.Common.TypeExtensions.GetColumnsOfType(System.Type,System.Boolean)">
-            <summary>
-            Get Property Name-Column Name as dictionary with given Type.
-            </summary>
-            <param name="type">The type to act on.</param>
-            <param name="includeNotMappedProperties">
-            if true NotMapped Properties are included, else not.
-            </param>
-            <returns>The columns of type.</returns>
-        </member>
-        <member name="M:Simply.Common.TypeExtensions.GetPropertyColumnsAsReverse(System.Type)">
-            <summary>
-            Get Column Name-Property Name as dictionary with given Type.
-            </summary>
-            <param name="type">The type to act on.</param>
-            <returns>The columns reverse of type.</returns>
-        </member>
-        <member name="M:Simply.Common.TypeExtensions.IsKeyColumnNumeric(System.Type)">
-            <summary>
-            Key Column is Numeric returns true else returns false.
-            </summary>
-            <param name="type">The type to act on.</param>
-            <returns>True if it succeeds, false if it fails.</returns>
-        </member>
-        <member name="M:Simply.Common.TypeExtensions.GetValidPropertiesOfType(System.Type,System.Boolean,System.Boolean)">
-            <summary>
-            Gets Valid Properties Of Type.
-            </summary>
-            <param name="type">The type to act on.</param>
-            <param name="includeNotMappedProperties">
-            if true NotMapped Properties are included, else not.
-            </param>
-            <param name="includeReadonlyProperties"></param>
-            <returns>An array of property İnformation.</returns>
-        </member>
-        <member name="M:Simply.Common.TypeExtensions.GetValidPropertiesOfTypeV2(System.Type,System.Boolean,System.Boolean,System.Boolean)">
-            <summary>
-            Gets Valid Properties Of Type.
-            </summary>
-            <param name="type">The type to act on.</param>
-            <param name="includeNotMappedProperties"></param>
-            <param name="includeReadonlyProperties"></param>
-            <param name="includeComputedProperties"></param>
-            <returns>An array of property İnformation.</returns>
-        </member>
-        <member name="M:Simply.Common.TypeExtensions.GetPropertyTypesOfType(System.Type)">
-            <summary>
-            Gets Property Types for given Type.
-            </summary>
-            <param name="type">The type to act on.</param>
-            <returns>The property types of type.</returns>
-        </member>
-        <member name="M:Simply.Common.TypeExtensions.GetSameProperties(System.Type,System.Type)">
-            <summary>
-            Gets same Properties of two types.
-            </summary>
-            <param name="type1">First type.</param>
-            <param name="type2">Second type.</param>
-            <returns>returns string list.</returns>
-        </member>
-        <member name="M:Simply.Common.TypeExtensions.IsAnonymousType(System.Type)">
-            <summary>
-            check type is anonymous.
-            </summary>
-            <param name="type">.</param>
-            <returns>.</returns>
-        </member>
-        <member name="M:Simply.Common.TypeExtensions.CheckIfAnonymousType(System.Type)">
-            <summary>
-            check type is anonymous.
-            </summary>
-            <param name="type">.</param>
-            <returns>.</returns>
-        </member>
-        <member name="M:Simply.Common.TypeExtensions.GetKeysOfType(System.Type)">
-            <summary>
-            Get Key Property Names for Type.
-            </summary>
-            <param name="type">.</param>
-            <returns>.</returns>
-        </member>
-        <member name="M:Simply.Common.TypeExtensions.GetKeyPropertyNamesOfType(System.Type,System.Boolean)">
-            <summary>
-            Get Key Property Names for given Type, if includeIdentityProperties is true includes
-            identity properties.
-            </summary>
-            <param name="type">.</param>
-            <param name="includeIdentityProperties">.</param>
-            <returns>Returns property names as string List.</returns>
-        </member>
-        <member name="M:Simply.Common.TypeExtensions.GetIdentityPropertyNamesOfType(System.Type)">
-            <summary>
-            Gets Identity Property Names Of Type.
-            </summary>
-            <param name="type">The type to act on.</param>
-            <returns>The ıdentity property of type.</returns>
-        </member>
-        <member name="M:Simply.Common.TypeExtensions.GetIdentityProperties(System.Type)">
-            <summary>
-            Get Properties which has Identity attribute as array.
-            </summary>
-            <param name="type">The type <see cref="T:System.Type"/>.</param>
-            <returns>.</returns>
-        </member>
-        <member name="T:Simply.Common.TypeHelper">
-            <summary>
-            Defines the <see cref="T:Simply.Common.TypeHelper"/>.
-            </summary>
-        </member>
-        <member name="F:Simply.Common.TypeHelper.NumericTypes">
-            <summary>
-            Defines the NumericTypes.
-            </summary>
-        </member>
-        <member name="M:Simply.Common.TypeHelper.IsNumeric(System.Type)">
-            <summary>
-            The IsNumeric.
-            </summary>
-            <param name="type">The type.</param>
-            <returns>True if it succeeds, false if it fails.</returns>
-        </member>
         <member name="T:Simply.Common.Objects.SimpleDbCell">
             <summary>
             The simple db cell.
@@ -976,6 +828,20 @@
             Gets the cells.
             </summary>
         </member>
+        <member name="P:Simply.Common.Objects.SimpleDbRow.Item(System.Int32)">
+            <summary>
+            Gets value of element at given index
+            </summary>
+            <param name="index"></param>
+            <returns></returns>
+        </member>
+        <member name="P:Simply.Common.Objects.SimpleDbRow.Item(System.String)">
+            <summary>
+            Gets value of element at given cell name
+            </summary>
+            <param name="cellName"></param>
+            <returns></returns>
+        </member>
         <member name="M:Simply.Common.Objects.SimpleDbRow.GetType(System.Int32)">
             <summary>
             Gets the type.
@@ -987,28 +853,28 @@
             <summary>
             Gets the type.
             </summary>
-            <param name="columnName">The column name.</param>
+            <param name="cellName">The column name.</param>
             <returns>A Type.</returns>
         </member>
         <member name="M:Simply.Common.Objects.SimpleDbRow.RemoveCell(System.String)">
             <summary>
             Removes the cell with given name.
             </summary>
-            <param name="columnName">The column name.</param>
+            <param name="cellName">The column name.</param>
             <returns>An int.</returns>
         </member>
         <member name="M:Simply.Common.Objects.SimpleDbRow.GetValue(System.Int32)">
             <summary>
             Gets the value.
             </summary>
-            <param name="indx">The indx.</param>
+            <param name="index">The indx.</param>
             <returns>An object.</returns>
         </member>
         <member name="M:Simply.Common.Objects.SimpleDbRow.GetValue(System.String)">
             <summary>
             Gets the value.
             </summary>
-            <param name="columnName">The column name.</param>
+            <param name="cellName">The cell name.</param>
             <returns>An object.</returns>
         </member>
         <member name="M:Simply.Common.Objects.SimpleDbRow.GetValue``1(System.Int32)">
@@ -1037,7 +903,7 @@
             <summary>
             Gets the value.
             </summary>
-            <param name="columnName">The column name.</param>
+            <param name="cellName">The column name.</param>
             <param name="defaultValue">The default value.</param>
             <returns>A T.</returns>
         </member>
@@ -1051,7 +917,7 @@
             <summary>
             Adds the cell.
             </summary>
-            <param name="columnName">The column name.</param>
+            <param name="cellName">The column name.</param>
             <param name="columnType">The column type.</param>
             <param name="cellValue">The cell value.</param>
         </member>
@@ -1095,7 +961,7 @@
             <summary>
             Checks the column name ıs null.
             </summary>
-            <param name="columnName">The column name.</param>
+            <param name="cellName">The column name.</param>
         </member>
         <member name="M:Simply.Common.Objects.SimpleDbRow.CheckIndexIsValid(System.Int32)">
             <summary>
