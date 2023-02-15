@@ -34,8 +34,16 @@
     <Reference Include="MySql.Data, Version=6.9.12.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
       <HintPath>..\..\packages\MySql.Data.6.9.12\lib\net45\MySql.Data.dll</HintPath>
     </Reference>
+    <Reference Include="Simply.Common, Version=1.7.0.0, Culture=neutral, PublicKeyToken=c03dc30a9850669f, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Simply.Common.1.7.0\lib\net451\Simply.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Simply.Data, Version=4.0.0.0, Culture=neutral, PublicKeyToken=0d4e0a4d073b85f2, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Simply.Data.4.0.0\lib\net451\Simply.Data.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -50,12 +58,6 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\..\Simply\Simply.Soln\Simply\Simply.Data\Simply.Data.csproj">
-      <Project>{F374850B-07D2-4E3C-A3EC-BFF273DEE3C7}</Project>
-      <Name>Simply.Data</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

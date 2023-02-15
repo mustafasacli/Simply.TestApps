@@ -18,27 +18,29 @@ namespace SimplyTest_Last_ConsoleApp
             ISimpleDatabase database = new SimpleMySqlDatabase();
             Orderdetails orderDetail = database.Last<Orderdetails>("select * from `classicmodels`.`orderdetails` WHERE `productCode` = ?productCode?",
                        new { productCode }, commandSetting: SimpleCommandSetting.Create().SetParameterNamePrefix('?'));
-            writeEntity(orderDetail);
+            WriteEntity(orderDetail);
             Console.WriteLine("--------------------------------------------------------");
 
             Orderdetails orderDetail2 = database.Last<Orderdetails>(
                 "select * from `classicmodels`.`orderdetails` WHERE `productCode` = ?",
                 new { productCode });
-            writeEntity(orderDetail2);
+            WriteEntity(orderDetail2);
             Console.WriteLine("--------------------------------------------------------");
-            SimpleDbCommand command = new SimpleDbCommand();
-            command.CommandText =
-                "select * from `classicmodels`.`orderdetails` WHERE `productCode` = @productCode";
+            SimpleDbCommand command = new SimpleDbCommand
+            {
+                CommandText =
+                "select * from `classicmodels`.`orderdetails` WHERE `productCode` = @productCode"
+            };
             command.AddParameter(new DbCommandParameter { Direction = ParameterDirection.Input, ParameterName = "productCode", Value = productCode });
 
             Orderdetails orderDetail3 = database.Last<Orderdetails>(command);
-            writeEntity(orderDetail3);
+            WriteEntity(orderDetail3);
 
             Console.WriteLine("--------------------------------------------------------");
             Orderdetails orderDetail4 = database.Last<Orderdetails>(
                 "select * from `classicmodels`.`orderdetails` WHERE `productCode` = ?",
                 new[] { productCode });
-            writeEntity(orderDetail4);
+            WriteEntity(orderDetail4);
             Console.WriteLine("--------------------------------------------------------");
 
             SimpleDbCommand command2 = new SimpleDbCommand();
@@ -46,25 +48,25 @@ namespace SimplyTest_Last_ConsoleApp
                 "select * from `classicmodels`.`orderdetails` WHERE `productCode` = @productCode";
             command2.AddParameter(new DbCommandParameter { Direction = ParameterDirection.Input, ParameterName = "productCode", Value = productCode });
             SimpleDbRow orderDetailRow = database.LastRow(command2);
-            writeDbRow(orderDetailRow);
+            WriteDbRow(orderDetailRow);
             Console.WriteLine("--------------------------------------------------------");
 
             SimpleDbRow orderDetailRow2 = database.LastRow(
                 "select * from `classicmodels`.`orderdetails` WHERE `productCode` = @productCode",
                 new { productCode });
-            writeDbRow(orderDetailRow2);
+            WriteDbRow(orderDetailRow2);
             Console.WriteLine("--------------------------------------------------------");
 
             SimpleDbRow orderDetailRow3 = database.LastRow(
                 "select * from `classicmodels`.`orderdetails` WHERE `productCode` = #productCode#",
                 new { productCode }, commandSetting: SimpleCommandSetting.Create().SetParameterNamePrefix('#'));
-            writeDbRow(orderDetailRow3);
+            WriteDbRow(orderDetailRow3);
             Console.WriteLine("--------------------------------------------------------");
 
             Console.ReadKey();
         }
 
-        private static void writeDbRow(SimpleDbRow row)
+        private static void WriteDbRow(SimpleDbRow row)
         {
             if (row != null)
             {
@@ -76,7 +78,7 @@ namespace SimplyTest_Last_ConsoleApp
             }
         }
 
-        private static void writeEntity<TEntity>(TEntity entity) where TEntity : class
+        private static void WriteEntity<TEntity>(TEntity entity) where TEntity : class
         {
             if (entity == null) return;
 
