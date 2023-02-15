@@ -1,21 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Windows.Forms;
 using System.Threading;
+using System.Windows.Forms;
 
 namespace KisayolYoneticisi
 {
-    static class Program
+    internal static class Program
     {
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        static void Main()
+        private static void Main()
         {
-            bool createdNew;
-            Mutex m = new Mutex(true, "KisayolYoneticisi", out createdNew);
+            Mutex mutex = new Mutex(true, typeof(Program).Assembly.GetName().Name, out bool createdNew);
+
             if (createdNew)
             {
                 Application.EnableVisualStyles();
@@ -25,9 +23,7 @@ namespace KisayolYoneticisi
             else
             {
                 MessageBox.Show("Program is already running!..", "Warning: Multiple Running");
-                return;
             }
         }
-
     }
 }
