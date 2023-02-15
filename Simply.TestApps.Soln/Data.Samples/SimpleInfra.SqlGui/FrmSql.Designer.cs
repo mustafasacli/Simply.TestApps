@@ -95,6 +95,7 @@
             this.tblLytButtons = new System.Windows.Forms.TableLayoutPanel();
             this.btnTestConnection = new System.Windows.Forms.Button();
             this.chkRemoveBlobs = new System.Windows.Forms.CheckBox();
+            this.btnExport = new System.Windows.Forms.Button();
             this.tblLytDetail = new System.Windows.Forms.TableLayoutPanel();
             this.tblLytSubPanel = new System.Windows.Forms.TableLayoutPanel();
             this.tblLytDetailColAndVal = new System.Windows.Forms.TableLayoutPanel();
@@ -108,7 +109,9 @@
             this.tbPgLog = new System.Windows.Forms.TabPage();
             this.txtLog = new System.Windows.Forms.TextBox();
             this.saveExcelExportDialog = new System.Windows.Forms.SaveFileDialog();
-            this.btnExport = new System.Windows.Forms.Button();
+            this.tblLytRowCount = new System.Windows.Forms.TableLayoutPanel();
+            this.lblRowCount = new System.Windows.Forms.Label();
+            this.txtRowCount = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.grdTable)).BeginInit();
             this.tblLytMain.SuspendLayout();
             this.tblLytButtons.SuspendLayout();
@@ -119,6 +122,7 @@
             this.tbCtrlMain.SuspendLayout();
             this.tbPgMain.SuspendLayout();
             this.tbPgLog.SuspendLayout();
+            this.tblLytRowCount.SuspendLayout();
             this.SuspendLayout();
             // 
             // grdTable
@@ -198,7 +202,7 @@
             this.cmbxConnTypes.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.cmbxConnTypes.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbxConnTypes.FormattingEnabled = true;
-            this.cmbxConnTypes.Location = new System.Drawing.Point(170, 160);
+            this.cmbxConnTypes.Location = new System.Drawing.Point(170, 158);
             this.cmbxConnTypes.Margin = new System.Windows.Forms.Padding(10, 3, 3, 3);
             this.cmbxConnTypes.Name = "cmbxConnTypes";
             this.cmbxConnTypes.Size = new System.Drawing.Size(386, 25);
@@ -246,6 +250,7 @@
             this.tblLytButtons.Controls.Add(this.btnGetData, 2, 0);
             this.tblLytButtons.Controls.Add(this.chkRemoveBlobs, 4, 0);
             this.tblLytButtons.Controls.Add(this.btnExport, 3, 0);
+            this.tblLytButtons.Controls.Add(this.tblLytRowCount, 0, 0);
             this.tblLytButtons.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tblLytButtons.Location = new System.Drawing.Point(3, 860);
             this.tblLytButtons.Name = "tblLytButtons";
@@ -275,6 +280,17 @@
             this.chkRemoveBlobs.TabIndex = 5;
             this.chkRemoveBlobs.Text = "Remove Blob Columns";
             this.chkRemoveBlobs.UseVisualStyleBackColor = true;
+            // 
+            // btnExport
+            // 
+            this.btnExport.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnExport.Location = new System.Drawing.Point(893, 3);
+            this.btnExport.Name = "btnExport";
+            this.btnExport.Size = new System.Drawing.Size(154, 28);
+            this.btnExport.TabIndex = 6;
+            this.btnExport.Text = "Export To Excel";
+            this.btnExport.UseVisualStyleBackColor = true;
+            this.btnExport.Click += new System.EventHandler(this.btnExport_Click);
             // 
             // tblLytDetail
             // 
@@ -408,10 +424,10 @@
             // tbPgLog
             // 
             this.tbPgLog.Controls.Add(this.txtLog);
-            this.tbPgLog.Location = new System.Drawing.Point(4, 26);
+            this.tbPgLog.Location = new System.Drawing.Point(4, 22);
             this.tbPgLog.Name = "tbPgLog";
             this.tbPgLog.Padding = new System.Windows.Forms.Padding(3);
-            this.tbPgLog.Size = new System.Drawing.Size(1792, 903);
+            this.tbPgLog.Size = new System.Drawing.Size(1792, 907);
             this.tbPgLog.TabIndex = 1;
             this.tbPgLog.Text = "Log";
             this.tbPgLog.UseVisualStyleBackColor = true;
@@ -423,19 +439,44 @@
             this.txtLog.Multiline = true;
             this.txtLog.Name = "txtLog";
             this.txtLog.ReadOnly = true;
-            this.txtLog.Size = new System.Drawing.Size(1786, 897);
+            this.txtLog.Size = new System.Drawing.Size(1786, 901);
             this.txtLog.TabIndex = 0;
             // 
-            // btnExport
+            // tblLytRowCount
             // 
-            this.btnExport.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnExport.Location = new System.Drawing.Point(893, 3);
-            this.btnExport.Name = "btnExport";
-            this.btnExport.Size = new System.Drawing.Size(154, 28);
-            this.btnExport.TabIndex = 6;
-            this.btnExport.Text = "Export To Excel";
-            this.btnExport.UseVisualStyleBackColor = true;
-            this.btnExport.Click += new System.EventHandler(this.btnExport_Click);
+            this.tblLytRowCount.ColumnCount = 3;
+            this.tblLytRowCount.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 120F));
+            this.tblLytRowCount.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 120F));
+            this.tblLytRowCount.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tblLytRowCount.Controls.Add(this.lblRowCount, 0, 0);
+            this.tblLytRowCount.Controls.Add(this.txtRowCount, 1, 0);
+            this.tblLytRowCount.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tblLytRowCount.Location = new System.Drawing.Point(3, 3);
+            this.tblLytRowCount.Name = "tblLytRowCount";
+            this.tblLytRowCount.RowCount = 1;
+            this.tblLytRowCount.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tblLytRowCount.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tblLytRowCount.Size = new System.Drawing.Size(564, 28);
+            this.tblLytRowCount.TabIndex = 7;
+            // 
+            // lblRowCount
+            // 
+            this.lblRowCount.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.lblRowCount.AutoSize = true;
+            this.lblRowCount.Location = new System.Drawing.Point(3, 5);
+            this.lblRowCount.Name = "lblRowCount";
+            this.lblRowCount.Size = new System.Drawing.Size(88, 17);
+            this.lblRowCount.TabIndex = 0;
+            this.lblRowCount.Text = "Kayıt Sayısı :";
+            // 
+            // txtRowCount
+            // 
+            this.txtRowCount.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtRowCount.Location = new System.Drawing.Point(123, 3);
+            this.txtRowCount.Name = "txtRowCount";
+            this.txtRowCount.ReadOnly = true;
+            this.txtRowCount.Size = new System.Drawing.Size(114, 23);
+            this.txtRowCount.TabIndex = 1;
             // 
             // FrmSql
             // 
@@ -460,6 +501,8 @@
             this.tbPgMain.ResumeLayout(false);
             this.tbPgLog.ResumeLayout(false);
             this.tbPgLog.PerformLayout();
+            this.tblLytRowCount.ResumeLayout(false);
+            this.tblLytRowCount.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -468,6 +511,9 @@
 
         private System.Windows.Forms.SaveFileDialog saveExcelExportDialog;
         private System.Windows.Forms.Button btnExport;
+        private System.Windows.Forms.TableLayoutPanel tblLytRowCount;
+        private System.Windows.Forms.Label lblRowCount;
+        private System.Windows.Forms.TextBox txtRowCount;
     }
 }
 

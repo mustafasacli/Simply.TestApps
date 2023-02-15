@@ -85,6 +85,7 @@ namespace SimpleInfra.SqlGui
         {
             DataTable table = null;
             this.grdTable.DataSource = table;
+            this.txtRowCount.Text = (table?.Rows?.Count ?? 0).ToString();
             this.grdTable.Refresh();
             try
             {
@@ -109,6 +110,7 @@ namespace SimpleInfra.SqlGui
                 this.arrangeData(table, this.chkRemoveBlobs.Checked);
             }
             this.grdTable.DataSource = table;
+            this.txtRowCount.Text = (table?.Rows?.Count ?? 0).ToString();
             this.grdTable.Refresh();
         }
 
