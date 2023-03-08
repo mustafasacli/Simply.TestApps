@@ -67,8 +67,8 @@
     <Reference Include="Simply.Common, Version=1.7.0.0, Culture=neutral, PublicKeyToken=c03dc30a9850669f, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Simply.Common.1.7.0\lib\net451\Simply.Common.dll</HintPath>
     </Reference>
-    <Reference Include="Simply.Data, Version=4.0.0.0, Culture=neutral, PublicKeyToken=0d4e0a4d073b85f2, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Simply.Data.4.0.0\lib\net451\Simply.Data.dll</HintPath>
+    <Reference Include="Simply.Data, Version=4.2.0.0, Culture=neutral, PublicKeyToken=0d4e0a4d073b85f2, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Simply.Data.4.2.0\lib\net451\Simply.Data.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
