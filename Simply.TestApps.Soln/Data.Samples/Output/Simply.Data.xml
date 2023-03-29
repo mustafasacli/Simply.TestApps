@@ -1628,7 +1628,7 @@
             The Any for jdbc sql query.
             </summary>
             <param name="database">The simple database object instance.</param>
-            <param name="jdbcSqlQuery">Jdbc Sql query <see cref="T:System.String"/> 
+            <param name="jdbcSqlQuery">Jdbc Sql query <see cref="T:System.String"/>
             like #SELECT T1.* FROM TABLE T1 WHERE T1.INT_COLUMN = ?1 AND T2.DATE_COLUMN = ?2 #.</param>
             <param name="parameterValues">The parameterValues <see cref="!:object[]"/>.</param>
             <param name="commandSetting">The command setting.</param>
@@ -3005,6 +3005,11 @@
             Gets the action for command logging.
             </summary>
         </member>
+        <member name="P:Simply.Data.Database.SimpleDatabase.InternalExceptionHandler">
+            <summary>
+            Gets or sets the internal exception handler.
+            </summary>
+        </member>
         <member name="P:Simply.Data.Database.SimpleDatabase.LogCommand">
             <summary>
             Gets, sets value for SimpleDbCommand logging.
@@ -3013,6 +3018,11 @@
         <member name="P:Simply.Data.Database.SimpleDatabase.LogDbCommand">
             <summary>
             Gets, sets value for IDbCommand logging.
+            </summary>
+        </member>
+        <member name="P:Simply.Data.Database.SimpleDatabase.AutoClose">
+            <summary>
+            Gets or sets connection auto close.
             </summary>
         </member>
         <member name="P:Simply.Data.Database.SimpleDatabase.DefinitorFactory">
@@ -3032,26 +3042,34 @@
             disposes both managed and unmanaged resources.
             </summary>
         </member>
+        <member name="M:Simply.Data.Database.SimpleDatabase.Finalize">
+            <summary>
+            the finalizer
+            </summary>
+        </member>
         <member name="M:Simply.Data.Database.SimpleDatabase.Begin(System.Nullable{System.Data.IsolationLevel})">
             <summary>
             Begins the transaction.
             </summary>
             <param name="isolationLevel">The isolation level.</param>
         </member>
-        <member name="M:Simply.Data.Database.SimpleDatabase.Commit">
+        <member name="M:Simply.Data.Database.SimpleDatabase.Commit(System.Boolean)">
             <summary>
             Commits the transaction.
             </summary>
+            <param name="closeConnectionAtFinal">If true, close connection at final.</param>
         </member>
-        <member name="M:Simply.Data.Database.SimpleDatabase.Rollback">
+        <member name="M:Simply.Data.Database.SimpleDatabase.Rollback(System.Boolean)">
             <summary>
             Rollbacks the transaction.
             </summary>
+            <param name="closeConnectionAtFinal">If true, close connection at final.</param>
         </member>
-        <member name="M:Simply.Data.Database.SimpleDatabase.Finalize">
+        <member name="M:Simply.Data.Database.SimpleDatabase.Close">
             <summary>
-            Begins the transction.
+            Closes the database connection if there is no alive transaction.
             </summary>
+            <exception cref="T:System.Exception">if there is alive transaction.</exception>
         </member>
         <member name="M:Simply.Data.Database.SimpleDatabase.TranslateParametersFromObject(System.Object)">
             <summary>
@@ -3142,12 +3160,32 @@
             <summary>
             Builds SimpleDbCommand instance for Translate of Odbc Sql Query.
             </summary>
-            <param name="jdbcSqlQuery">Jdbc Sql query <see cref="T:System.String"/> 
+            <param name="jdbcSqlQuery">Jdbc Sql query <see cref="T:System.String"/>
             like #SELECT T1.* FROM TABLE T1 WHERE T1.INT_COLUMN = ?1 AND T2.DATE_COLUMN = ?2 #.</param>
             <param name="parameterValues">Sql command parameter values.</param>
             <param name="commandSetting">The command setting.</param>
             <param name="setOverratedParametersToOutput">if it is true overrated parameters set as output else will be throw error.</param>
             <returns>Returns simple database command object instance <see cref="T:Simply.Data.Objects.SimpleDbCommand" />.</returns>
+        </member>
+        <member name="M:Simply.Data.Database.SimpleDatabase.Create``1(System.String)">
+            <summary>
+            Creates Db connection.
+            </summary>
+            <typeparam name="TDbConnection"></typeparam>
+            <param name="connectionString">database connection string</param>
+            <returns>TDbConnection object instance</returns>
+        </member>
+        <member name="M:Simply.Data.Database.SimpleDatabase.CreateDb``1(System.Boolean,System.Boolean,System.Boolean,System.Action{Simply.Data.Objects.SimpleDbCommand},System.Action{System.Data.IDbCommand},System.Action{System.Exception})">
+            <summary>
+            Creates the simple database instance.
+            </summary>
+            <param name="logCommand">If true, log command.</param>
+            <param name="logDbCommand">If true, log db command.</param>
+            <param name="autoClose">If true, auto close.</param>
+            <param name="commandLogAction">The command log action.</param>
+            <param name="dbCommandLogAction">The db command log action.</param>
+            <param name="internalExceptionHandler">The internal exception handler.</param>
+            <returns>A TSimpleDatabase instance.</returns>
         </member>
         <member name="T:Simply.Data.DataExtensions">
             <summary>
@@ -3328,7 +3366,6 @@
             <summary>
             Converts the rows to list.
             </summary>
-            <param name="database">simple database object</param>
             <param name="rows">The rows.</param>
             <returns>A list of TS.</returns>
         </member>
@@ -3970,6 +4007,11 @@
             Gets the action for command logging.
             </summary>
         </member>
+        <member name="P:Simply.Data.Interfaces.ISimpleDatabase.InternalExceptionHandler">
+            <summary>
+            Gets or sets the internal exception handler.
+            </summary>
+        </member>
         <member name="P:Simply.Data.Interfaces.ISimpleDatabase.LogCommand">
             <summary>
             Gets, sets value for simpledbcommand logging.
@@ -3978,6 +4020,11 @@
         <member name="P:Simply.Data.Interfaces.ISimpleDatabase.LogDbCommand">
             <summary>
             Gets, sets value for IDbCommand logging.
+            </summary>
+        </member>
+        <member name="P:Simply.Data.Interfaces.ISimpleDatabase.AutoClose">
+            <summary>
+            Gets or sets connection auto close.
             </summary>
         </member>
         <member name="P:Simply.Data.Interfaces.ISimpleDatabase.DefinitorFactory">
@@ -3991,15 +4038,23 @@
             </summary>
             <param name="isolationLevel">The isolation level.</param>
         </member>
-        <member name="M:Simply.Data.Interfaces.ISimpleDatabase.Commit">
+        <member name="M:Simply.Data.Interfaces.ISimpleDatabase.Commit(System.Boolean)">
             <summary>
             Commits the transaction.
             </summary>
+            <param name="closeConnectionAtFinal">If true, close connection at final.</param>
         </member>
-        <member name="M:Simply.Data.Interfaces.ISimpleDatabase.Rollback">
+        <member name="M:Simply.Data.Interfaces.ISimpleDatabase.Rollback(System.Boolean)">
             <summary>
             Rollbacks the transaction.
             </summary>
+            <param name="closeConnectionAtFinal">If true, close connection at final.</param>
+        </member>
+        <member name="M:Simply.Data.Interfaces.ISimpleDatabase.Close">
+            <summary>
+            Closes the database connection if there is no alive transaction.
+            </summary>
+            <exception cref="T:System.Exception">if there is alive transaction.</exception>
         </member>
         <member name="M:Simply.Data.Interfaces.ISimpleDatabase.BuildSimpleDbCommandForOdbcQuery(System.String,System.Object[],Simply.Data.Interfaces.ICommandSetting,System.Boolean)">
             <summary>
@@ -4046,7 +4101,7 @@
             <summary>
             Builds SimpleDbCommand instance for Translate of Odbc Sql Query.
             </summary>
-            <param name="jdbcSqlQuery">Jdbc Sql query <see cref="T:System.String"/> 
+            <param name="jdbcSqlQuery">Jdbc Sql query <see cref="T:System.String"/>
             like #SELECT T1.* FROM TABLE T1 WHERE T1.INT_COLUMN = ?1 AND T2.DATE_COLUMN = ?2 #.</param>
             <param name="parameterValues">Sql command parameter values.</param>
             <param name="commandSetting">The command setting.</param>
@@ -4596,7 +4651,7 @@
         <member name="P:Simply.Data.BaseQuerySetting.Prefix">
             <summary>
             Gets Table and Column Name Prefix.
-            </summary> 
+            </summary>
         </member>
         <member name="P:Simply.Data.BaseQuerySetting.Suffix">
             <summary>
@@ -4910,7 +4965,6 @@
             <summary>
             Gets Valid Properties Of Type.
             </summary>
-            <param name="type">The type to act on.</param>
             <param name="includeNotMappedProperties"></param>
             <param name="includeReadonlyProperties"></param>
             <param name="includeComputedProperties"></param>
@@ -4974,7 +5028,6 @@
             <summary>
             Get Column Name-Property Name as dictionary.
             </summary>
-            <typeparam name="T">Generic type parameter.</typeparam>
             <param name="includeNotMappedProperties"></param>
             <param name="includeComputedProperties"></param>
             <returns>The columns reverse.</returns>
@@ -4983,7 +5036,6 @@
             <summary>
             Get Property Name-Column Name as dictionary.
             </summary>
-            <typeparam name="T">Generic type parameter.</typeparam>
             <param name="includeNotMappedProperties"></param>
             <param name="includeComputedProperties"></param>
             <returns>The columns.</returns>

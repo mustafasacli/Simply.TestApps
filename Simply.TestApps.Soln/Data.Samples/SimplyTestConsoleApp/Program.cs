@@ -11,10 +11,10 @@ namespace SimplyTestConsoleApp
 {
     internal class Program
     {
-        internal static IDbConnection GetDbConnection()
-        {
-            return new MySqlConnection { ConnectionString = "data source=127.0.0.1;initial catalog=classicmodels;user id=root;" };
-        }
+        //internal static IDbConnection GetDbConnection()
+        //{
+        //    return new MySqlConnection { ConnectionString = "data source=127.0.0.1;initial catalog=classicmodels;user id=root;" };
+        //}
 
         private static void Main(string[] args)
         {

@@ -225,6 +225,20 @@
             <param name="list">T instance array</param>
             <returns>if list is null or empty returns true else return false.</returns>
         </member>
+        <member name="M:Simply.Common.ArrayHelper.GetEmptyIsNull``1(``0[])">
+            <summary>
+            Gets the empty, if array is null.
+            </summary>
+            <param name="array">The object array.</param>
+            <returns>An array of T object.</returns>
+        </member>
+        <member name="M:Simply.Common.ArrayHelper.GetEmptyIsNull``1(System.Collections.Generic.List{``0})">
+            <summary>
+            Gets the empty, if list is null.
+            </summary>
+            <param name="list">The object list.</param>
+            <returns>An list of T object.</returns>
+        </member>
         <member name="T:Simply.Common.DatetimeExtensions">
             <summary>
             Defines the <see cref="T:Simply.Common.DatetimeExtensions"/>.
@@ -382,6 +396,17 @@
             <typeparam name="T"></typeparam>
             <param name="instance"></param>
             <returns></returns>
+        </member>
+        <member name="M:Simply.Common.GenericExtensions.With``2(``0,System.Linq.Expressions.Expression{System.Func{``0,``1}},System.Object)">
+            <summary>
+            Sets the given property value and returns current instance.
+            </summary>
+            <param name="instance">The instance.</param>
+            <param name="keySelector">The key selector.</param>
+            <param name="value">The value.</param>
+            <exception cref="T:System.NullReferenceException">if instance is null. throw null reference exception.</exception>
+            <exception cref="T:System.NotSupportedException">if the conversion cannot be performed.</exception>
+            <returns>Returns current instance.</returns>
         </member>
         <member name="T:Simply.Common.ObjectExtension">
             <summary>
