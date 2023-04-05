@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -5,6 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace SimplyTest_Entities
 {
     [Table("customers", Schema = "classicmodels")]
+    [Serializable]
     public class Customers
     {
         /// <summary>
@@ -117,14 +119,14 @@ namespace SimplyTest_Entities
         public decimal? CreditLimit
         { get; set; }
 
-        [ForeignKey("salesRepEmployeeNumber")]
-        public virtual Employee Employees
-        { get; set; }
+        //[ForeignKey("salesRepEmployeeNumber")]
+        //public virtual Employee Employees
+        //{ get; set; }
 
-        public virtual ICollection<Orders> OrdersList
-        { get; set; }
+        //public virtual ICollection<Orders> OrdersList
+        //{ get; set; }
 
-        public virtual ICollection<Payments> PaymentsList
-        { get; set; }
+        //public virtual ICollection<Payments> PaymentsList
+        //{ get; set; }
     }
 }
