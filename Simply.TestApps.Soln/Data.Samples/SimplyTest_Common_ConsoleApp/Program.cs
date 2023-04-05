@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using Simply.Common;
+﻿using Simply.Common;
 using SimplyTest_Entities;
+using System;
+using System.Reflection;
 
 namespace SimplyTest_Common_ConsoleApp
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             Customers customer = new Customers();
             customer.With(q => q.Phone, "4568987546")
@@ -25,7 +21,6 @@ namespace SimplyTest_Common_ConsoleApp
             writeEntity(newCustomer);
             Console.ReadKey();
         }
-
 
         private static void writeEntity<TEntity>(TEntity entity) where TEntity : class
         {
