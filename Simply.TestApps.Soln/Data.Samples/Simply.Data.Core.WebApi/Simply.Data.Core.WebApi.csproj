@@ -9,7 +9,8 @@
     <PackageReference Include="SimpleInfra.Common.Response.dll" Version="1.4.0" />
     <PackageReference Include="SimpleInfra.Mapping" Version="2.5.0" />
     <PackageReference Include="SimpleInfra.Validation" Version="1.5.0" />
-    <PackageReference Include="Simply.Data" Version="4.3.0" />
+    <PackageReference Include="Simply.Common" Version="1.9.0" />
+    <PackageReference Include="Simply.Data" Version="4.4.0" />
   </ItemGroup>
 
   <ItemGroup>
