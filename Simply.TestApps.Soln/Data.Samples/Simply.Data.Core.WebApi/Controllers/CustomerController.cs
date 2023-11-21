@@ -18,12 +18,12 @@ namespace Simply.Data.Core.WebApi.Controllers
     public class CustomerController : ControllerBase
     {
         private readonly ILogger<CustomerController> _logger;
-        private readonly ISimpleDatabase database1;
+        private readonly ISimpleDatabase dbInstance;
 
         public CustomerController(ILogger<CustomerController> logger, ISimpleDatabase database)
         {
             _logger = logger;
-            database1 = database;
+            dbInstance = database;
         }
 
         [HttpGet]
@@ -31,7 +31,7 @@ namespace Simply.Data.Core.WebApi.Controllers
         {
             _logger.LogInformation("customerNumber:#{0}#", customerNumber);
 
-            List<Customers> customers = database1.List<Customers>(
+            List<Customers> customers = dbInstance.List<Customers>(
                 "SELECT * FROM `classicmodels`.`customers` WHERE `customerNumber` = ?customerNumber? or ?customerNumber? is null",
                         new { customerNumber }, commandSetting: SimpleCommandSetting.Create(parameterNamePrefix: '?'));
 
@@ -56,12 +56,13 @@ namespace Simply.Data.Core.WebApi.Controllers
 (customerNumber, customerName, contactLastName, contactFirstName, phone, addressLine1, addressLine2, city, state, postalCode, country, salesRepEmployeeNumber, creditLimit)
 VALUES(?CustomerNumber?, ?CustomerName?, ?ContactLastName?, ?ContactFirstName?, ?Phone?, ?AddressLine1?, ?AddressLine2?, ?City?, ?State?, ?PostalCode?, ?Country?, ?SalesRepEmployeeNumber?, ?CreditLimit?);";
             //; SELECT CAST(LAST_INSERT_ID() AS SIGNED);
-            database1.Begin();
-            object objCustomerNumber = database1.ExecuteScalar("SELECT MAX(`customerNumber`) FROM `classicmodels`.`customers`",
+            dbInstance.Begin();
+            object objCustomerNumber = dbInstance.ExecuteScalar("SELECT MAX(`customerNumber`) FROM `classicmodels`.`customers`",
                                         null, commandSetting: null);
+            // model.CustomerNumber = dbInstance.ExecuteScalarAs<int>("SELECT MAX(`customerNumber`) as max FROM `classicmodels`.`customers`", null, null);
             model.CustomerNumber = (objCustomerNumber.ToIntNullable() ?? 0) + 1;
-            response.ResponseCode = database1.Execute(strSql, model, commandSetting: SimpleCommandSetting.Create(parameterNamePrefix: '?'));
-            database1.Commit();
+            response.ResponseCode = dbInstance.Execute(strSql, model, commandSetting: SimpleCommandSetting.Create(parameterNamePrefix: '?'));
+            dbInstance.Commit();
 
             response.Data = model;
             return response;
@@ -86,8 +87,8 @@ set customerName=?CustomerName?, contactLastName=?ContactLastName?,
 contactFirstName=?ContactFirstName?, phone=?Phone?, addressLine1=?AddressLine1?, addressLine2=?AddressLine2?,
 city=?City?, state=?State?, postalCode=?PostalCode?, country=?Country?, salesRepEmployeeNumber=?SalesRepEmployeeNumber?, creditLimit=?CreditLimit?
 where customerNumber=?CustomerNumber?;";
-            database1.Begin();
-            response.ResponseCode = database1.Execute(strSql,
+            dbInstance.Begin();
+            response.ResponseCode = dbInstance.Execute(strSql,
                             new
                             {
                                 model.CustomerName,
@@ -104,7 +105,7 @@ where customerNumber=?CustomerNumber?;";
                                 model.CreditLimit,
                                 model.CustomerNumber
                             }, commandSetting: SimpleCommandSetting.Create(parameterNamePrefix: '?'));
-            database1.Commit();
+            dbInstance.Commit();
 
             response.Data = model;
             return response;
@@ -119,14 +120,14 @@ where customerNumber=?CustomerNumber?;";
                 return SimpleResponse.New(responseCode: -1);
 
             string strSql = "DELETE FROM `classicmodels`.`customers` WHERE `customerNumber` = ?customerNumber?";
-            database1.Begin();
+            dbInstance.Begin();
 
-            int reposnseCode = database1.Execute(strSql,
+            int reposnseCode = dbInstance.Execute(strSql,
                            new
                            {
                                customerNumber
                            }, commandSetting: SimpleCommandSetting.Create(parameterNamePrefix: '?'));
-            database1.Commit();
+            dbInstance.Commit();
 
             return SimpleResponse.New(reposnseCode);
         }
