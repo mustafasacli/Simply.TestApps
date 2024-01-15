@@ -12,19 +12,19 @@ namespace Simply.Common.ConsoleApp1
     {
         static void Main(string[] args)
         {
-            IDictionary<string, object> vals = new Dictionary<string, object>();
-            vals["amount"] = 3.45;
-            vals["year"] = 2023;
-            vals["age"] = 36;
-            vals["birthDate"] = new DateTime(1991, 4, 6);
-            vals["discount"] = 4.6f;
-            vals["text"] = "Marry has a little lamb.";
-            vals["longAmount"] = long.MaxValue;
-            vals["intAmount"] = int.MaxValue;
-            vals["decVal"] = decimal.MaxValue;
-            vals["nullVal"] = null;
-            vals["dbnullVal"] = DBNull.Value;
-            vals["boolValue"] = true;
+            Dictionary<string, object> vals = new Dictionary<string, object>();
+            vals.SetValueAndReturn("amount", 3.45)
+                .SetValueAndReturn("year", 2023)
+                .SetValueAndReturn("age", 36)
+                .SetValueAndReturn("birthDate", new DateTime(1991, 4, 6))
+                .SetValueAndReturn("discount", 4.6f)
+                .SetValueAndReturn("text", "Marry has a little lamb.")
+                .SetValueAndReturn("longAmount", long.MaxValue)
+                .SetValueAndReturn("intAmount", int.MaxValue)
+                .SetValueAndReturn("decVal", decimal.MaxValue)
+                .SetValueAndReturn("nullVal", null)
+                .SetValueAndReturn("dbnullVal", DBNull.Value)
+                .SetValueAndReturn("boolValue", true);
 
             var setting = SimpleFormatSetting.New().SetMainXmlNodeName("row").SetTab(false).SetNewLine(false).SetDatetimeFormat("dd-MM-yyyy");
 
