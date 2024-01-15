@@ -15,9 +15,9 @@ namespace SimplyTest_Common_ConsoleApp
                 .With(q => q.CustomerNumber, 150);
 
             var newCustomer = customer.DeepClone();
-            customer.With(q => q.State, "Wisconsin");
             writeEntity(customer);
             Console.WriteLine("-------------------------------------");
+            newCustomer.With(q => q.State, "Wisconsin");
             writeEntity(newCustomer);
             Console.ReadKey();
         }
